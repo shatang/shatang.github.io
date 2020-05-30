@@ -44,8 +44,8 @@
         <category>驱动编写</category>
       </categories>
       <tags>
-        <tag>嵌入式总线</tag>
         <tag>IIC</tag>
+        <tag>嵌入式总线</tag>
       </tags>
   </entry>
   <entry>
@@ -56,8 +56,8 @@
         <category>驱动编写</category>
       </categories>
       <tags>
-        <tag>SPI</tag>
         <tag>嵌入式总线</tag>
+        <tag>SPI</tag>
       </tags>
   </entry>
   <entry>
@@ -82,9 +82,9 @@
       </categories>
       <tags>
         <tag>TCP/IP</tag>
-        <tag>SSH</tag>
         <tag>TCP</tag>
         <tag>UDP</tag>
+        <tag>SSH</tag>
       </tags>
   </entry>
   <entry>
@@ -372,9 +372,9 @@
       </categories>
       <tags>
         <tag>TCP/IP</tag>
-        <tag>SSH</tag>
         <tag>TCP</tag>
         <tag>UDP</tag>
+        <tag>SSH</tag>
       </tags>
   </entry>
   <entry>

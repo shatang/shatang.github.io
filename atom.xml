@@ -114,9 +114,9 @@
       <category term="驱动编写" scheme="http://shatang.github.io/categories/%E9%A9%B1%E5%8A%A8%E7%BC%96%E5%86%99/"/>
     
     
-      <category term="嵌入式总线" scheme="http://shatang.github.io/tags/%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%80%BB%E7%BA%BF/"/>
-    
       <category term="IIC" scheme="http://shatang.github.io/tags/IIC/"/>
+    
+      <category term="嵌入式总线" scheme="http://shatang.github.io/tags/%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%80%BB%E7%BA%BF/"/>
     
   </entry>
   
@@ -139,9 +139,9 @@
       <category term="驱动编写" scheme="http://shatang.github.io/categories/%E9%A9%B1%E5%8A%A8%E7%BC%96%E5%86%99/"/>
     
     
-      <category term="SPI" scheme="http://shatang.github.io/tags/SPI/"/>
-    
       <category term="嵌入式总线" scheme="http://shatang.github.io/tags/%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%80%BB%E7%BA%BF/"/>
+    
+      <category term="SPI" scheme="http://shatang.github.io/tags/SPI/"/>
     
   </entry>
   
@@ -194,11 +194,11 @@
     
       <category term="TCP/IP" scheme="http://shatang.github.io/tags/TCP-IP/"/>
     
-      <category term="SSH" scheme="http://shatang.github.io/tags/SSH/"/>
-    
       <category term="TCP" scheme="http://shatang.github.io/tags/TCP/"/>
     
       <category term="UDP" scheme="http://shatang.github.io/tags/UDP/"/>
+    
+      <category term="SSH" scheme="http://shatang.github.io/tags/SSH/"/>
     
   </entry>
   
