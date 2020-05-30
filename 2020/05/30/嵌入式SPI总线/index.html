@@ -1,0 +1,1386 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-flash.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="SPI,嵌入式总线,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="大道至简，悟在天成" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="&amp;emsp;&amp;emsp;这篇详细介绍嵌入式的SPI总线，方便以后写该总线的器件驱动。">
+<meta name="keywords" content="SPI,嵌入式总线">
+<meta property="og:type" content="article">
+<meta property="og:title" content="嵌入式SPI总线">
+<meta property="og:url" content="http://shatang.github.io/2020/05/30/嵌入式SPI总线/index.html">
+<meta property="og:site_name" content="大道至简，悟在天成">
+<meta property="og:description" content="&amp;emsp;&amp;emsp;这篇详细介绍嵌入式的SPI总线，方便以后写该总线的器件驱动。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://shatang.github.io/2020/05/30/嵌入式SPI总线/1.png">
+<meta property="og:image" content="http://shatang.github.io/2020/05/30/嵌入式SPI总线/2.png">
+<meta property="og:image" content="http://shatang.github.io/2020/05/30/嵌入式SPI总线/3.png">
+<meta property="og:image" content="http://shatang.github.io/2020/05/30/嵌入式SPI总线/4.png">
+<meta property="og:updated_time" content="2020-05-30T03:23:10.444Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="嵌入式SPI总线">
+<meta name="twitter:description" content="&amp;emsp;&amp;emsp;这篇详细介绍嵌入式的SPI总线，方便以后写该总线的器件驱动。">
+<meta name="twitter:image" content="http://shatang.github.io/2020/05/30/嵌入式SPI总线/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+<script>
+    (function(){
+        if(''){
+            if (prompt('请输入文章密码') !== ''){
+                alert('密码错误！');
+                history.back();
+            }
+        }
+    })();
+</script>
+
+
+
+  <link rel="canonical" href="http://shatang.github.io/2020/05/30/嵌入式SPI总线/">
+
+
+
+
+
+  <title>嵌入式SPI总线 | 大道至简，悟在天成</title>
+  
+
+
+
+
+
+
+
+
+  
+  
+</head>
+
+
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">大道至简，悟在天成</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">It's not hard to give up, but it must be cool to stick to it.</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home                          //首页"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive          //归档"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th           //分类"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags                     //标签"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user                   //关于"></i> <br>
+            
+            关于我
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://shatang.github.io/2020/05/30/嵌入式SPI总线/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Shatang">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/header.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="大道至简，悟在天成">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">嵌入式SPI总线</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-30T11:14:26+08:00">
+                2020-05-30
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2020-05-30T11:23:10+08:00">
+                2020-05-30
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/驱动编写/" itemprop="url" rel="index">
+                    <span itemprop="name">驱动编写</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+		
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>次阅读
+            </span>
+          
+		  
+
+          
+            <div class="post-wordcount">
+              
+                
+                  <span class="post-meta-divider">|</span>
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  1.5k
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>&emsp;&emsp;这篇详细介绍嵌入式的SPI总线，方便以后写该总线的器件驱动。</p>
+<a id="more"></a>
+<h1 id="一、SPI总线讲解"><a href="#一、SPI总线讲解" class="headerlink" title="一、SPI总线讲解"></a>一、SPI总线讲解</h1><p>&emsp;&emsp;SPI的主要构成有三根线，一个是数据输出线MOSI,一个是数据输入线MISO，一个是时钟线SCLK。</p>
+<p>&emsp;&emsp;SPI总线实现的方式分为两种：硬件IIC &amp; 软件模拟SPI。硬件SPI有主从之分；当然，软件SPI也是标准的SPI协议，当然有分主从，但一般情况下，(MCU)软件SPI为主机模式，即发送请求接收从机的响应信息。</p>
+<p>&emsp;&emsp;可能大家不知道为什么我这MCU就是SPI主机，凭啥？你可以反过来想一下，MCU通讯的其他器件实质上都是从机，MCU要你的数据才会去找你；如果你MCU也是从机模式，从机与从机怎么通信？由于每种MCU的硬件SPI总线配置各不相同，故接下来主要讲 软件SPI。</p>
+<ul>
+<li>SPI通信是串行同步全双工(同时收发)</li>
+<li>IIC通信是串行同步半双工(单收或单发)</li>
+<li>无论是 硬件SPI 还是 软件SPI ，两种方式只是提供最基础的桥梁——提供了读、写1字节方式。如何调用IIC从器件，还是得查对应SPI从器件的datasheet。SPI总线好比中文的拼音，具体要怎么说话、说什么话，还是得看datasheet。</li>
+</ul>
+<p><strong><font color="red">Ps：</font>硬件SPI总线 &amp; 软件SPI总线 速率方面是有点差距的。具体没有实测，但是既然是用了软件SPI总线，就不要纠结速度问题了。但是硬件SPI总线的速度也不是无上限的，而且还要根据主、从机的配置。</strong></p>
+<hr>
+<p>&emsp;&emsp;以W5500为例，该芯片的SPI总线速率最高达到80Mhz。如果主控采用stm32f103,主频为72Mhz，SPI时钟最大为18Mhz。因此stm32f103无法发挥W5500完全的性能。</p>
+<p>&emsp;&emsp;而如果使用STM40x处理器，SPI时钟使用42Mhz，使用DMA方式，可以达到回环测试17Mbps的速率（收+发），单独发送可以达到13Mbps的速率。</p>
+<p>&emsp;&emsp;也就是说，SPI的速率本身就受器件限制。如果从机SPI时钟较低，主机被限制；主机时钟较低，从机性能被限制。编写硬件SPI驱动的时候，要多注意 主控芯片、从机器件 的datasheet。</p>
+<h1 id="二、-主机-软件SPI总线"><a href="#二、-主机-软件SPI总线" class="headerlink" title="二、(主机)软件SPI总线"></a>二、(主机)软件SPI总线</h1><p>&emsp;&emsp;硬件上为4根线：</p>
+<ul>
+<li><code>MISO</code> ：主设备数据输入，从设备数据输出。</li>
+<li><code>MOSI</code> ：主设备数据输出，从设备数据输入。</li>
+<li><code>SCLK</code> ：时钟信号，由主设备产生。</li>
+<li><code>CS</code> ：从设备片选信号，由主设备控制。</li>
+</ul>
+<p><strong><font color="red">Ps：</font>外设的写操作和读操作是同步完成的。如果只进行写操作，主机只需忽略接收到的字节；反之，若主机要读取从机的一个字节，就必须发送一个空字节来引发从机的传输。</strong></p>
+<img src="/2020/05/30/嵌入式SPI总线/1.png" title="硬件SPI时钟信号的相位和极性">
+
+<p>&emsp;&emsp;由上图的(硬件)SPI通信协议可知，时钟信号的相位和极性，决定了获取数据的方式；2*2=4，于是有四种模式；</p>
+<img src="/2020/05/30/嵌入式SPI总线/2.png" title="SPI通信模式">
+
+<p>CPOL决定时钟空闲状态(1为空闲高电平，0为空闲低电平)</p>
+<img src="/2020/05/30/嵌入式SPI总线/3.png" title="SPI通信模式">
+
+<p>CPHA决定获取数据的时钟相位(1为延迟一个相位，第二次SCLK突变为空闲状态获取数据；0为直接相位，SCLK空闲状态突变时，直接获取数据)</p>
+<img src="/2020/05/30/嵌入式SPI总线/4.png" title="SPI通信模式总结">
+
+<p>&emsp;&emsp;以上就是软件SPI的要点；实现具体的软件SPI，需要对器件的datasheet进行查阅，看是哪种模式。</p>
+<table>
+<thead>
+<tr>
+<th>模式</th>
+<th>CPOL</th>
+<th>CPHA</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>MODE0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>MODE1</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>MODE2</td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr>
+<td>MODE3</td>
+<td>1</td>
+<td>1</td>
+</tr>
+</tbody></table>
+<p>下面简单列一个 CPOL=1，CPHA=1的SPI写操作</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/************************************************** </span></span><br><span class="line"><span class="comment">函数：SOFT_SPI_RW() </span></span><br><span class="line"><span class="comment">描述: 根据SPI协议，写一字节数据到从机，同时从从机 读出一字节</span></span><br><span class="line"><span class="comment">**************************************************/</span> </span><br><span class="line"><span class="function">u8 <span class="title">SOFT_SPI_RW</span><span class="params">(u8 byte)</span> </span></span><br><span class="line"><span class="function"></span>&#123; </span><br><span class="line">	u8 i,Temp=<span class="number">0</span>; </span><br><span class="line">	<span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;<span class="number">8</span>;i++)		<span class="comment">// 循环8次 </span></span><br><span class="line">	&#123; </span><br><span class="line">		SPI1_SCK = <span class="number">0</span>		<span class="comment">//拉低时钟</span></span><br><span class="line">		<span class="keyword">if</span>(byte&amp;<span class="number">0x80</span>)</span><br><span class="line">			SPI1_MOSI = <span class="number">1</span>;<span class="comment">//若最到位为高，则输出高</span></span><br><span class="line"> 		<span class="keyword">else</span>       	</span><br><span class="line">			SPI1_MOSI = <span class="number">0</span>;<span class="comment">//若最到位为低，则输出低 </span></span><br><span class="line">		byte &lt;&lt;= <span class="number">1</span>;			<span class="comment">//低一位移位到最高位 </span></span><br><span class="line">		SPI1_SCK = <span class="number">1</span>;		<span class="comment">//拉高时钟</span></span><br><span class="line">		Temp &lt;&lt;= <span class="number">1</span>;			<span class="comment">//数据左移 </span></span><br><span class="line">		<span class="keyword">if</span>(SPI1_MISO) </span><br><span class="line">			Temp++;			<span class="comment">//若从从机接收到高电平，数据自加一</span></span><br><span class="line"> 		SPI1_SCK = <span class="number">0</span>;		<span class="comment">//拉低时钟</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> (Temp);			<span class="comment">//返回数据 </span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-1-FRAM-FM25L256为例——软件SPI"><a href="#2-1-FRAM-FM25L256为例——软件SPI" class="headerlink" title="2.1 FRAM_FM25L256为例——软件SPI"></a>2.1 FRAM_FM25L256为例——软件SPI</h2><p>&emsp;&emsp;FM25L256支持SPI模式的0和3，下面为CPOL=1，CPHA=1。基本的字节读写操作如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/************************************************** </span></span><br><span class="line"><span class="comment">* 函数名 :  FRAM_Write8bits</span></span><br><span class="line"><span class="comment">* 功  能 :  向存储器中写入一个字节</span></span><br><span class="line"><span class="comment">**************************************************/</span> </span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">FRAM_Write8bits</span><span class="params">(<span class="keyword">uint8_t</span> u8Data)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">uint8_t</span> i;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span>(i = <span class="number">0</span>; i &lt; <span class="number">8</span>; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        FRAM_SCLK_L;</span><br><span class="line">        <span class="keyword">if</span>(u8Data &amp; <span class="number">0x80</span>)         </span><br><span class="line">            FRAM_SDI_H;</span><br><span class="line">        <span class="keyword">else</span>          </span><br><span class="line">            FRAM_SDI_L;</span><br><span class="line">        DelayTime(SPI_DELAY_TIME);</span><br><span class="line">        FRAM_SCLK_H;</span><br><span class="line">        u8Data &lt;&lt;= <span class="number">1</span>;</span><br><span class="line">        DelayTime(SPI_DELAY_TIME);</span><br><span class="line">    &#125;</span><br><span class="line">    FRAM_SCLK_L;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/************************************************** </span></span><br><span class="line"><span class="comment">* 函数名 :  FRAM_Read8bits</span></span><br><span class="line"><span class="comment">* 功  能 :  从存储器中读出一个字节的数据</span></span><br><span class="line"><span class="comment">**************************************************/</span> </span><br><span class="line"><span class="function"><span class="keyword">static</span> uint8_t <span class="title">FRAM_Read8bits</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">uint8_t</span> i;</span><br><span class="line">    <span class="keyword">uint8_t</span> u8Data=<span class="number">0</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span>(i = <span class="number">0</span>; i &lt; <span class="number">8</span>; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        FRAM_SCLK_L;</span><br><span class="line">        u8Data &lt;&lt;= <span class="number">1</span>;</span><br><span class="line">        DelayTime(SPI_DELAY_TIME);</span><br><span class="line">        FRAM_SCLK_H;</span><br><span class="line">        <span class="keyword">if</span>(FRAM_SDO_READ)</span><br><span class="line">            u8Data |= <span class="number">0x01</span>;</span><br><span class="line">        DelayTime(SPI_DELAY_TIME);</span><br><span class="line">    &#125;</span><br><span class="line">    FRAM_SCLK_L;</span><br><span class="line">    <span class="keyword">return</span>  u8Data;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-2-FRAM-FM25L256程序扩展——datasheet"><a href="#2-2-FRAM-FM25L256程序扩展——datasheet" class="headerlink" title="2.2 FRAM_FM25L256程序扩展——datasheet"></a>2.2 FRAM_FM25L256程序扩展——datasheet</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/************************************************** </span></span><br><span class="line"><span class="comment">* 函数名 :  FRAM_Write16bits</span></span><br><span class="line"><span class="comment">* 功  能 :  发送16位数据</span></span><br><span class="line"><span class="comment">**************************************************/</span> </span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">FRAM_Write16bits</span><span class="params">(<span class="keyword">uint16_t</span> u16Data)</span></span></span><br><span class="line"><span class="function"></span>&#123;   </span><br><span class="line">    <span class="keyword">uint32_t</span> i;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span>(i = <span class="number">0</span>; i &lt; <span class="number">16</span>; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        FRAM_SCLK_L;</span><br><span class="line">        <span class="keyword">if</span>(u16Data &amp; <span class="number">0x8000</span>) </span><br><span class="line">            FRAM_SDI_H;</span><br><span class="line">        <span class="keyword">else</span>                 </span><br><span class="line">            FRAM_SDI_L;</span><br><span class="line">        DelayTime(SPI_DELAY_TIME);</span><br><span class="line">        FRAM_SCLK_H;</span><br><span class="line">        u16Data &lt;&lt;= <span class="number">1</span>;</span><br><span class="line">        DelayTime(SPI_DELAY_TIME);</span><br><span class="line">    &#125;</span><br><span class="line">    FRAM_SCLK_L;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/************************************************** </span></span><br><span class="line"><span class="comment">* 函数名 :  FRAM_Write32bits</span></span><br><span class="line"><span class="comment">* 返  回 :  写入的32位数据</span></span><br><span class="line"><span class="comment">**************************************************/</span> </span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">FRAM_Write32bits</span><span class="params">(<span class="keyword">uint32_t</span> u32Data)</span></span></span><br><span class="line"><span class="function"></span>&#123;   </span><br><span class="line">    <span class="keyword">uint32_t</span> i;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span>(i = <span class="number">0</span>; i &lt; <span class="number">32</span>; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        FRAM_SCLK_L;</span><br><span class="line">        <span class="keyword">if</span>(u32Data &amp; <span class="number">0x80000000</span>) </span><br><span class="line">            FRAM_SDI_H;</span><br><span class="line">        <span class="keyword">else</span>              </span><br><span class="line">            FRAM_SDI_L;</span><br><span class="line">        DelayTime(SPI_DELAY_TIME);</span><br><span class="line">        FRAM_SCLK_H;</span><br><span class="line">        u32Data &lt;&lt;= <span class="number">1</span>;</span><br><span class="line">        DelayTime(SPI_DELAY_TIME);</span><br><span class="line">    &#125;</span><br><span class="line">    FRAM_SCLK_L;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/************************************************** </span></span><br><span class="line"><span class="comment">* 函数名 :  FRAM_Read4Bytes</span></span><br><span class="line"><span class="comment">* 功  能 :  读取指定地址的4字节数据</span></span><br><span class="line"><span class="comment">* 入  参 :  address  : 读取数据的首地址</span></span><br><span class="line"><span class="comment">* 返  回 :  uint32_t : 读出的32位数据</span></span><br><span class="line"><span class="comment">**************************************************/</span> </span><br><span class="line"><span class="keyword">uint32_t</span> FRAM_Read4Bytes(<span class="keyword">uint32_t</span> address)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">uint32_t</span> i = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">uint32_t</span> temp = <span class="number">0</span>;</span><br><span class="line">    </span><br><span class="line">    FRAM_SCLK_L;</span><br><span class="line">    FRAM_CS_L;</span><br><span class="line">    FRAM_Write8bits(FRAM_CMD_READ);</span><br><span class="line">    FRAM_Write16bits((<span class="keyword">uint16_t</span>)(address));</span><br><span class="line">    <span class="keyword">for</span>(i = <span class="number">0</span>; i &lt; <span class="number">4</span>; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        temp  = temp &lt;&lt; <span class="number">8</span>;</span><br><span class="line">        temp |= FRAM_Read8bits();</span><br><span class="line">    &#125;</span><br><span class="line">    FRAM_SCLK_L;</span><br><span class="line">    FRAM_CS_H;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> temp;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/************************************************** </span></span><br><span class="line"><span class="comment">* 函数名 :  FRAM_Write4Bytes</span></span><br><span class="line"><span class="comment">* 功  能 :  写入指定地址的4字节数据</span></span><br><span class="line"><span class="comment">* 入  参 :  address  : 写入数据的首地址</span></span><br><span class="line"><span class="comment">*           FramData : 写入的32位数据</span></span><br><span class="line"><span class="comment">**************************************************/</span> </span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">FRAM_Write4Bytes</span><span class="params">(<span class="keyword">uint32_t</span> address, <span class="keyword">uint32_t</span> FramData)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">uint8_t</span> u8Temp = <span class="number">0</span>;</span><br><span class="line">    </span><br><span class="line">    FRAM_SCLK_L;</span><br><span class="line">    FRAM_CS_L;</span><br><span class="line">    FRAM_Write8bits(FRAM_CMD_WREN);</span><br><span class="line">    FRAM_SCLK_L;</span><br><span class="line">    FRAM_CS_H;</span><br><span class="line">    </span><br><span class="line">    FRAM_SCLK_L;</span><br><span class="line">    FRAM_CS_L;</span><br><span class="line">    FRAM_Write8bits(FRAM_CMD_WRITE);</span><br><span class="line">    FRAM_Write16bits((<span class="keyword">uint16_t</span>)(address));</span><br><span class="line">    FRAM_Write32bits(FramData);</span><br><span class="line">    FRAM_SCLK_L;</span><br><span class="line">    FRAM_CS_H;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        FRAM_SCLK_L;</span><br><span class="line">        FRAM_CS_L;</span><br><span class="line">        FRAM_Write8bits(FRAM_CMD_RDSR);	<span class="comment">//读取状态寄存器</span></span><br><span class="line">        u8Temp = FRAM_Read8bits();</span><br><span class="line">        FRAM_SCLK_L;</span><br><span class="line">        FRAM_CS_H;</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//该位表示写入启用状态(为0时，WPEN和 /WP 寄存器标志位不起作用)</span></span><br><span class="line">		<span class="comment">//防止软件误改动铁电芯片寄存器配置</span></span><br><span class="line">        <span class="keyword">if</span>(!(u8Temp &amp; <span class="number">0x02</span>))	</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    
+    
+    
+
+	<div>
+	  
+		<div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+	  
+	</div>
+
+    
+	
+
+	
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/SPI/" <i class="fa fa-tag"> SPI</a>
+          
+            <a href="/tags/嵌入式总线/" <i class="fa fa-tag"> 嵌入式总线</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/05/30/嵌入式存储器/" rel="next" title="嵌入式存储器">
+                <i class="fa fa-chevron-left"></i> 嵌入式存储器
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/05/30/嵌入式IIC总线/" rel="prev" title="嵌入式IIC总线">
+                嵌入式IIC总线 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC80NjcwNy8yMzIxNw=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/header.jpg" alt="Shatang">
+            
+              <p class="site-author-name" itemprop="name">Shatang</p>
+              <p class="site-description motion-element" itemprop="description">身体和灵魂总要有一个在路上</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">43</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">46</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/ShaTang" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.bilibili.com/video/av42311652" title="火影.青春.梦想" target="_blank">火影.青春.梦想</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.bilibili.com/video/av45828728" title="FATE.士郎" target="_blank">FATE.士郎</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://tieba.baidu.com/p/6185344159?see_lz=1&pn=1" title="Hide on bush" target="_blank">Hide on bush</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.zhihu.com/question/272137224/answer/821655151" title="声微饭否" target="_blank">声微饭否</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.bilibili.com/video/av43067703" title="生老病死" target="_blank">生老病死</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.bilibili.com/video/av82424567" title="眉山剑客" target="_blank">眉山剑客</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一、SPI总线讲解"><span class="nav-text">一、SPI总线讲解</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二、-主机-软件SPI总线"><span class="nav-text">二、(主机)软件SPI总线</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-FRAM-FM25L256为例——软件SPI"><span class="nav-text">2.1 FRAM_FM25L256为例——软件SPI</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-FRAM-FM25L256程序扩展——datasheet"><span class="nav-text">2.2 FRAM_FM25L256程序扩展——datasheet</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Shatang</span>
+
+   
+</div>
+
+
+
+
+
+
+
+
+
+
+
+<span id="timeDate" title="网站运行时间">载入天数...</span><span id="times" title="网站运行时间">载入时分秒...</span>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i> 有
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人看过我的博客啦
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i> 本站总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/three.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/canvas_lines.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":180,"height":360},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
+
+<!--浏览器搞笑标题-->
+<script type="text/javascript" src="/js/src/FunnyTitle.js"></script>
+<!-- 页面点击颜文字表情 -->
+<script type="text/javascript" src="/js/src/emoji.js"></script>
+<!--此处为建站时间 -->
+<script>
+  var now = new Date(); 
+  function createtime() { 
+      var grt= new Date("09/13/2019 12:00:00");
+      now.setTime(now.getTime()+250); 
+      days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+      hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+      if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+      mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+      seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+      snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+      document.getElementById("timeDate").innerHTML ="(ㆆᴗㆆ)本站建立了"+dnum+"&thinsp;天"; 
+      document.getElementById("times").innerHTML = hnum + "&thinsp;时" + mnum + "&thinsp;分" + snum + "&thinsp;秒"; 
+  } 
+setInterval("createtime()",250);
+</script>
+<!-- 代码块复制功能 -->
+<script type="text/javascript" src="/js/src/clipboard.min.js"></script>  
+<script type="text/javascript" src="/js/src/clipboard-use.js"></script>
+
+
+
+<!--  
+数字雨 
+<canvas id="canvas" width="1440" height="900" ></canvas>
+<script type="text/javascript" src="/js/src/DigitalRain.js"></script>
+-->

@@ -1,0 +1,1430 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-flash.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="嵌入式总线,IIC,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="大道至简，悟在天成" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="&amp;emsp;&amp;emsp;这篇详细介绍嵌入式的IIC总线，方便以后写该总线的器件驱动。">
+<meta name="keywords" content="嵌入式总线,IIC">
+<meta property="og:type" content="article">
+<meta property="og:title" content="嵌入式IIC总线">
+<meta property="og:url" content="http://shatang.github.io/2020/05/30/嵌入式IIC总线/index.html">
+<meta property="og:site_name" content="大道至简，悟在天成">
+<meta property="og:description" content="&amp;emsp;&amp;emsp;这篇详细介绍嵌入式的IIC总线，方便以后写该总线的器件驱动。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://shatang.github.io/2020/05/30/嵌入式IIC总线/0.png">
+<meta property="og:image" content="http://shatang.github.io/2020/05/30/嵌入式IIC总线/1.png">
+<meta property="og:image" content="http://shatang.github.io/2020/05/30/嵌入式IIC总线/2.png">
+<meta property="og:image" content="http://shatang.github.io/2020/05/30/嵌入式IIC总线/3.png">
+<meta property="og:image" content="http://shatang.github.io/2020/05/30/嵌入式IIC总线/4.png">
+<meta property="og:image" content="http://shatang.github.io/2020/05/30/嵌入式IIC总线/5.png">
+<meta property="og:image" content="http://shatang.github.io/2020/05/30/嵌入式IIC总线/6.png">
+<meta property="og:image" content="http://shatang.github.io/2020/05/30/嵌入式IIC总线/7.png">
+<meta property="og:image" content="http://shatang.github.io/2020/05/30/嵌入式IIC总线/8.png">
+<meta property="og:updated_time" content="2020-05-30T03:25:56.293Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="嵌入式IIC总线">
+<meta name="twitter:description" content="&amp;emsp;&amp;emsp;这篇详细介绍嵌入式的IIC总线，方便以后写该总线的器件驱动。">
+<meta name="twitter:image" content="http://shatang.github.io/2020/05/30/嵌入式IIC总线/0.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+<script>
+    (function(){
+        if(''){
+            if (prompt('请输入文章密码') !== ''){
+                alert('密码错误！');
+                history.back();
+            }
+        }
+    })();
+</script>
+
+
+
+  <link rel="canonical" href="http://shatang.github.io/2020/05/30/嵌入式IIC总线/">
+
+
+
+
+
+  <title>嵌入式IIC总线 | 大道至简，悟在天成</title>
+  
+
+
+
+
+
+
+
+
+  
+  
+</head>
+
+
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">大道至简，悟在天成</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">It's not hard to give up, but it must be cool to stick to it.</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home                          //首页"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive          //归档"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th           //分类"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags                     //标签"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user                   //关于"></i> <br>
+            
+            关于我
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://shatang.github.io/2020/05/30/嵌入式IIC总线/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Shatang">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/header.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="大道至简，悟在天成">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">嵌入式IIC总线</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-30T11:17:49+08:00">
+                2020-05-30
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2020-05-30T11:25:56+08:00">
+                2020-05-30
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/驱动编写/" itemprop="url" rel="index">
+                    <span itemprop="name">驱动编写</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+		
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>次阅读
+            </span>
+          
+		  
+
+          
+            <div class="post-wordcount">
+              
+                
+                  <span class="post-meta-divider">|</span>
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  2.9k
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>&emsp;&emsp;这篇详细介绍嵌入式的IIC总线，方便以后写该总线的器件驱动。</p>
+<a id="more"></a>
+<h1 id="一、IIC总线讲解"><a href="#一、IIC总线讲解" class="headerlink" title="一、IIC总线讲解"></a>一、IIC总线讲解</h1><p>&emsp;&emsp;IIC的硬件管脚为 VCC，GND，SDA，SCL。IIC的主要构成只有两个双向的信号线，一个是数据线SDA,一个是时钟线SCL。IIC总线有主从之分。</p>
+<p>&emsp;&emsp;IIC总线实现的方式分为两种：硬件IIC &amp; 软件模拟IIC。硬件IIC有主从之分；当然，软件I2C也是标准的I2C协议，当然有分主从，但一般情况下，软件IIC为主机模式，即发送请求接收响应信息。为什么要写从机呢？mcu 对 mcu ？)。由于每种MCU的硬件IIC总线配置各不相同，且有些芯片的IIC有Bug(Stm32)，故接下来只讲 软件IIC。</p>
+<ul>
+<li>由于实际应用上，IIC总线通讯速率本身就不高，因此，硬件IIC总线 &amp; 软件IIC总线<br>本身速率方面就没多差大差距，不需要考虑IIC总线切换为软、硬件实现方式会给程序带来隐患。</li>
+<li>无论是 硬件IIC 还是 软件IIC ，两种方式只是提供最基础的桥梁——提供了读、写1字节方式。如何调用IIC从器件，还是得查对应IIC从器件的datasheet。IIC总线好比中文的拼音，具体要怎么说话、说什么话，还是得看datasheet。</li>
+</ul>
+<h1 id="二、-软件-IIC总线"><a href="#二、-软件-IIC总线" class="headerlink" title="二、 (软件)IIC总线"></a>二、 (软件)IIC总线</h1><h2 id="2-1-基本知识"><a href="#2-1-基本知识" class="headerlink" title="2.1 基本知识"></a>2.1 基本知识</h2><p>&emsp;&emsp;软件IIC，也能更好让我们了解IIC总线协议的实现方式。</p>
+<img src="/2020/05/30/嵌入式IIC总线/0.png" title="IIC总线">
+
+<p>&emsp;&emsp;<strong>I2C总线通过上拉电阻接正电源。即当总线空闲时，两根线均为高电平</strong>。如此，连在总线上的任一器件输出的低电平，都可以使得总线的信号变低，也就是说各器件的SDA和SCL都是线”与”关系。 </p>
+<img src="/2020/05/30/嵌入式IIC总线/1.png" title="数据有效性规定">
+
+<p>数据位(1\0)有效性规定：<strong>I2C总线进行数据传送时，时钟信号为高电平期间，SDA线上的数据必须保持稳定</strong>；只有在SCL线的信号为低电平器件，SDA线的才可进行高低电平状态变化。</p>
+<blockquote>
+<p>起始信号、终止信号、应答信号</p>
+</blockquote>
+<img src="/2020/05/30/嵌入式IIC总线/2.png" title="起始信号和终止信号">
+
+<ul>
+<li>起始信号：SCL线为高电平期间，SDA线由高电平向低电平跳变(下降沿)—-是一种电平跳变时序信号</li>
+<li>终止信号：SCL线为高电平期间，SDA线由低电平向高电平跳变(上升沿)—-是一种电平跳变的时序信号</li>
+</ul>
+<img src="/2020/05/30/嵌入式IIC总线/3.png" title="应答信号">
+
+<ul>
+<li>应答信号：在接收数据的IC(接收器)在接收到8bit数据后，向发送数据的IC(发送器)发出特定的低电平脉冲，表示已收到数据。即发送器在时钟脉冲9期间释放数据线，这样接收器就可以反馈一个应答信号。ACK(低电平)—-规定为有效应答位，NACK(高电平)，规定为非应答位，表示接收器接收该字节咩有成功。</li>
+</ul>
+<h2 id="2-2-软件模拟IIC驱动程序函数编写"><a href="#2-2-软件模拟IIC驱动程序函数编写" class="headerlink" title="2.2 软件模拟IIC驱动程序函数编写"></a>2.2 软件模拟IIC驱动程序函数编写</h2><p>&emsp;&emsp;在IIC程序设计中，都是以8bit为基础进行数据的传输</p>
+<img src="/2020/05/30/嵌入式IIC总线/4.png" title="信号要求">
+
+<ul>
+<li>IO管教初始化</li>
+<li>发出起始信号</li>
+<li>发出终止信号</li>
+<li>发出应答ACK<ul>
+<li>功能要求：由于IIC为双向数据通信，当从机发送完数据，主机也需要发送应答信号来说我接收到你的信息了，此时从机才可变为接收状态，接收来自主机的数据。</li>
+</ul>
+</li>
+<li>发出应答NACK<ul>
+<li>功能要求：当IIC程序运行到主机读取从机数据完成，需要停止此次数据传输时，主机发送一个发出主无应答信号，从机接收到后就停止发送数据，并释放SDA线；之后主机才可发送终止信号，停止此次数据的传输。</li>
+</ul>
+</li>
+<li>发送一个字节数据<ul>
+<li>基本思路：SCL在为0时，可以进行SDA数据的配置，当SCL为1时，SDA数据一定要锁定。其次为数据的移位，将待发送数据与0x80进行与运算，获得最高位的数据，通过8次循环完成1byte的数据发送。</li>
+</ul>
+</li>
+<li>读取一个字节，并发送ACK或NACK(发送NACK基通知从机发送器结束数据发送，释放SDA线(SDA接口置1)<ul>
+<li>功能要求：发送器每发送一个字节，就在时钟脉冲9期间释放数据线，由接收器反馈一个应答信号(故读取完需要发送 ACK 或 NACK )</li>
+</ul>
+</li>
+<li>等待ACK应答<ul>
+<li>功能要求：当IIC主机进行获取数值时，主机需要等待从机的应答信号，以此来判断从机是否完成了数据的接收。从主机方看，为IIC等待ASK函数。</li>
+<li>基本思路：通过 延时等待从机的ACK是否发送出来，如果发送出来，则函数返回0，主机可继续发送数据，如果返回1，则从机没有应答，此时需要停止IIC数据传输。防止出现错误数据。</li>
+</ul>
+</li>
+</ul>
+<h2 id="2-3-从具体I2C器件中读写数据"><a href="#2-3-从具体I2C器件中读写数据" class="headerlink" title="2.3 从具体I2C器件中读写数据"></a>2.3 从具体I2C器件中读写数据</h2><blockquote>
+<p><strong>主机写(发送)从机数据</strong></p>
+</blockquote>
+<img src="/2020/05/30/嵌入式IIC总线/5.png" title="主机写从机数据">
+
+<blockquote>
+<p><strong>主机读(接收)从机数据</strong></p>
+</blockquote>
+<img src="/2020/05/30/嵌入式IIC总线/6.png" title="主机读从机数据">
+
+<p><strong><font color="red">Ps：</font>IIC器件往往是 器件地址+0 为写数据 ，器件地址+1 为读数据</strong></p>
+<p>主机读从机的情况分为两种：</p>
+<ul>
+<li><strong>读操作之前，都是需要进行一次写操作(写入读地址)，表明你要读的是哪个地址的数据，然后在进行一次读操作(故有两个器件地址)；</strong>(这是一般情况)</li>
+<li>直接进行读操作，截取所需数据段</li>
+</ul>
+<p>&emsp;&emsp;因为有些IIC器件(从机)，例如24C02，当你需要读取它的数据，你要跟它说读取哪个地址数据，故先进行写操作；有些IIC器件，例如SD2403，它的时间日期地址是固定的（寄存器地址：00H-06H），因此读取该器件数据时，直接进行读操作，然后读出来7个数据，截取00H-06H的数据后，停止读取(这是特殊情况)</p>
+<blockquote>
+<p>DEVICEADDRESS(器件地址)</p>
+</blockquote>
+<p>&emsp;&emsp;器件地址的8位地址信息因器件而异；</p>
+<h1 id="三、软件IIC实例"><a href="#三、软件IIC实例" class="headerlink" title="三、软件IIC实例"></a>三、软件IIC实例</h1><h2 id="3-1-EEPROM-24C02通信基础——IIC协议"><a href="#3-1-EEPROM-24C02通信基础——IIC协议" class="headerlink" title="3.1 EEPROM_24C02通信基础——IIC协议"></a>3.1 EEPROM_24C02通信基础——IIC协议</h2><p>&emsp;&emsp;24C02是一个可储存 256(8bit)字节数据的EEPROM，因此他的<code>Word Address</code>为8bit(单字节)；而他的器件地址如下：</p>
+<img src="/2020/05/30/嵌入式IIC总线/7.png" title="24C02地址信息">
+
+<p>据2.3.1图所示，主机对从机写操作如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">AT24CXX_WriteOneByte</span><span class="params">(u16 WriteAddr, u8 DataToWrite)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	IIC_Starts();					<span class="comment">//发出起始信号</span></span><br><span class="line">	IIC_Send_Byte(<span class="number">0xA0</span>);			<span class="comment">//写器件地址+写操作</span></span><br><span class="line">	IIC_Wait_Ack();</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//IIC_Send_Byte(WriteAddr&gt;&gt;8);	//发送高地址，适用于更高容量的EEPROM</span></span><br><span class="line">	<span class="comment">//IIC_Wait_Ack();</span></span><br><span class="line">	</span><br><span class="line">	IIC_Send_Byte(WriteAddr%<span class="number">256</span>);	<span class="comment">//发送低地址</span></span><br><span class="line">	IIC_Wait_Ack();</span><br><span class="line">	IIC_Send_Byte(DataToWrite);</span><br><span class="line">	IIC_Wait_Ack();</span><br><span class="line">	IIC_Stop();</span><br><span class="line">	delay_ms(<span class="number">10</span>);					<span class="comment">//等AT24C02写数据</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>据2.3.1图所示，主机对从机读操作如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">u8 <span class="title">AT24CXX_ReadOneByte</span><span class="params">(u16 ReadAddr)</span></span></span><br><span class="line"><span class="function"></span>&#123;				  </span><br><span class="line">	u8 temp=<span class="number">0</span>;</span><br><span class="line">	IIC_Start();  </span><br><span class="line">	IIC_Send_Byte(<span class="number">0XA0</span>);			<span class="comment">//发送器件地址0XA0,写操作</span></span><br><span class="line">	IIC_Wait_Ack(); </span><br><span class="line">	</span><br><span class="line">	<span class="comment">//IIC_Send_Byte(ReadAddr/256);	//发送高地址，适用于更高容量的EEPROM</span></span><br><span class="line">	<span class="comment">//IIC_Wait_Ack();</span></span><br><span class="line">	</span><br><span class="line">	IIC_Send_Byte(ReadAddr%<span class="number">256</span>);	<span class="comment">//发送低地址</span></span><br><span class="line">	IIC_Wait_Ack();	    </span><br><span class="line">	IIC_Start();  	 	   </span><br><span class="line">	IIC_Send_Byte(<span class="number">0XA1</span>);			<span class="comment">//进入接收模式</span></span><br><span class="line">	IIC_Wait_Ack();	 </span><br><span class="line">	temp=IIC_Read_Byte(<span class="number">0</span>);			<span class="comment">//读一个字节数据完成，并发出No_Ack(输入参数：0)</span></span><br><span class="line">	IIC_Stop();    </span><br><span class="line">	<span class="keyword">return</span> temp;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-2-24C02程序拓展——datasheet"><a href="#3-2-24C02程序拓展——datasheet" class="headerlink" title="3.2 24C02程序拓展——datasheet"></a>3.2 24C02程序拓展——datasheet</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//在AT24CXX里面的指定地址开始写入长度为Len的数据</span></span><br><span class="line"><span class="comment">//该函数用于写入16bit或者32bit的数据.</span></span><br><span class="line"><span class="comment">//WriteAddr  :开始写入的地址  </span></span><br><span class="line"><span class="comment">//DataToWrite:数据数组首地址</span></span><br><span class="line"><span class="comment">//Len        :要写入数据的长度2,4</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">AT24CXX_WriteLenByte</span><span class="params">(u16 WriteAddr,u32 DataToWrite,u8 Len)</span></span></span><br><span class="line"><span class="function"></span>&#123;  	</span><br><span class="line">	u8 t;</span><br><span class="line">	<span class="keyword">for</span>(t=<span class="number">0</span>;t&lt;Len;t++)</span><br><span class="line">	&#123;</span><br><span class="line">		AT24CXX_WriteOneByte(WriteAddr+t,(DataToWrite&gt;&gt;(<span class="number">8</span>*t))&amp;<span class="number">0xff</span>);</span><br><span class="line">	&#125;												    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//在AT24CXX里面的指定地址开始读出长度为Len的数据</span></span><br><span class="line"><span class="comment">//该函数用于读出16bit或者32bit的数据.</span></span><br><span class="line"><span class="comment">//ReadAddr   :开始读出的地址 </span></span><br><span class="line"><span class="comment">//返回值     :数据</span></span><br><span class="line"><span class="comment">//Len        :要读出数据的长度2,4</span></span><br><span class="line"><span class="function">u32 <span class="title">AT24CXX_ReadLenByte</span><span class="params">(u16 ReadAddr,u8 Len)</span></span></span><br><span class="line"><span class="function"></span>&#123;  	</span><br><span class="line">	u8 t;</span><br><span class="line">	u32 temp=<span class="number">0</span>;</span><br><span class="line">	<span class="keyword">for</span>(t=<span class="number">0</span>;t&lt;Len;t++)</span><br><span class="line">	&#123;</span><br><span class="line">		temp&lt;&lt;=<span class="number">8</span>;</span><br><span class="line">		temp+=AT24CXX_ReadOneByte(ReadAddr+Len-t<span class="number">-1</span>); 	 				   </span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> temp;												    </span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//检查AT24CXX是否正常</span></span><br><span class="line"><span class="comment">//这里用了24XX的最后一个地址(255)来存储标志字.</span></span><br><span class="line"><span class="comment">//如果用其他24C系列,这个地址要修改</span></span><br><span class="line"><span class="comment">//返回1:检测失败</span></span><br><span class="line"><span class="comment">//返回0:检测成功</span></span><br><span class="line"><span class="function">u8 <span class="title">AT24CXX_Check</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	u8 temp;</span><br><span class="line">	temp=AT24CXX_ReadOneByte(<span class="number">255</span>);<span class="comment">//避免每次开机都写AT24CXX			   </span></span><br><span class="line">	<span class="keyword">if</span>(temp==<span class="number">0X55</span>)<span class="keyword">return</span> <span class="number">0</span>;		   </span><br><span class="line">	<span class="keyword">else</span><span class="comment">//排除第一次初始化的情况</span></span><br><span class="line">	&#123;</span><br><span class="line">		AT24CXX_WriteOneByte(<span class="number">255</span>,<span class="number">0X55</span>);</span><br><span class="line">	    temp=AT24CXX_ReadOneByte(<span class="number">255</span>);	  </span><br><span class="line">		<span class="keyword">if</span>(temp==<span class="number">0X55</span>)<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">1</span>;											  </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//在AT24CXX里面的指定地址开始读出指定个数的数据</span></span><br><span class="line"><span class="comment">//ReadAddr :开始读出的地址 对24c02为0~255</span></span><br><span class="line"><span class="comment">//pBuffer  :数据数组首地址</span></span><br><span class="line"><span class="comment">//NumToRead:要读出数据的个数</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">AT24CXX_Read</span><span class="params">(u16 ReadAddr,u8 *pBuffer,u16 NumToRead)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">while</span>(NumToRead)</span><br><span class="line">	&#123;</span><br><span class="line">		*pBuffer++=AT24CXX_ReadOneByte(ReadAddr++);	</span><br><span class="line">		NumToRead--;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;  </span><br><span class="line"><span class="comment">//在AT24CXX里面的指定地址开始写入指定个数的数据</span></span><br><span class="line"><span class="comment">//WriteAddr :开始写入的地址 对24c02为0~255</span></span><br><span class="line"><span class="comment">//pBuffer   :数据数组首地址</span></span><br><span class="line"><span class="comment">//NumToWrite:要写入数据的个数</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">AT24CXX_Write</span><span class="params">(u16 WriteAddr,u8 *pBuffer,u16 NumToWrite)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">while</span>(NumToWrite--)</span><br><span class="line">	&#123;</span><br><span class="line">		AT24CXX_WriteOneByte(WriteAddr,*pBuffer);</span><br><span class="line">		WriteAddr++;</span><br><span class="line">		pBuffer++;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-3-实时时钟-SD2403——IIC总线"><a href="#3-3-实时时钟-SD2403——IIC总线" class="headerlink" title="3.3 实时时钟_SD2403——IIC总线"></a>3.3 实时时钟_SD2403——IIC总线</h2><p>&emsp;&emsp;SD2403是一个实时时钟，他的<code>Word Address</code>为8bit(单字节)；而他的器件地址如下：</p>
+<img src="/2020/05/30/嵌入式IIC总线/8.png" title="SD2403地址信息">
+
+<p>据2.3图所示，主机对从机写操作如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">static</span> uint8_t <span class="title">SD2403_WriteOneByte</span><span class="params">(<span class="keyword">uint8_t</span> addr,<span class="keyword">uint8_t</span> data)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(!SD2403_start())<span class="keyword">return</span>(<span class="literal">false</span>);</span><br><span class="line">	SD2403_SendByte(<span class="number">0x64</span>);</span><br><span class="line">	SD2403_WaitAck();</span><br><span class="line">	SD2403_SendByte(addr);</span><br><span class="line">	SD2403_WaitAck();</span><br><span class="line">	SD2403_SendByte(data);</span><br><span class="line">	SD2403_WaitAck();</span><br><span class="line">	SD2403_stop();</span><br><span class="line">	<span class="keyword">return</span>(<span class="literal">true</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>据2.3图所示，主机对从机读操作如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">uint8_t</span> SD2403_ReakOneByte(<span class="keyword">uint8_t</span> addr)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">uint8_t</span> res=<span class="number">0</span>;</span><br><span class="line">	<span class="comment">//先写入要读取的寄存器</span></span><br><span class="line">	<span class="keyword">if</span>(!SD2403_start()) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">	SD2403_SendByte(<span class="number">0x64</span>);  </span><br><span class="line">	<span class="keyword">if</span>(!SD2403_WaitAck())</span><br><span class="line">	&#123;</span><br><span class="line">		SD2403_stop();</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	SD2403_SendByte(addr); </span><br><span class="line">	SD2403_WaitAck();</span><br><span class="line"></span><br><span class="line">	<span class="comment">//再读取的寄存器数据</span></span><br><span class="line">	SD2403_start();</span><br><span class="line">	SD2403_SendByte(<span class="number">0x65</span>);</span><br><span class="line">	SD2403_WaitAck();</span><br><span class="line">	res=SD2403_ReceiveByte(<span class="number">0</span>); </span><br><span class="line">	SD2403_stop();</span><br><span class="line">	<span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-4-SD2403程序拓展——datasheet"><a href="#3-4-SD2403程序拓展——datasheet" class="headerlink" title="3.4 SD2403程序拓展——datasheet"></a>3.4 SD2403程序拓展——datasheet</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">uint8_t</span> SD2403_ReadTimeDate(_strTimeDate *pstrTimeDate)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">uint8_t</span> i,dat[<span class="number">7</span>];</span><br><span class="line">    <span class="keyword">if</span>(!SD2403_start()) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    SD2403_SendByte(<span class="number">0x65</span>);</span><br><span class="line">    <span class="keyword">if</span>(!SD2403_WaitAck())</span><br><span class="line">    &#123;</span><br><span class="line">        SD2403_stop();</span><br><span class="line">        <span class="keyword">return</span>(<span class="literal">false</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(i=<span class="number">0</span>; i&lt;<span class="number">7</span>; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        dat[i]=SD2403_ReceiveByte();</span><br><span class="line">        <span class="keyword">if</span>(i==<span class="number">2</span>)</span><br><span class="line">            dat[<span class="number">2</span>]=BCDTODEC(dat[<span class="number">2</span>]&amp;<span class="number">0x7F</span>);<span class="comment">//24小时舍弃最高位(区分12/24小时制)</span></span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            dat[i]=BCDTODEC(dat[i]);</span><br><span class="line">        *(&amp;pstrTimeDate-&gt;ucSec +i)=dat[i];</span><br><span class="line">        <span class="keyword">if</span> (i!=<span class="number">6</span>)         <span class="comment">//最后一个数据不应答</span></span><br><span class="line">        &#123;</span><br><span class="line">            SD2403_ACK();<span class="comment">////ACK 低</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    SD2403_No_ACK();<span class="comment">//ACK 高结束</span></span><br><span class="line">    SD2403_stop();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span>(<span class="literal">true</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">uint8_t</span> SD2403_WriteTimeDate(<span class="keyword">uint8_t</span> *pstrTimeDate)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">uint8_t</span> *set_time,i;</span><br><span class="line">    set_time=pstrTimeDate;</span><br><span class="line">    SD2403_WriteTimeOn();</span><br><span class="line">    <span class="keyword">if</span>(!SD2403_start())<span class="keyword">return</span>(<span class="literal">false</span>);</span><br><span class="line">    SD2403_SendByte(<span class="number">0x64</span>);</span><br><span class="line">    <span class="keyword">if</span>(!SD2403_WaitAck())</span><br><span class="line">    &#123;</span><br><span class="line">        SD2403_stop();</span><br><span class="line">        <span class="keyword">return</span>(<span class="literal">false</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    SD2403_SendByte(<span class="number">0x00</span>);<span class="comment">//设置写起始地址</span></span><br><span class="line">    SD2403_WaitAck();</span><br><span class="line">    <span class="keyword">for</span>(i=<span class="number">0</span>; i&lt;<span class="number">7</span>; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(i==<span class="number">2</span>)</span><br><span class="line">            SD2403_SendByte(<span class="number">0x80</span>|DECTOBCD(*set_time));<span class="comment">//最高位区分12/24小时制(1为24小时制)</span></span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            SD2403_SendByte(DECTOBCD(*set_time));</span><br><span class="line">        SD2403_WaitAck();</span><br><span class="line">        set_time++;</span><br><span class="line">    &#125;</span><br><span class="line">    SD2403_stop();</span><br><span class="line">    SD2403_WriteTimeOff();</span><br><span class="line">    <span class="keyword">return</span>(<span class="literal">true</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/******写SD2403允许程序******/</span></span><br><span class="line"><span class="function"><span class="keyword">static</span> uint8_t <span class="title">SD2403_WriteTimeOn</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(!SD2403_WriteOneByte(<span class="number">0x10</span>,<span class="number">0x80</span>))<span class="keyword">return</span>(<span class="literal">false</span>);</span><br><span class="line">    SD2403_WriteOneByte(<span class="number">0x0f</span>,<span class="number">0x84</span>);</span><br><span class="line">    <span class="keyword">return</span>(<span class="literal">true</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/******写SD2403禁止程序******/</span></span><br><span class="line"><span class="function"><span class="keyword">static</span> uint8_t <span class="title">SD2403_WriteTimeOff</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(!SD2403_WriteOneByte(<span class="number">0x0f</span>,<span class="number">0</span>))<span class="keyword">return</span>(<span class="literal">false</span>);</span><br><span class="line">      SD2403_WriteOneByte(<span class="number">0x10</span>,<span class="number">0</span>);</span><br><span class="line">    <span class="keyword">return</span>(<span class="literal">true</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="四、拓展——软件IIC从机"><a href="#四、拓展——软件IIC从机" class="headerlink" title="四、拓展——软件IIC从机"></a>四、拓展——软件IIC从机</h1><p>&emsp;&emsp;要实现IIC从机功能，最核心的部分就是如何精确的抓住IIC_SCL，也就是IIC主机发出来的时钟信号。只有抓住精确的时钟SCL，才能正确的读取到SDA的数据，才能真正模拟出IIC时序。</p>
+<p>&emsp;&emsp;但是要抓住SCL信号可不容易，IIC最高速度有400K，最小有效脉宽达到1.4us(数字0/1)，最小脉冲是0.8us(应答和STOP信号产生的尖刺)，采用中断来识别SCL是不可能的做到的，因为即使在最高主频72MHZ情况下，STM32最小指令周期是1/72(us)，从SCL中断发生到STM32进入中断响应，至少要要40个指令周期，也就是40/72(us)，加上堆栈操作及变量，很可能已经错过了SCL信号。</p>
+<p>因此根据IIC主机的速度，从机实现方法分为两种：</p>
+<ol>
+<li>采用中断方式识别SCL(适用于总线速度较慢)</li>
+<li>采用查询方式识别SCL(适用于总线速度较快)</li>
+</ol>
+<p>&emsp;&emsp;反过来言之，当你做成一个(从机)模块，实现软件模拟IIC，实际上还会因为IIC主机的因素来决定你这个模块的实际使用效果。如果是做模块化，还是推荐使用硬件IIC的方式实现。</p>
+
+      
+    </div>
+    
+    
+    
+
+	<div>
+	  
+		<div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+	  
+	</div>
+
+    
+	
+
+	
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/嵌入式总线/" <i class="fa fa-tag"> 嵌入式总线</a>
+          
+            <a href="/tags/IIC/" <i class="fa fa-tag"> IIC</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/05/30/嵌入式SPI总线/" rel="next" title="嵌入式SPI总线">
+                <i class="fa fa-chevron-left"></i> 嵌入式SPI总线
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/05/30/状态机/" rel="prev" title="状态机">
+                状态机 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC80NjcwNy8yMzIxNw=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/header.jpg" alt="Shatang">
+            
+              <p class="site-author-name" itemprop="name">Shatang</p>
+              <p class="site-description motion-element" itemprop="description">身体和灵魂总要有一个在路上</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">43</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">46</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/ShaTang" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.bilibili.com/video/av42311652" title="火影.青春.梦想" target="_blank">火影.青春.梦想</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.bilibili.com/video/av45828728" title="FATE.士郎" target="_blank">FATE.士郎</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://tieba.baidu.com/p/6185344159?see_lz=1&pn=1" title="Hide on bush" target="_blank">Hide on bush</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.zhihu.com/question/272137224/answer/821655151" title="声微饭否" target="_blank">声微饭否</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.bilibili.com/video/av43067703" title="生老病死" target="_blank">生老病死</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.bilibili.com/video/av82424567" title="眉山剑客" target="_blank">眉山剑客</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一、IIC总线讲解"><span class="nav-text">一、IIC总线讲解</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二、-软件-IIC总线"><span class="nav-text">二、 (软件)IIC总线</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-基本知识"><span class="nav-text">2.1 基本知识</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-软件模拟IIC驱动程序函数编写"><span class="nav-text">2.2 软件模拟IIC驱动程序函数编写</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-从具体I2C器件中读写数据"><span class="nav-text">2.3 从具体I2C器件中读写数据</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三、软件IIC实例"><span class="nav-text">三、软件IIC实例</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-EEPROM-24C02通信基础——IIC协议"><span class="nav-text">3.1 EEPROM_24C02通信基础——IIC协议</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-24C02程序拓展——datasheet"><span class="nav-text">3.2 24C02程序拓展——datasheet</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-实时时钟-SD2403——IIC总线"><span class="nav-text">3.3 实时时钟_SD2403——IIC总线</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-4-SD2403程序拓展——datasheet"><span class="nav-text">3.4 SD2403程序拓展——datasheet</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#四、拓展——软件IIC从机"><span class="nav-text">四、拓展——软件IIC从机</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Shatang</span>
+
+   
+</div>
+
+
+
+
+
+
+
+
+
+
+
+<span id="timeDate" title="网站运行时间">载入天数...</span><span id="times" title="网站运行时间">载入时分秒...</span>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i> 有
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人看过我的博客啦
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i> 本站总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/three.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/canvas_lines.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":180,"height":360},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
+
+<!--浏览器搞笑标题-->
+<script type="text/javascript" src="/js/src/FunnyTitle.js"></script>
+<!-- 页面点击颜文字表情 -->
+<script type="text/javascript" src="/js/src/emoji.js"></script>
+<!--此处为建站时间 -->
+<script>
+  var now = new Date(); 
+  function createtime() { 
+      var grt= new Date("09/13/2019 12:00:00");
+      now.setTime(now.getTime()+250); 
+      days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+      hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+      if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+      mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+      seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+      snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+      document.getElementById("timeDate").innerHTML ="(ㆆᴗㆆ)本站建立了"+dnum+"&thinsp;天"; 
+      document.getElementById("times").innerHTML = hnum + "&thinsp;时" + mnum + "&thinsp;分" + snum + "&thinsp;秒"; 
+  } 
+setInterval("createtime()",250);
+</script>
+<!-- 代码块复制功能 -->
+<script type="text/javascript" src="/js/src/clipboard.min.js"></script>  
+<script type="text/javascript" src="/js/src/clipboard-use.js"></script>
+
+
+
+<!--  
+数字雨 
+<canvas id="canvas" width="1440" height="900" ></canvas>
+<script type="text/javascript" src="/js/src/DigitalRain.js"></script>
+-->

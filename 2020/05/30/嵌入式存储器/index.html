@@ -1,0 +1,1457 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-flash.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Flash,ROM,SRAM,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="大道至简，悟在天成" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="&amp;emsp;&amp;emsp;这里分享一下在嵌入式设备的存储器科普。">
+<meta name="keywords" content="Flash,ROM,SRAM">
+<meta property="og:type" content="article">
+<meta property="og:title" content="嵌入式存储器">
+<meta property="og:url" content="http://shatang.github.io/2020/05/30/嵌入式存储器/index.html">
+<meta property="og:site_name" content="大道至简，悟在天成">
+<meta property="og:description" content="&amp;emsp;&amp;emsp;这里分享一下在嵌入式设备的存储器科普。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-05-30T03:10:36.111Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="嵌入式存储器">
+<meta name="twitter:description" content="&amp;emsp;&amp;emsp;这里分享一下在嵌入式设备的存储器科普。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+<script>
+    (function(){
+        if(''){
+            if (prompt('请输入文章密码') !== ''){
+                alert('密码错误！');
+                history.back();
+            }
+        }
+    })();
+</script>
+
+
+
+  <link rel="canonical" href="http://shatang.github.io/2020/05/30/嵌入式存储器/">
+
+
+
+
+
+  <title>嵌入式存储器 | 大道至简，悟在天成</title>
+  
+
+
+
+
+
+
+
+
+  
+  
+</head>
+
+
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">大道至简，悟在天成</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">It's not hard to give up, but it must be cool to stick to it.</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home                          //首页"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive          //归档"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th           //分类"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags                     //标签"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user                   //关于"></i> <br>
+            
+            关于我
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://shatang.github.io/2020/05/30/嵌入式存储器/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Shatang">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/header.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="大道至简，悟在天成">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">嵌入式存储器</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-30T11:09:32+08:00">
+                2020-05-30
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2020-05-30T11:10:36+08:00">
+                2020-05-30
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/驱动编写/" itemprop="url" rel="index">
+                    <span itemprop="name">驱动编写</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+		
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>次阅读
+            </span>
+          
+		  
+
+          
+            <div class="post-wordcount">
+              
+                
+                  <span class="post-meta-divider">|</span>
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  4.2k
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>&emsp;&emsp;这里分享一下在嵌入式设备的存储器科普。</p>
+<a id="more"></a>
+<h1 id="一、存储器科普"><a href="#一、存储器科普" class="headerlink" title="一、存储器科普"></a>一、存储器科普</h1><p>&emsp;&emsp;<code>RAM</code>、<code>SRAM</code>、<code>SDRAM</code>、<code>ROM</code>、<code>EPROM</code>、<code>EEPROM</code>、<code>Flash</code>存储器可以分为很多种类;其中根据掉电数据是否丢失可以分为RAM（随机存取存储器）和ROM（只读存储器），其中RAM的访问速度比较快，但掉电后数据会丢失，而ROM掉电后数据不会丢失。</p>
+<h2 id="1-1-常见存储器"><a href="#1-1-常见存储器" class="headerlink" title="1.1 常见存储器"></a>1.1 常见存储器</h2><p>&emsp;&emsp;在嵌入式开发过程中，往往会涉及到存储器(掉电存储等功能)；其中的 <strong>Flash</strong>，<strong>EEPROM</strong>，<strong>SRAM</strong>耳熟能详。 </p>
+<ol>
+<li><strong>Flash，适用于速度要求高，容量要求大，掉电时要求数据不丢失的场合</strong></li>
+<li><strong>EEPROM，适用于速度不高，容量不大，掉电时要求数据不丢失的场合</strong></li>
+<li><strong>SRAM，一般就相当于计算机的内存，断电不保存，读写速度比flash, eeprom快N倍</strong></li>
+</ol>
+<p>&emsp;&emsp;在单片机中，往往RAM主要是做运行时数据存储器,FLASH主要是程序存储器,EEPROM主要是用以在程序运行保存一些需要掉电不丢失的数据。</p>
+<ul>
+<li>FLASH:单片机运行的程序存储的地方</li>
+<li>SRAM：存储单片机运行过程中产生的了临时数据</li>
+<li>EEPROM：视用户的需要而定，一般用来存储系统的一些参数，这些参数可能需要修改，也可能不会修改。</li>
+</ul>
+<h2 id="1-2-EEPPROM-和-Flash-混淆来由"><a href="#1-2-EEPPROM-和-Flash-混淆来由" class="headerlink" title="1.2 EEPPROM 和 Flash 混淆来由"></a>1.2 EEPPROM 和 Flash 混淆来由</h2><p>&emsp;&emsp;EEPROM的全称是“电可擦除可编程只读存储器”，即Electrically Erasable Programmable Read-Only Memory。是相对于紫外擦除的rom来讲的。但是今天已经存在多种EEPROM的变种，变成了一类存储器的统称。</p>
+<p><strong>狭义的EEPROM</strong>：这种rom的特点是可以随机访问和修改任何一个字节，可以往每个bit中写入0或者1。这是最传统的一种EEPROM，掉电后数据不丢失，可以保存100年，可以擦写100w次。具有较高的可靠性，但是电路复杂/成本也高。因此目前的EEPROM都是几十千字节到几百千字节的，绝少有超过512K的。</p>
+<p><strong>Flash</strong>：属于广义的EEPROM，因为它也是电擦除的ROM。但是为了区别于一般的按字节为单位的擦写的EEPROM，我们都叫它Flash。</p>
+<p>&emsp;&emsp;<strong>FLASH按扇区操作，EEPROM则按字节操作</strong>；二者寻址方法不同，存储单元的结构也不同，FLASH的电路结构较简单，同样容量占芯片面积较小，成本自然比EEPROM低，因而适合用作程序存储器，EEPROM则更多的用作非易失的数据存储器。当然用FLASH做数据存储器也行，但操作比EEPROM麻烦的多；所以更“人性化”(成本)的MCU设计会集成FLASH和EEPROM两种非易失性存储器，而廉价型设计往往只有 FLASH，早期可电擦写型MCU则都是EEPRoM结构，现在已基本上停产了。</p>
+<p>&emsp;&emsp;EEPROM：电可擦除可编程只读存储器，Flash的操作特性完全符合EEPROM的定义，属EEPROM无疑，首款Flash推出时其数据手册上也清楚的标明是EEPROM，现在的多数Flash手册上也是这么标明的，<strong>二者的关系是“白马”和“马”</strong>。至于为什么业界要区分二者，主要的原因是 Flash EEPROM的操作方法和传统EEPROM截然不同，次要的原因是为了语言的简练，非正式文件和口语中Flash EEPROM就简称为Flash，这里要强调的是白马的“白”属性而非其“马”属性以区别Flash和传统EEPROM。</p>
+<p>&emsp;&emsp;Flash的特点是结构简单，同样工艺和同样晶元面积下可以得到更高容量且大数据量下的操作速度更快，但<strong>Flash缺点是操作过程麻烦，特别是在小数据量反复重写时</strong>，所以<strong>在MCU中的Flash结构适于不需频繁改写的程序存储器</strong>。</p>
+<p>&emsp;&emsp;很多应用中，<strong>需要频繁的改写某些小量数据且需掉电非易失，传统结构的EEPROM在此非常适合</strong>。所以很多MCU内部设计了两种EEPROM结构，FLASH的和传统的以期获得成本和功能的均衡，这极大的方便了使用者。随着ISP、IAP的流行，特别是在程序存储地址空间和数据存储地址空间重叠的MCU系中，现在越来越多的MCU生产商用支持IAP的程序存储器来模拟EEPROM对应的数据存储器，这是低成本下实现非易失数据存储器的一种变通方法。为在商业宣传上取得和双EEPROM工艺的“等效”性，不少采用Flash程序存储器“模拟”（注意，技术概念上并非真正的模拟）EEPROM数据存储器的厂家纷纷宣称其产品是带EEPROM的，严格说，这是非常不严谨的，但商人有商人的目的和方法，<strong>用Flash“模拟”EEPROM</strong>可以获取更大商业利益，所以在事实上，技术概念混淆的始作俑者正是他们。</p>
+<h2 id="1-3-Flash的粗分"><a href="#1-3-Flash的粗分" class="headerlink" title="1.3 Flash的粗分"></a>1.3 Flash的粗分</h2><p>&emsp;&emsp;目前Flash主要有两种，NOR Flash和NADN Flash。</p>
+<ul>
+<li><strong>NOR Flash</strong>：NOR Flash的读取和我们常见的SDRAM的读取是一样，用户可以直接运行装载在NOR FLASH里面的代码，这样可以减少SRAM的容量从而节约了成本。</li>
+<li><strong>NAND Flash</strong>：NAND Flash没有采取内存的随机读取技术，它的读取是以一次读取一块的形式来进行的，通常是一次读取512个字节，采用这种技术的Flash比较廉价。</li>
+</ul>
+<p><strong>Ps ：用户不能直接运行NAND Flash上的代码，因此很多使用NAND Flash的开发板除了使用NAND Flash以外，还作上了一块小的NOR Flash来运行启动代码</strong></p>
+<p>&emsp;&emsp;一般小容量的用NOR Flash，因为其读取速度快，多用来存储操作系统等重要信息，而大容量的用NAND FLASH，最常见的NAND FLASH应用是嵌入式系统采用的DOC（Disk On Chip）和我们通常用的“闪盘”，可以在线擦除。目前市面上的FLASH 主要来自Intel，AMD，Fujitsu和Toshiba，而生产NAND Flash的主要厂家有Samsung和Toshib</p>
+<h1 id="二、Flash的前世今生"><a href="#二、Flash的前世今生" class="headerlink" title="二、Flash的前世今生"></a>二、Flash的前世今生</h1><h2 id="2-1-Flash起源"><a href="#2-1-Flash起源" class="headerlink" title="2.1 Flash起源"></a>2.1 Flash起源</h2><p>&emsp;&emsp;Nand Flash 和 Nor Flash<br>是现在市场上两种主要的非易失闪存技术。Intel于1988年首先开发出NOR Flash 技术，彻底改变了原先由EPROM（Electrically Programmable Read-Only-Memory电可编程序只读存储器）和EEPROM（电可擦只读存储器Electrically Erasable Programmable Read - Only Memory）一统天下的局面。紧接着，1989年，东芝公司发表了NAND Flash 结构，强调降低每比特的成本，有更高的性能，并且像磁盘一样可以通过接口轻松升级。NOR Flash 的特点是芯片内执行（XIP ，eXecute In Place），这样应用程序可以直接在Flash闪存内运行，不必再把代码读到系统RAM。</p>
+<hr>
+<p><strong><font color="red">注：</font></strong><br>片内执行不是说程序在存储器内执行，CPU的基本功能就是取指、译码和执行。<strong>Nor Flash能在芯片内执行，就是指CPU的取指模块能够直接从NorFlash中把指令取出来，供后面的译码和执行模块使用。</strong></p>
+<h2 id="2-2-Flash的差异"><a href="#2-2-Flash的差异" class="headerlink" title="2.2 Flash的差异"></a>2.2 Flash的差异</h2><p>&emsp;&emsp;由于Nor Flash的接口与RAM完全相同，可以随机访问任意地址的数据。因此，Nor Flash进行读操作的效率非常高，但是擦除和写操作的效率很低，另外，Nor Flash的容量一般比较小。</p>
+<p>&emsp;&emsp;而NAND Flash的接口仅仅包含几个I/O引脚，需要串行地访问。NAND Flash一般以512字节为单位进行读写。这使得Nor Flash适合于运行程序，而NAND Flash更适合于存储数据。</p>
+<p>&emsp;&emsp;容量相同的情况下，NAND Flash的体积更小。市场上Nor Flash的容量通常为1MB<del>4MB(也有32MB的Nor Flash)，NAND Flash的容量为8MB</del>512MB。对于空间有严格要求的系统，NAND Flash可以节省更多空间。<strong>容量的差别也使得Nor Flash多用于存储程序，NAND Flash多用于存储数据。</strong></p>
+<p>&emsp;&emsp;对于Flash存储器件的可靠性需要考虑3点：<strong>位反转、坏块和可擦除次数</strong>。所有Flash器件都遭遇位反转的问题：由于Flash固有的电器特性，在读写数据过程中，偶然会产生一位或几位数据错误（这种概率很低），而NAND Flash出现的概率远大于Nor Flash，当位反转发生在关键的代码、数据上时，有可能导致系统崩溃。当仅仅是报告位反转，重新读取即可：如果确实发生了位反转，则必须有相应的错误检测/恢复措施。在NAND Flash上发生位反转的概率史高，推荐使用EDC/ECC进行错误检测和恢复。NAND Flash上面会有坏块随机分布在使用前需要将坏块扫描出来，确保不再使用它们，否则会使产品含有严重的故障。</p>
+<p>&emsp;&emsp;NAND Flash每块的可擦除次数通常在100000次左右，是Nor Flash的10倍。另外，因为NAND Flash的块大小通常是Nor Flash的1/8，单块的擦除需求更少，所以NAND Flash的寿命远远超过Nor Flash。</p>
+<table>
+<thead>
+<tr>
+<th align="center">-</th>
+<th align="center">Nor</th>
+<th align="center">NAND</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">XIP(代码可以直接运行)</td>
+<td align="center">Yes</td>
+<td align="center">No</td>
+</tr>
+<tr>
+<td align="center">性能(擦除)</td>
+<td align="center">块大，非常慢(5s)</td>
+<td align="center">块小，快(3ms)</td>
+</tr>
+<tr>
+<td align="center">性能(写)</td>
+<td align="center">慢</td>
+<td align="center">快</td>
+</tr>
+<tr>
+<td align="center">性能(读)</td>
+<td align="center">快</td>
+<td align="center">快</td>
+</tr>
+<tr>
+<td align="center">可靠性</td>
+<td align="center">较高，位反转的比例小于NAND Flash的10%</td>
+<td align="center">比较低，位反转比较常见，必须有校验措施。且比如TNR必须有坏块管理措施</td>
+</tr>
+<tr>
+<td align="center">可擦除次数</td>
+<td align="center">10000 ~ 100000</td>
+<td align="center">100000 ~ 1000000</td>
+</tr>
+<tr>
+<td align="center">生命周期</td>
+<td align="center">低于NAND Flash的10%</td>
+<td align="center">是Nor Flash的10倍以上</td>
+</tr>
+<tr>
+<td align="center">接口</td>
+<td align="center">与RAM接口相同</td>
+<td align="center">I/O接口</td>
+</tr>
+<tr>
+<td align="center">易用性</td>
+<td align="center">容易</td>
+<td align="center">复杂</td>
+</tr>
+<tr>
+<td align="center">主要用途</td>
+<td align="center">常用于保存代码和关键数</td>
+<td align="center">用于保存数据</td>
+</tr>
+<tr>
+<td align="center">价格</td>
+<td align="center">高</td>
+<td align="center">低</td>
+</tr>
+</tbody></table>
+<h1 id="三、-Nand-Flash"><a href="#三、-Nand-Flash" class="headerlink" title="三、 Nand Flash"></a>三、 Nand Flash</h1><p>&emsp;&emsp;由于Nand Flash的可靠性(位反转、坏块)，在比较低端的嵌入式设备并不采用Nand Flash，其容量大、擦写次数多在低端嵌入式设备中体现不出优势。Nand Flash会被采用于 嵌入式Linux设备，常见于使用NAND Flash的开发板除了使用NAND Flash以外，还作上了一块小的NOR Flash来运行启动代码。在linux上很多现成、高级的驱动，因此这里就不多讲Nand Flash。</p>
+<p>&emsp;&emsp;我们写Nand Flash驱动，是写Nand Flash 控制器的驱动，而不是Nand Flash 芯片的驱动，因为独立的Nand Flash芯片，一般来说，是很少直接拿来用的，多数都是硬件上有对应的硬件的Nand Flash的控制器，去操作和控制Nand Flash，包括提供时钟信号，提供硬件ECC校验等等功能，我们所写的驱动软件，是去操作Nand Flash的控制器，然后由控制器去操作Nand Flash芯片，实现我们所要的功能。</p>
+<h1 id="四、Nor-Flash"><a href="#四、Nor-Flash" class="headerlink" title="四、Nor Flash"></a>四、Nor Flash</h1><p>&emsp;&emsp;Nand Flash需要高级(算法处理)驱动，对低端嵌入式设备是一种考验。由于低端嵌入式设备往往对数据量要求不大，且对可靠性要求较高，往往采用Nor Flash。常见的用法是用于存储设备的历史记录，常见芯片有W25Qx系列的Nor Flash。</p>
+<h2 id="4-1-Flash的擦除"><a href="#4-1-Flash的擦除" class="headerlink" title="4.1 Flash的擦除"></a>4.1 Flash的擦除</h2><p>&emsp;&emsp;像EEPROM等其他储存芯片是没有擦除这一说的。例如，iic接口的AT24Cx芯片，想要写入的数据直接覆盖在对应地址的数据上。</p>
+<p>&emsp;&emsp;Nor Flash的物理特性是，写入之前需要先进行擦除。<strong>擦除从0变1，写入从1变0</strong>。<br>擦除后数据为全0xFF，此时写入操作，实际上是将数据从1改成0。</p>
+<p>&emsp;&emsp;一般先擦后写(常见于W25Qx驱动)，但实际上擦除后每个位置是可以写入多次的，只要每次写入都是让某些bit从1变0即可。</p>
+<p>&emsp;&emsp;例如，在擦除后数据为0xFF，此时写入0x0F，可读出0x0F，再写入0x01，可读出0x01，再写入0x00，可读出0x00。而对于0x00，就无法再改写成任何值了，因为此时每个bit都是0，想要改写就必须先擦除，让其恢复到0xFF，再进行写入改成目标值。</p>
+<h2 id="4-2-“块，扇，页”的区别"><a href="#4-2-“块，扇，页”的区别" class="headerlink" title="4.2 “块，扇，页”的区别"></a>4.2 “块，扇，页”的区别</h2><p>&emsp;&emsp;从上面的擦除概念，引申出(硬件)磁盘的最小擦除单位(Sector)。这里的单位概念有：<strong>块(Block)，扇(Sector)，页</strong>。</p>
+<ul>
+<li>从底层驱动层面上看，Sector是最小存储单位(而且从驱动层面看并没有block的概念)</li>
+<li>从软件(OS、文件系统)层面上看，Block才是文件存取的最小单位</li>
+</ul>
+<hr>
+<p>&emsp;&emsp;OS、文件系统不是一个扇区一个扇区的来读数据，太慢了，所以有了block（块）的概念，它是一个块一个块的读取的，Block才是文件存取的最小单位)。</p>
+<ul>
+<li>Block由一个或多个Sector组成；</li>
+<li>Block是软件(OS、文件系统)中最小的操作单位</li>
+<li>Sector是 底层驱动的最小操作单位(擦写)</li>
+<li>Block值一般与sector值是不相等的</li>
+</ul>
+<hr>
+<p>&emsp;&emsp;因此，在其他地方看到块为最小单位、扇为最小单位时，就可以知道他是以什么层面来看待存储的。</p>
+<ul>
+<li>Block是文件系统上的概念，一般文件系统block大小为4K(可以灵活设置块的大小)</li>
+<li>Sector是磁介质硬盘最小单元，一般为512字节(现在有4K的了)</li>
+<li>至于页，是为了驱动方便擦写、检测扇内部的写入情况，提出来的一个概念；实际上并没有多大关系。如果进行擦除，还是会以Sector做为最小单位进行擦除操作</li>
+</ul>
+<h2 id="4-3-坏块-amp-写平衡"><a href="#4-3-坏块-amp-写平衡" class="headerlink" title="4.3 坏块 &amp; 写平衡"></a>4.3 坏块 &amp; 写平衡</h2><p>&emsp;&emsp;这里先讲 坏块 这个概念。由于刚接触Flash底层的人，然后又经常听谁谁谁的移动硬盘坏块很多，或者是建议买硬盘后先做个坏块检测之类的事情。</p>
+<blockquote>
+<p>真正意义的 “坏块”</p>
+</blockquote>
+<p>&emsp;&emsp;闪存内的坏块处理，是指生产出的闪存并不是完美的，总会有某些比特或者某些区域不可使用，这时候就要对闪存进行坏块处理。</p>
+<p>&emsp;&emsp;一开始生产的时候，发现到这个问题，想处理这些坏块。但是呢，由于处理起来成本太高(即，良品率太低)，索性就让他坏块，出厂前做下坏块处理，检测一下坏块数量不多就出厂了。</p>
+<p>&emsp;&emsp;Nand Flash是存在挺多坏块的。我们那些移动硬盘，那么大容量，当然是采用Nand Flash做成的。至于遇到所谓的黑心商家，就是把坏块率高的(或者寿命较短，用过的)移动硬盘(Nand Flash)卖给你。</p>
+<p>&emsp;&emsp;<strong>Nor Flash没有坏块</strong>(你可以认为)。实际上 Nor Flash 是存在坏块的，只不过是在内对坏块进行了处理。</p>
+<blockquote>
+<p>另类的 “坏块”</p>
+</blockquote>
+<p>&emsp;&emsp;另类的坏块，即寿命到了产生的不可写区域。一般人会混淆，认为不能用就是坏块(其实也算)。寿命到了不一定就不能用，只不过是容易产生”坏块”。尤其是嵌入式设备的Flash，由于对数据量要求不高，且对稳定性有高要求，往往采用的是Nor Flash做数据存储。</p>
+<p>&emsp;&emsp;但是Nor Flash的擦写寿命相对较短，寿命将至闪存可能会工作异常(产生”坏块”)。写平衡(又名 磨损平衡、负载平衡)便应运而生。</p>
+<p>&emsp;&emsp;由于Nor Flash的Sector(block)，都是有一定寿命限制的，所以如果你每次都往同一个Sector(block)擦除然后写入数据，稍微长时间，那么那个Sector(block)就很容易被用坏了。所以我们要去管理一下，将这么多次的对同一个Sector(block)的操作，平均分布到其他一些Sector(block)上面，使得在Sector(block)的使用上，相对较平均，这样相对来说，可以更能充分利用Nor Flash。</p>
+<p>&emsp;&emsp;只进行一次大规模的擦除，后续的操作只需要进行写和读；写过的区域不再重写，读取的数据根据自己的需求算法，查出在Nor Flash的位置地址，读取想要的数据。当整个Nor Flash接近写满时，重新大规模擦除前，需要注意先擦除小部分区域，把所需的数据先读取出来，再重写入新擦除区域保存。</p>
+<p><strong>写平衡</strong>，将空闲的Sector(Block)运用起来，进而将Nor Flash的寿命变相翻倍。</p>
+
+      
+    </div>
+    
+    
+    
+
+	<div>
+	  
+		<div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+	  
+	</div>
+
+    
+	
+
+	
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Flash/" <i class="fa fa-tag"> Flash</a>
+          
+            <a href="/tags/ROM/" <i class="fa fa-tag"> ROM</a>
+          
+            <a href="/tags/SRAM/" <i class="fa fa-tag"> SRAM</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/05/30/TCP通讯-宏观/" rel="next" title="TCP通讯_宏观">
+                <i class="fa fa-chevron-left"></i> TCP通讯_宏观
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/05/30/嵌入式SPI总线/" rel="prev" title="嵌入式SPI总线">
+                嵌入式SPI总线 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC80NjcwNy8yMzIxNw=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/header.jpg" alt="Shatang">
+            
+              <p class="site-author-name" itemprop="name">Shatang</p>
+              <p class="site-description motion-element" itemprop="description">身体和灵魂总要有一个在路上</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">43</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">46</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/ShaTang" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.bilibili.com/video/av42311652" title="火影.青春.梦想" target="_blank">火影.青春.梦想</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.bilibili.com/video/av45828728" title="FATE.士郎" target="_blank">FATE.士郎</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://tieba.baidu.com/p/6185344159?see_lz=1&pn=1" title="Hide on bush" target="_blank">Hide on bush</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.zhihu.com/question/272137224/answer/821655151" title="声微饭否" target="_blank">声微饭否</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.bilibili.com/video/av43067703" title="生老病死" target="_blank">生老病死</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.bilibili.com/video/av82424567" title="眉山剑客" target="_blank">眉山剑客</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一、存储器科普"><span class="nav-text">一、存储器科普</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-常见存储器"><span class="nav-text">1.1 常见存储器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-EEPPROM-和-Flash-混淆来由"><span class="nav-text">1.2 EEPPROM 和 Flash 混淆来由</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-Flash的粗分"><span class="nav-text">1.3 Flash的粗分</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二、Flash的前世今生"><span class="nav-text">二、Flash的前世今生</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-Flash起源"><span class="nav-text">2.1 Flash起源</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-Flash的差异"><span class="nav-text">2.2 Flash的差异</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三、-Nand-Flash"><span class="nav-text">三、 Nand Flash</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#四、Nor-Flash"><span class="nav-text">四、Nor Flash</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-Flash的擦除"><span class="nav-text">4.1 Flash的擦除</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2-“块，扇，页”的区别"><span class="nav-text">4.2 “块，扇，页”的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-3-坏块-amp-写平衡"><span class="nav-text">4.3 坏块 &amp; 写平衡</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Shatang</span>
+
+   
+</div>
+
+
+
+
+
+
+
+
+
+
+
+<span id="timeDate" title="网站运行时间">载入天数...</span><span id="times" title="网站运行时间">载入时分秒...</span>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i> 有
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人看过我的博客啦
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i> 本站总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/three.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/canvas_lines.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":180,"height":360},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
+
+<!--浏览器搞笑标题-->
+<script type="text/javascript" src="/js/src/FunnyTitle.js"></script>
+<!-- 页面点击颜文字表情 -->
+<script type="text/javascript" src="/js/src/emoji.js"></script>
+<!--此处为建站时间 -->
+<script>
+  var now = new Date(); 
+  function createtime() { 
+      var grt= new Date("09/13/2019 12:00:00");
+      now.setTime(now.getTime()+250); 
+      days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+      hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+      if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+      mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+      seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+      snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+      document.getElementById("timeDate").innerHTML ="(ㆆᴗㆆ)本站建立了"+dnum+"&thinsp;天"; 
+      document.getElementById("times").innerHTML = hnum + "&thinsp;时" + mnum + "&thinsp;分" + snum + "&thinsp;秒"; 
+  } 
+setInterval("createtime()",250);
+</script>
+<!-- 代码块复制功能 -->
+<script type="text/javascript" src="/js/src/clipboard.min.js"></script>  
+<script type="text/javascript" src="/js/src/clipboard-use.js"></script>
+
+
+
+<!--  
+数字雨 
+<canvas id="canvas" width="1440" height="900" ></canvas>
+<script type="text/javascript" src="/js/src/DigitalRain.js"></script>
+-->
