@@ -94,19 +94,18 @@
 <meta name="description" content="&amp;emsp;&amp;emsp;这里分享一下在嵌入式设备与PLC通讯中的一种很常见的通讯协议：Modbus通讯">
 <meta name="keywords" content="Modbus">
 <meta property="og:type" content="article">
-<meta property="og:title" content="嵌入式的Modbus通讯">
-<meta property="og:url" content="http://shatang.github.io/2019/11/20/Modbus通讯/index.html">
+<meta property="og:title" content="Modbus协议_概念讲解">
+<meta property="og:url" content="http://shatang.github.io/2020/05/30/Modbus协议-概念讲解/index.html">
 <meta property="og:site_name" content="大道至简，悟在天成">
 <meta property="og:description" content="&amp;emsp;&amp;emsp;这里分享一下在嵌入式设备与PLC通讯中的一种很常见的通讯协议：Modbus通讯">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://shatang.github.io/2019/11/20/Modbus通讯/0.jpg">
-<meta property="og:image" content="http://shatang.github.io/2019/11/20/Modbus通讯/1.png">
-<meta property="og:image" content="http://shatang.github.io/2019/11/20/Modbus通讯/2.png">
-<meta property="og:updated_time" content="2020-02-06T08:10:48.099Z">
+<meta property="og:image" content="http://shatang.github.io/2020/05/30/Modbus协议-概念讲解/0.jpg">
+<meta property="og:image" content="http://shatang.github.io/2020/05/30/Modbus协议-概念讲解/1.png">
+<meta property="og:updated_time" content="2020-05-30T02:50:53.186Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="嵌入式的Modbus通讯">
+<meta name="twitter:title" content="Modbus协议_概念讲解">
 <meta name="twitter:description" content="&amp;emsp;&amp;emsp;这里分享一下在嵌入式设备与PLC通讯中的一种很常见的通讯协议：Modbus通讯">
-<meta name="twitter:image" content="http://shatang.github.io/2019/11/20/Modbus通讯/0.jpg">
+<meta name="twitter:image" content="http://shatang.github.io/2020/05/30/Modbus协议-概念讲解/0.jpg">
 
 
 
@@ -147,13 +146,13 @@
 
 
 
-  <link rel="canonical" href="http://shatang.github.io/2019/11/20/Modbus通讯/">
+  <link rel="canonical" href="http://shatang.github.io/2020/05/30/Modbus协议-概念讲解/">
 
 
 
 
 
-  <title>嵌入式的Modbus通讯 | 大道至简，悟在天成</title>
+  <title>Modbus协议_概念讲解 | 大道至简，悟在天成</title>
   
 
 
@@ -328,7 +327,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://shatang.github.io/2019/11/20/Modbus通讯/">
+    <link itemprop="mainEntityOfPage" href="http://shatang.github.io/2020/05/30/Modbus协议-概念讲解/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Shatang">
@@ -345,7 +344,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">嵌入式的Modbus通讯</h1>
+          <h1 class="post-title" itemprop="name headline">Modbus协议_概念讲解</h1>
         
 
         <div class="post-meta">
@@ -357,8 +356,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-20T22:56:45+08:00">
-                2019-11-20
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-30T10:50:13+08:00">
+                2020-05-30
               </time>
             
 
@@ -373,8 +372,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2020-02-06T16:10:48+08:00">
-                2020-02-06
+              <time title="更新于" itemprop="dateModified" datetime="2020-05-30T10:50:53+08:00">
+                2020-05-30
               </time>
             
           </span>
@@ -431,7 +430,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  3.8k
+                  3.1k
                 </span>
               
 
@@ -458,11 +457,25 @@
       
         <p>&emsp;&emsp;这里分享一下在嵌入式设备与PLC通讯中的一种很常见的通讯协议：Modbus通讯</p>
 <a id="more"></a>
-<h1 id="一、基本概念"><a href="#一、基本概念" class="headerlink" title="一、基本概念"></a>一、基本概念</h1><p>&emsp;&emsp;Modbus协议 是一个请求/应答协议，发起请求的为Master（client），响应请求的为Slave（server）;Modbus协议包括ASCII、RTU、TCP/IP，并没有规定物理层。此协议定义了控制器能够认识和使用的消息结构，而不管它们是经过何种网络进行通信的；标准的Modicon控制器使用RS232C实现串行的Modbus。Modbus的ASCII、RTU协议规定了消息、数据的结构、命令和就答的方式，数据通讯采用Maser/Slave方式；<br><strong>1. Master端发出读数据请求消息，Slave端接收到正确消息后，就发送对应数据到Master端以响应请求；</strong><br><strong>2. Master端发出写数据请求消息，Slave端接收到正确消息后，就修改Slave端的数据；</strong>从而实现 主机 对 从机 读写操作。</p>
-<h1 id="二、消息格式"><a href="#二、消息格式" class="headerlink" title="二、消息格式"></a>二、消息格式</h1><p>&emsp;&emsp;这里说下Modbus协议的消息中包含有哪些域（ADU：应用数据单元，PDU：协议数据单元），并且说明各个域的作用。但是需要注意，modbus TCP无地址码和校验码，modbus ASCII和modbus RTU之间也有差别。</p>
-<img src="/2019/11/20/Modbus通讯/0.jpg" title="Modbus报文模型">
-<p>(Ps：报文，指的是一串完整的指令数据；一个报文就是一帧数据，一个数据帧就一个报文)</p>
-<p><strong>地址码</strong>：每个从机都必须有唯一的地址码ID（从1到247，0是广播地址），并且只有符合地址码的从机才能响应回送。当从机回送信息时，相应的地址码表明该信息来自于何处。<br><strong>功能码</strong>：主机发送的功能码告诉从机执行什么任务。ModBus通讯规约定义功能号为1到127。表2-1列出部分常用功能码，以备查询。<br><strong>数据区</strong>：数据区包含需要从机执行什么动作或由从机采集的返送信息。应答包中，数据包括了数据字节长度+数据值，请求包中数据只包含数据值。<br><strong>校验码</strong>：主机或从机可用校验码进行判别接收信息是否出错。</p>
+<h1 id="一、基本概念"><a href="#一、基本概念" class="headerlink" title="一、基本概念"></a>一、基本概念</h1><p>&emsp;&emsp;Modbus协议 是一个请求/应答协议，发起请求的为Master（client），响应请求的为Slave（server）;Modbus协议包括ASCII、RTU、TCP三种报文类型，并没有规定物理层。</p>
+<p>&emsp;&emsp;标准的Modbus协议物理层接口有RS232、RS422、RS485和以太网接口，采用master/slave方式通信。</p>
+<hr>
+<ul>
+<li><strong>Master端发出读数据请求消息，Slave端接收到正确消息后，就发送对应数据到Master端以响应请求；</strong></li>
+<li><strong>Master端发出写数据请求消息，Slave端接收到正确消息后，就修改Slave端的数据；</strong></li>
+</ul>
+<p>先发请求，再接收响应，从而实现 主机 对 从机 读/写操作。</p>
+<h1 id="二、报文格式-通用部分"><a href="#二、报文格式-通用部分" class="headerlink" title="二、报文格式_通用部分"></a>二、报文格式_通用部分</h1><ul>
+<li>(<strong>ADU</strong>)报文，指的是一串完整的指令数据；一个报文就是一帧数据，一个数据帧就一个报文</li>
+<li>(<strong>MBAP</strong>)报文头，即报文的一部分，用于识别。当然也有些是部分数据在报文尾部，例如CRC数据校验。</li>
+<li>(<strong>PDU</strong>)协议数据单元，这部分就是通信中的数据部分了。</li>
+</ul>
+<p>举例如下：</p>
+<img src="/2020/05/30/Modbus协议-概念讲解/0.jpg" title="Modbus RTU报文模型">
+
+
+
+<p>&emsp;&emsp;由于报文类型的不同，报文之间也存在一些差异。先讲解通用的 功能码 &amp; 错误代码 部分。</p>
 <h2 id="2-1-Modbus部分功能码"><a href="#2-1-Modbus部分功能码" class="headerlink" title="2.1 Modbus部分功能码"></a>2.1 Modbus部分功能码</h2><table>
 <thead>
 <tr>
@@ -470,6 +483,7 @@
 <th>中文名称</th>
 <th>位操作/字节操作</th>
 <th>操作数量</th>
+<th>错误功能码(&amp;0x80)</th>
 </tr>
 </thead>
 <tbody><tr>
@@ -477,87 +491,203 @@
 <td>读线圈状态</td>
 <td>位操作</td>
 <td>单个或多个</td>
+<td>0x81</td>
 </tr>
 <tr>
 <td>02</td>
 <td>读离散状态</td>
 <td>位操作</td>
 <td>单个或多个</td>
+<td>0x82</td>
 </tr>
 <tr>
 <td>03</td>
 <td>读保持寄存器</td>
 <td>字节操作</td>
 <td>单个或多个</td>
+<td>0x83</td>
 </tr>
 <tr>
 <td>04</td>
 <td>读输入寄存器</td>
 <td>字节操作</td>
 <td>单个或多个</td>
+<td>0x84</td>
 </tr>
 <tr>
 <td>05</td>
 <td>写单个线圈</td>
 <td>位操作</td>
 <td>单个</td>
+<td>0x85</td>
 </tr>
 <tr>
 <td>06</td>
 <td>写单个保持寄存器</td>
 <td>字节操作</td>
 <td>单个</td>
+<td>0x86</td>
 </tr>
 <tr>
 <td>0F</td>
 <td>写多个线圈</td>
 <td>位操作</td>
 <td>多个</td>
+<td>0x8F</td>
 </tr>
 <tr>
 <td>10</td>
 <td>写多个保持寄存器</td>
 <td>字节操作</td>
 <td>多个</td>
+<td>0x90</td>
 </tr>
 </tbody></table>
-<h2 id="2-2-Modbus-寄存器地址分配"><a href="#2-2-Modbus-寄存器地址分配" class="headerlink" title="2.2 Modbus 寄存器地址分配"></a>2.2 Modbus 寄存器地址分配</h2><table>
+<p>&emsp;&emsp;Modbus协议规定，从机当执行对应功能码处理时发生错误，响应主机时需要将 <code>功能码 & 0x80</code> 将其返回。</p>
+<h2 id="2-2-错误代码表"><a href="#2-2-错误代码表" class="headerlink" title="2.2 错误代码表"></a>2.2 错误代码表</h2><table>
 <thead>
 <tr>
-<th>寄存器信息地址(PLC 地址)</th>
-<th>适用功能码（十六进制）</th>
-<th>寄存器种类</th>
-<th>读写状态</th>
+<th>代码</th>
+<th>名称</th>
+<th>含义</th>
 </tr>
 </thead>
 <tbody><tr>
+<td>01</td>
+<td>非法功能</td>
+<td>对于服务器（或从站）来说，询问中接收到的功能码是不可允许的操作，可能是因为功能码仅适用于新设备而被选单元中不可实现同时，还指出服务器（或从站）在错误状态中处理这种请求，例如：它是未配置的，且要求返回寄存器值。</td>
+</tr>
+<tr>
+<td>02</td>
+<td>非法数据地址</td>
+<td>对于服务器（或从站）来说，询问中接收的数据地址是不可允许的地址，特别是参考号和传输长度的组合是无效的。对于带有100个寄存器的控制器来说，偏移量96和长度4的请求会成功，而偏移量96和长度5的请求将产生异常码02。</td>
+</tr>
+<tr>
+<td>03</td>
+<td>非法数据值</td>
+<td>对于服务器（或从站）来说，询问中包括的值是不可允许的值。该值指示了组合请求剩余结构中的故障。例如：隐含长度是不正确的。modbus协议不知道任何特殊寄存器的任何特殊值的重要意义，寄存器中被提交存储的数据项有一个应用程序期望之外的值。</td>
+</tr>
+<tr>
+<td>04</td>
+<td>从站设备故障</td>
+<td>当服务器（或从站）正在设法执行请求的操作时，产生不可重新获得的差错。</td>
+</tr>
+<tr>
+<td>05</td>
+<td>确认</td>
+<td>与编程命令一起使用，服务器（或从站）已经接受请求，并且正在处理这个请求，但是需要长持续时间进行这些操作，返回这个响应防止在客户机（或主站）中发生超时错误，客户机（或主机）可以继续发送轮询程序完成报文来确认是否完成处理。</td>
+</tr>
+<tr>
+<td>07</td>
+<td>从属设备忙</td>
+<td>与编程命令一起使用，服务器（或从站）正在处理长持续时间的程序命令，当服务器（或从站）空闲时，客户机（或主站）应该稍后重新传输报文。</td>
+</tr>
+<tr>
+<td>08</td>
+<td>存储奇偶性差错</td>
+<td>与功能码20和21以及参考类型6一起使用，指示扩展文件区不能通过一致性校验。服务器（或从站）设备读取记录文件，但在存储器中发现一个奇偶校验错误。客户机（或主机）可重新发送请求，但可以在服务器（或从站）设备上要求服务。</td>
+</tr>
+<tr>
+<td>0A</td>
+<td>不可用网关路径</td>
+<td>与网关一起使用，指示网关不能为处理请求分配输入端口值输出端口的内部通信路径，通常意味着网关是错误配置的或过载的。</td>
+</tr>
+<tr>
+<td>0B</td>
+<td>网关目标设备响应失败</td>
+<td>与网关一起使用，指示没有从目标设备中获得响应，通常意味着设备未在网络中。</td>
+</tr>
+<tr>
+<td>## 2.3 Modbus 寄存器地址分配</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>寄存器信息地址(PLC 地址)</td>
+<td>适用功能码（十六进制）</td>
+<td>寄存器种类</td>
+</tr>
+<tr>
+<td>—-</td>
+<td>—</td>
+<td>—-</td>
+</tr>
+<tr>
 <td>00001-09999</td>
 <td>01 05 15</td>
 <td>线圈状态</td>
-<td>可读可写</td>
 </tr>
 <tr>
 <td>10001-19999</td>
 <td>02</td>
 <td>(开关)输入状态</td>
-<td>可读</td>
 </tr>
 <tr>
 <td>30001-39999</td>
 <td>04</td>
 <td>输入寄存器</td>
-<td>可读</td>
 </tr>
 <tr>
 <td>40001-49999</td>
 <td>03 06 16</td>
 <td>保持寄存器</td>
-<td>可读可写</td>
+</tr>
+<tr>
+<td>## 2.4 小总结(心得)</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>&emsp;&emsp;一般情况下，只需要看一下返回的功能码就行了，错误代码可以不用看。Modbus通讯发生错误，往往出现的情况如下:</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1. Modbus主机(PLC)读取有问题，例如读的地址写错，读的数据长度写错</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>2. Modbus从机压根就没写该 功能码 0r 地址 对应的处理，当主机对其操作自然报错。</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>3. 并不是符合Modbus协议规范的报文就一定通信正确，只能说是通讯成功，因为它返回给你一条报错指令。通讯无响应，说明是主机本身发的数据就有问题；通信有响应(可能返回错误报文)，说明该地址不可用，主机读歪了或者从机压根没写该功能处理。</td>
+<td></td>
+<td></td>
 </tr>
 </tbody></table>
-<p>&emsp;&emsp;Modbus协议需要对数据进行校验，串行协议中除有奇偶校验外，ASCII模式采用LRC校验，RTU模式采用16位CRC校验，但TCP模式没有额外规定校验，因为TCP协议是一个面向连接的可靠协议。另外，Modbus采用主从方式定时收发数据，在实际使用中如果某Slave站点断开后（如故障或关机），Master端可以诊断出来，而当故障修复后，网络又可自动接通。因此，Modbus协议的可靠性较好。</p>
-<h1 id="三、通讯方式"><a href="#三、通讯方式" class="headerlink" title="三、通讯方式"></a>三、通讯方式</h1><p>&emsp;&emsp;Modbus通信协议就是软件方面的通讯协议，与其本身的硬件无关；但往往搭配硬件的串口（RS232、RS485电平）进行通讯<br>modbus协议中没有明显的开始符和结束符，而是通过帧与帧之间的间隔时间来判断的。如果在指定的时间内，没有接收到新的字符数据，那么就认为收到了新的帧。接下来就可以处理数据了，首当其冲的就是判断帧的合法性。Modbus通过时间来判断帧是否接受完成，自然需要单片机中的定时器配合。</p>
-<h2 id="3-1-ASCII模式"><a href="#3-1-ASCII模式" class="headerlink" title="3.1 ASCII模式"></a>3.1 ASCII模式</h2><table>
+<h1 id="三、各报文格式-详细解析"><a href="#三、各报文格式-详细解析" class="headerlink" title="三、各报文格式_详细解析"></a>三、各报文格式_详细解析</h1><p>&emsp;&emsp;每个报文都与其他报文格式有一定区分。<strong>在Modbus从机的角度看</strong>，讲解一下他们之间的类似之处。</p>
+<ul>
+<li>三者功能码是通用的</li>
+<li>RTU 和 TCP的报文十分类似。TCP由于是可靠的协议，且通过IP连接，相比RTU就少了 设备ID &amp; CRC数据校验。<strong>数据单元部分</strong>是完全一样的。</li>
+<li>RTU &amp; ASCII 都是通过串口通讯的，因此都是需要 定时器。但是定时器具体用法不相同。</li>
+</ul>
+<p><strong>Ps：</strong><br>ASCII模式，国内基本没用到。常用的是 RTU &amp; TCP 模式。</p>
+<h2 id="3-1-RTU模式"><a href="#3-1-RTU模式" class="headerlink" title="3.1 RTU模式"></a>3.1 RTU模式</h2><p>&emsp;&emsp;Modbus RTU协议中没有明显的开始符和结束符，而是通过帧与帧之间的间隔时间来判断的。如果在指定的时间内，没有接收到新的字符数据，那么就认为新的帧接收完毕。接下来就是处理数据。Modbus通过时间来判断帧接收完成，自然需要 MCU 的定时器配合(3.5T)。<br>| 设备地址 | 功能代码 | 数据 | CRC校验 | 结束符(实际报文可没有这个！)<br>| — | —- | — | —- | —<br>| 1个字节 | 1个字节 | n个字节 | 2个字节 | T1-T2-T3-T4</p>
+<ul>
+<li><strong>地址码</strong>：每个从机都必须有唯一的地址码ID（从1到247，0是广播地址），并且只有符合地址码的从机才能响应回送。当从机回送信息时，相应的地址码表明该信息来自于何处。</li>
+<li><strong>功能码</strong>：主机发送的功能码告诉从机执行什么任务。ModBus通讯规约定义功能号为1到127。表2-1列出部分常用功能码，以备查询。</li>
+<li><strong>数据区</strong>：数据区包含需要从机执行什么动作或由从机采集的返送信息。应答包中，数据包括了数据字节长度+数据值，请求包中数据只包含数据值。</li>
+<li><strong>校验码</strong>：主机或从机可用校验码进行判别接收信息是否出错。</li>
+</ul>
+<hr>
+<ul>
+<li>从Modbus主机角度上看<ul>
+<li>使用RTU模式，<strong>消息发送至少要以3.5个字符时间的停顿间隔开始</strong>（如上图的T1-T2-T3-T4所示）。传输的第一个域是设备地址。可以使用的传输字符是十六进制的0…9,A…F。网络设备不断侦测网络总线，包括停顿间隔时间内。当第一个域（地址域）接收到，每个设备都进行解码以判断是否发往自己的。在最后一个传输字符之后，一个至少3.5个字符时间的停顿标定了消息的结束。一个新的消息可在此停顿后开始。</li>
+<li>一旦连续发送间隔 小于3.5T，就会对从机数据接收造成 <strong>数据黏合</strong>。</li>
+</ul>
+</li>
+<li>从Modbus从机角度上看<ul>
+<li><strong>整个消息帧必须作为一连续的流传输，如果在帧完成之前有超过1.5个字符时间的停顿时间则为非法帧；</strong>如果一个新消息在小于3.5个字符时间内接着前个消息开始，接收的设备将认为它是前一消息的延续，这将导致一个错误，因为在最后的CRC域的值不可能是正确的。即<strong>帧之间的间隔必须大于3.5T，帧内字符的间隔必须小于1.5T</strong>。实际应用中1.5T一般不处理，只采用3.5T进行处理（FreeModBus开源代码就是这样)。</li>
+<li>FreeModbus库，采用的是3.5T作为判断。只要是超过3.5T，就视为两个数据帧处理。当然，如果主机发送数据异常，让 某条报文中间字符发送相隔时间超过3.5T，那么就会造成 1条正确报文被分割成2条报文，造成 数据裂开。</li>
+<li>数据裂开一般不会出现。采用FreeModbus库时，正常情况下，高波特率会对3.5T的值进行限制。如果解开该限制，导致3.5T实际值太小(高波特率转换计算出来)，这时候主机的字符发送间隔慢一点，从机将无法识别到正确的报文(数据被分裂)。</li>
+</ul>
+</li>
+</ul>
+<h2 id="3-2-ASCII模式"><a href="#3-2-ASCII模式" class="headerlink" title="3.2 ASCII模式"></a>3.2 ASCII模式</h2><p>&emsp;&emsp;除了数据域为ASCII码，其它域可以使用的传输字符是十六进制的0…9,A…F。网络上的设备不断侦测“:”字符，当有一个冒号接收到时，每个设备都解码下个域（地址域）来判断是否发给自己的。消息中字符间发送的时间间隔(MCU 的定时器)最长不能超过1秒，否则接收的设备将认为传输错误。</p>
+<table>
 <thead>
 <tr>
 <th>起始位</th>
@@ -577,70 +707,43 @@
 <td>2个字符</td>
 </tr>
 </tbody></table>
-<p>&emsp;&emsp;<strong>使用ASCII模式，消息以冒号（:）字符（ASCII码 3AH）开始，以回车换行符结束（ASCII码 0DH,0AH）;</strong></p>
-<p>其它域可以使用的传输字符是十六进制的0…9,A…F。网络上的设备不断侦测“:”字符，当有一个冒号接收到时，每个设备都解码下个域（地址域）来判断是否发给自己的。消息中字符间发送的时间间隔最长不能超过1秒，否则接收的设备将认为传输错误。</p>
-<h2 id="3-2-RTU模式"><a href="#3-2-RTU模式" class="headerlink" title="3.2 RTU模式"></a>3.2 RTU模式</h2><table>
+<p>&emsp;&emsp;<strong>使用ASCII模式，消息以冒号（:）字符（ASCII码 3AH）开始，以回车换行符结束（ASCII码 0DH,0AH）</strong></p>
+<h2 id="3-3-TCP-IP模式"><a href="#3-3-TCP-IP模式" class="headerlink" title="3.3 TCP/IP模式"></a>3.3 TCP/IP模式</h2><p>&emsp;&emsp;与MODBUS RTU相比，少了校验域和地址码，其中地址码被放到MBAP报文头里面了(即 00 00)，没有校验域是因为TCP本身就有校验所以省略了。</p>
+<img src="/2020/05/30/Modbus协议-概念讲解/1.png" title="Modbus TCP报文">
+
+<p>报文头MBAP，长度为7字节，组成如下：</p>
+<ul>
+<li>事务处理标识    ：可以理解为报文的序列号，一般每次通信之后就要加1以区别不同的通信数据报文(主机要注意的点，从机不对该数据进行识别处理)。</li>
+<li>协议标识符    ：00 00表示ModbusTCP协议。</li>
+<li>长度    ：表示接下来的数据长度，单位为字节。</li>
+<li>单元标识符    ：可以理解为设备地址。</li>
+</ul>
+<table>
 <thead>
 <tr>
-<th>起始位</th>
-<th>设备地址</th>
+<th>事务处理标识</th>
+<th>协议标识</th>
+<th>长度</th>
+<th>单元标识符</th>
 <th>功能代码</th>
 <th>数据</th>
-<th>CRC校验</th>
-<th>结束符</th>
 </tr>
 </thead>
 <tbody><tr>
-<td>T1-T2-T3-T4</td>
-<td>1个字节</td>
-<td>1个字节</td>
-<td>n个字节</td>
-<td>2个字节</td>
-<td>T1-T2-T3-T4</td>
+<td>2字节</td>
+<td>2字节</td>
+<td>2字节</td>
+<td>1字节</td>
+<td>1字节</td>
+<td>n字节</td>
 </tr>
 </tbody></table>
-<p>&emsp;&emsp;使用RTU模式，<strong>消息发送至少要以3.5个字符时间的停顿间隔开始</strong>（如上图的T1-T2-T3-T4所示）。传输的第一个域是设备地址。可以使用的传输字符是十六进制的0…9,A…F。网络设备不断侦测网络总线，包括停顿间隔时间内。当第一个域（地址域）接收到，每个设备都进行解码以判断是否发往自己的。在最后一个传输字符之后，一个至少3.5个字符时间的停顿标定了消息的结束。一个新的消息可在此停顿后开始。</p>
-<p><strong>整个消息帧必须作为一连续的流传输，如果在帧完成之前有超过1.5个字符时间的停顿时间则为非法帧；</strong>如果一个新消息在小于3.5个字符时间内接着前个消息开始，接收的设备将认为它是前一消息的延续，这将导致一个错误，因为在最后的CRC域的值不可能是正确的。即<strong>帧之间的间隔必须大于3.5T，帧内字符的间隔必须小于1.5T</strong>。实际应用中1.5T一般不处理，只处理3.5T（FreeModBus开源代码就是这样）。</p>
-<h2 id="3-3-TCP-IP模式"><a href="#3-3-TCP-IP模式" class="headerlink" title="3.3 TCP/IP模式"></a>3.3 TCP/IP模式</h2><p>&emsp;&emsp;在以太网上进行通讯，对应的通讯模式是MODBUS TCP，其帧结构如下图</p>
-<img src="/2019/11/20/Modbus通讯/1.png" title="Modbus TCP报文">
-<p>&emsp;&emsp;与MODBUS RTU相比，少了校验域和地址码，其中地址码被放到MBAP报文头里面了，没有校验域是因为TCP本身就有校验所以省略了。</p>
-<img src="/2019/11/20/Modbus通讯/2.png">
-<p>&emsp;&emsp;对于Modbus的ASCII、RTU和TCP协议来说，其中TCP和RTU协议非常类似，我们只要把RTU协议的两个字节的校验码去掉，然后在RTU协议的开始加上5个0和一个6并通过TCP/IP网络协议发送出去即可</p>
-<h1 id="四、ModBus从机"><a href="#四、ModBus从机" class="headerlink" title="四、ModBus从机"></a>四、ModBus从机</h1><p>&emsp;&emsp;为什么要移植Freemodbus，这个问题需要从两个方面来回答。第一，Modbus是一个非常好的应用层协议，它很简洁也相对完善；第二，其实嵌入式系统的通信协议可以自己制定，但是通过实践发现自己定制的协议漏洞百出，尤其是扩展极为困难。借鉴他人的经验是很好的途径，借鉴他人成熟的代码，可以减少调试的时间，实现的功能也多了不少。</p>
-<h2 id="4-1-FreeModbus简介"><a href="#4-1-FreeModbus简介" class="headerlink" title="4.1 FreeModbus简介"></a>4.1 FreeModbus简介</h2><p>&emsp;&emsp;<strong>freemodbus只是从机库。</strong>Modbus协议，在嵌入式设备的实现方式基本上都是大同小异，FreeModbus库也不例外；采用串口中断的接收方式、以及定时器计时，用于区分各数据帧；然后在程序当中，以轮询的方式，对接受到的数据进行处理 和 发送数据。<strong>Modbus从机需要在主程序进行轮询，当程序循环需要时间较久，自然会影响到Modbus通讯</strong></p>
-<h2 id="4-2-FreeModbus移植"><a href="#4-2-FreeModbus移植" class="headerlink" title="4.2 FreeModbus移植"></a>4.2 FreeModbus移植</h2><p>&emsp;&emsp;FreeModbus详细移植方法可以参照以下博主：<br><a href="http://www.openedv.com/forum.php?mod=viewthread&tid=69081&extra=page%3D2" target="_blank" rel="noopener">FreeModbus在STM32上移植</a><br><a href="https://blog.csdn.net/qq_33611327/article/details/77883787" target="_blank" rel="noopener">STM32上移植FreeModbus详细过程</a></p>
-<h2 id="4-3-FreeModbus应用层"><a href="#4-3-FreeModbus应用层" class="headerlink" title="4.3 FreeModbus应用层"></a>4.3 FreeModbus应用层</h2><p>&emsp;&emsp;上述所提到的移植，是把底层给移植好，具体的应用层还是得自己继续写;这里的写法思路分为3个部分：</p>
-<ol>
-<li>第一部分函数用于对应FreeModbus库编写的处理函数</li>
-<li>第二部分函数用于自己应用层的地址约束，并对不同地址块进行不同处理</li>
-<li>第三部分函数用于具体地址的详细操作<h3 id="4-3-1-FreeModbus协议栈处理"><a href="#4-3-1-FreeModbus协议栈处理" class="headerlink" title="4.3.1 FreeModbus协议栈处理"></a>4.3.1 FreeModbus协议栈处理</h3>&emsp;&emsp;编写具体如下四个函数对应FreeModbus库的处理：<br><code>eMBRegCoilsCB</code><br><code>eMBRegHoldingCB</code><br><code>eMBRegDiscreteCB</code><br><code>eMBRegInputCB</code><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*==========================================================================</span></span><br><span class="line"><span class="comment">============================================================================</span></span><br><span class="line"><span class="comment">==   以下部分为FreeModbus协议栈；关于线圈与寄存器的处理部分，可不用修改   ==</span></span><br><span class="line"><span class="comment">============================================================================</span></span><br><span class="line"><span class="comment">==========================================================================*/</span></span><br><span class="line"><span class="comment">/********************************************************************************</span></span><br><span class="line"><span class="comment">* 函数名 :  eMBRegCoilsCB</span></span><br><span class="line"><span class="comment">* 功  能 :  线圈回复函数</span></span><br><span class="line"><span class="comment">* 说  明 :  none</span></span><br><span class="line"><span class="comment">* 入  参 :  *pucRegBuffer : 要添加到协议中的数据</span></span><br><span class="line"><span class="comment">*           usAddress     : 线圈地址(PLC地址)</span></span><br><span class="line"><span class="comment">*           usNRegs       : 要访问线圈的个数</span></span><br><span class="line"><span class="comment">*           eMode         : 访问类型（MB_REG_READ为读线圈状态，MB_REG_WRITE为写线圈）</span></span><br><span class="line"><span class="comment">* 返  回 :  eStatus       : 处理结果</span></span><br><span class="line"><span class="comment">********************************************************************************/</span></span><br><span class="line"><span class="function">eMBErrorCode <span class="title">eMBRegCoilsCB</span><span class="params">( UCHAR * pucRegBuffer, </span></span></span><br><span class="line"><span class="function"><span class="params">                            USHORT usAddress, </span></span></span><br><span class="line"><span class="function"><span class="params">                            USHORT usNCoils, </span></span></span><br><span class="line"><span class="function"><span class="params">                            eMBRegisterMode eMode )</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    eMBErrorCode    eStatus = MB_ENOERR;</span><br><span class="line">    </span><br><span class="line">    usAddress--;<span class="comment">// 由PLC地址转为协议地址  </span></span><br><span class="line">    <span class="keyword">switch</span> ( eMode )</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">case</span> MB_REG_READ:</span><br><span class="line">            eStatus = AppFMD_RdCoils(usNCoils,usAddress,pucRegBuffer);<span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> MB_REG_WRITE:</span><br><span class="line">            eStatus = AppFMD_WrCoils(usNCoils,usAddress,pucRegBuffer);<span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">default</span>:<span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> eStatus;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/********************************************************************************</span></span><br><span class="line"><span class="comment">* 函数名 :  eMBRegHoldingCB</span></span><br><span class="line"><span class="comment">* 功  能 :  保持寄存器回复函数</span></span><br><span class="line"><span class="comment">* 说  明 :  none</span></span><br><span class="line"><span class="comment">* 入  参 :  *pucRegBuffer : 要添加到协议中的数据</span></span><br><span class="line"><span class="comment">*           usAddress     : 寄存器地址</span></span><br><span class="line"><span class="comment">*           usNRegs       : 访问寄存器的个数</span></span><br><span class="line"><span class="comment">*           eMode         : 访问类型（MB_REG_READ为读保持寄存器，MB_REG_WRITE为写保持寄存器）</span></span><br><span class="line"><span class="comment">* 返  回 :  eStatus       : 处理结果</span></span><br><span class="line"><span class="comment">********************************************************************************/</span></span><br><span class="line"><span class="function">eMBErrorCode <span class="title">eMBRegHoldingCB</span><span class="params">(   UCHAR * pucRegBuffer,</span></span></span><br><span class="line"><span class="function"><span class="params">                                USHORT usAddress,</span></span></span><br><span class="line"><span class="function"><span class="params">                                USHORT usNRegs,</span></span></span><br><span class="line"><span class="function"><span class="params">                                eMBRegisterMode eMode )</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    eMBErrorCode    eStatus = MB_ENOERR;</span><br><span class="line">    </span><br><span class="line">    usAddress--;<span class="comment">// 由PLC地址转为协议地址</span></span><br><span class="line">    <span class="keyword">if</span> (eMode == MB_REG_READ)</span><br><span class="line">        eStatus = AppFMD_RdRegs(usNRegs,usAddress,pucRegBuffer);</span><br><span class="line">    <span class="keyword">if</span>(eMode == MB_REG_WRITE)</span><br><span class="line">        eStatus = AppFMD_WrRegs(usNRegs,usAddress,pucRegBuffer);</span><br><span class="line">    <span class="keyword">return</span> eStatus; </span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/********************************************************************************</span></span><br><span class="line"><span class="comment">* 函数名 :  eMBRegDiscreteCB</span></span><br><span class="line"><span class="comment">* 功  能 :  读离散线圈回复函数</span></span><br><span class="line"><span class="comment">* 说  明 :  none</span></span><br><span class="line"><span class="comment">* 入  参 :  *pucRegBuffer : 要添加到协议中的数据</span></span><br><span class="line"><span class="comment">*           usAddress     : 线圈地址</span></span><br><span class="line"><span class="comment">*           usNRegs       : 要访问线圈的个数</span></span><br><span class="line"><span class="comment">* 返  回 :  eStatus       : 处理结果</span></span><br><span class="line"><span class="comment">********************************************************************************/</span></span><br><span class="line"><span class="function">eMBErrorCode <span class="title">eMBRegDiscreteCB</span><span class="params">( UCHAR * pucRegBuffer, USHORT usAddress, USHORT usNDiscrete )</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    usAddress--;</span><br><span class="line">    <span class="keyword">return</span> MB_ENOREG;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/********************************************************************************</span></span><br><span class="line"><span class="comment">* 函数名 :  eMBRegInputCB</span></span><br><span class="line"><span class="comment">* 功  能 :  输入寄存器回复函数</span></span><br><span class="line"><span class="comment">* 说  明 :  none</span></span><br><span class="line"><span class="comment">* 入  参 :  *pucRegBuffer : 要添加到协议中的数据</span></span><br><span class="line"><span class="comment">*           usAddress     : 输入寄存器地址</span></span><br><span class="line"><span class="comment">*           usNRegs       : 要读取寄存器的个数</span></span><br><span class="line"><span class="comment">* 返  回 :  eStatus       : 处理结果</span></span><br><span class="line"><span class="comment">********************************************************************************/</span></span><br><span class="line"><span class="function">eMBErrorCode <span class="title">eMBRegInputCB</span><span class="params">( UCHAR * pucRegBuffer, USHORT usAddress, USHORT usNRegs )</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    usAddress--;</span><br><span class="line">    <span class="keyword">return</span> MB_ENOERR;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-</li>
-</ol>
-<h3 id="4-3-2-线圈和寄存器处理"><a href="#4-3-2-线圈和寄存器处理" class="headerlink" title="4.3.2 线圈和寄存器处理"></a>4.3.2 线圈和寄存器处理</h3><p>&emsp;&emsp;根据 <strong>3.3.1</strong>，只编写可读写线圈和寄存器的函数，具体对应函数如下：<br><code>eMBErrorCode AppFMD_RdCoils(uint32_t si_num, uint32_t uiAddr, uint8_t *puc_txpointer)</code><br><code>eMBErrorCode AppFMD_WrCoils(uint32_t si_num, uint32_t uiAddr,uint8_t *puc_txpointer)</code><br><code>eMBErrorCode AppFMD_WrRegs(uint32_t si_num, uint32_t ulAddr,uint8_t *puc_txpointer)</code><br><code>eMBErrorCode AppFMD_RdRegs(uint32_t si_num, uint32_t ulAddr,uint8_t *puc_txpointer)</code><br>最好在这块函数进行总的地址划分</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*==========================================================================</span></span><br><span class="line"><span class="comment">============================================================================</span></span><br><span class="line"><span class="comment">==       关于线圈与寄存器的具体处理，可根据需求修改总体地址范围限制       ==</span></span><br><span class="line"><span class="comment">============================================================================</span></span><br><span class="line"><span class="comment">==========================================================================*/</span></span><br><span class="line"><span class="comment">/********************************************************************************</span></span><br><span class="line"><span class="comment">* 函数名 :  </span></span><br><span class="line"><span class="comment">* 功  能 :  </span></span><br><span class="line"><span class="comment">* 说  明 :  none</span></span><br><span class="line"><span class="comment">* 入  参 :  si_num          : 待读的 线圈|寄存器 个数</span></span><br><span class="line"><span class="comment">*           uiAddr          : 地址索引  从0起始</span></span><br><span class="line"><span class="comment">*           *puc_txpointer  : 输出缓存</span></span><br><span class="line"><span class="comment">* 返  回 :  eStatus         : 处理结果</span></span><br><span class="line"><span class="comment">********************************************************************************/</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="4-3-3-用户自定义的具体线圈和寄存器处理"><a href="#4-3-3-用户自定义的具体线圈和寄存器处理" class="headerlink" title="4.3.3 用户自定义的具体线圈和寄存器处理"></a>4.3.3 用户自定义的具体线圈和寄存器处理</h3><p>&emsp;&emsp;根据 <strong>3.3.2</strong>，只编写可读写线圈和寄存器的函数，具体对应函数如下：<br><code>static uint8_t* BuiltReadWord(uint32_t ulAddr)</code><br><code>static eMBErrorCode BuildWriteWord(uint32_t uiAddr,uint8_t *puc_txpointer, uint8_t u8Uartx)</code><br>等等，根据自己的需求来进行更改</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*==========================================================================</span></span><br><span class="line"><span class="comment">============================================================================</span></span><br><span class="line"><span class="comment">==      读写线圈与寄存器的详细操作，可根据需求修改地址内可读写内容      ==</span></span><br><span class="line"><span class="comment">============================================================================</span></span><br><span class="line"><span class="comment">==========================================================================*/</span></span><br></pre></td></tr></table></figure>
-
-<h1 id="五、ModBus主机"><a href="#五、ModBus主机" class="headerlink" title="五、ModBus主机"></a>五、ModBus主机</h1><p>&emsp;&emsp;Modbus主机是自己写的，有一个地方需要注意一下</p>
-<h1 id="六、调试工具"><a href="#六、调试工具" class="headerlink" title="六、调试工具"></a>六、调试工具</h1><p>如果你做的是Modbus Master，可以使用modbus slave工具模拟从设备来调试，该工具下载地址：<a href="http://www.cr173.com/soft/21410.html" target="_blank" rel="noopener">Modbus Slave</a><br>如果你做的是Modbus Slave，可以使用modbus poll工具模拟主设备来调试，该工具下载地址：<a href="http://www.cr173.com/soft/21405.html" target="_blank" rel="noopener">Modbus Poll</a></p>
+<h1 id="四、调试工具"><a href="#四、调试工具" class="headerlink" title="四、调试工具"></a>四、调试工具</h1><ul>
+<li>如果你做的是Modbus Master，可以使用modbus slave工具模拟从设备来调试，该工具下载地址：<a href="http://www.cr173.com/soft/21410.html" target="_blank" rel="noopener">Modbus Slave</a></li>
+<li>如果你做的是Modbus Slave，可以使用modbus poll工具模拟主设备来调试，该工具下载地址：<a href="http://www.cr173.com/soft/21405.html" target="_blank" rel="noopener">Modbus Poll</a></li>
+</ul>
 <p>以上两个工具的使用方法，可以参考此博客：<a href="https://blog.csdn.net/byxdaz/article/details/77979114" target="_blank" rel="noopener">Modbus测试工具ModbusPoll与Modbus Slave使用方法</a></p>
-<h1 id="七、具体例子"><a href="#七、具体例子" class="headerlink" title="七、具体例子"></a>七、具体例子</h1><p>&emsp;&emsp;以Modbus的RTU模式举例如下</p>
-<h2 id="7-1-RTU模式的主机读取"><a href="#7-1-RTU模式的主机读取" class="headerlink" title="7.1 RTU模式的主机读取"></a>7.1 RTU模式的主机读取</h2><ol>
-<li>主机的读取数据命令是固定的：ID + 功能码 + 地址 + 数据长度 + CRC16</li>
-<li>从机返回的数据格式不是固定的：<br> 读取长度为1：ID + 功能码 + 数据长度 + 数据1 + CRC16<br> 读取长度为2：ID + 功能码 + 数据长度 + 数据1 + 数据2 + CRC16</li>
-</ol>
-<p>实例：<br>主机发送 01 03 00 00 01 CRC8 CRC8<br>从机返回 01 03 00 00 01 CRC8 CRC8<br>（待修改）</p>
-<h2 id="7-2-RTU模式的主机写入"><a href="#7-2-RTU模式的主机写入" class="headerlink" title="7.2 RTU模式的主机写入"></a>7.2 RTU模式的主机写入</h2><ol>
-<li>主机的写入数据格式不是固定的</li>
-<li>从机返回数据格式是固定的(与上面的相反)</li>
-</ol>
-<p>当从机没有对应的地址，主机自然会读取错误，返回错误码<br>举例：<strong>[11][03][06][02][2B][00][00][00][64] [CRC高][CRC低]</strong><br>（待修改）</p>
-<p>读可读写模拟量寄存器：</p>
-<p>发送命令（主机向从机）格式：<br>[设备地址] [命令号03] [起始寄存器地址高8位] [低8位] [读取的寄存器数高8位] [低8位] [CRC校验的低8位] [CRC校验的高8位]<br>例：[11][03][00][6B][00][03][CRC低][CRC高]<br>意义如下：<br>11：设备地址，例子中的地址是11，溶氧传感器端默认的地址是1，。<br>03：读模拟量的命令号固定为03，这是Modbus协议规定的。<br>00、6B：起始地址高8位（00）、低8位（6B）：表示想读取的模拟量的起始地址，比如例子中的起始地址为107。这个006B表示一个完整的地址，注意这里的地址是高8位在前，低8位在后。<br>00、03：寄存器数高8位（00）、低8位（03）：表示从起始地址开始读多少个模拟量（返回的每一个模拟量是用两个字节表示的）。例子中为3个模拟量。注意，在返回的信息中一个模拟量需要返回两个字节同时这里的地址也是高8位在前，低8位在后。<br>[CRC低][CRC高]：帧尾的CRC-16校验，尤其需要注意的一点是校验结果的低8位在前，高8位在后，这个顺序不同于起始地址以及读取深度的地址顺序。</p>
-<p>设备响应：[设备地址] [命令号03] [返回的字节个数][数据1][数据2]…[数据n][CRC校验的低8位] [CRC校验的高8位]<br>例：[11][03][06][02][2B][00][00][00][64][CRC低][CRC高]<br>意义如下：<br>11：设备地址（从机地址）。<br>03：命令号。<br>06：返回的字节个数（不高扩两字节的校验码）：表示数据的字节个数，也就是数据1，2…n中的n的值。例子中返回了3个模拟量的数据，因为一个模拟量需要2个字节所以共6个字节。<br>数据1…n：其中[数据1][数据2]分别是第1个模拟量的高8位和低8位，[数据3][数据4]是第2个模拟量的高8位和低8位，以此类推。例子中返回的值分别是555，0，100。<br>[CRC低][CRC高]：CRC校验同上。</p>
-<h1 id="八、拓展思路"><a href="#八、拓展思路" class="headerlink" title="八、拓展思路"></a>八、拓展思路</h1>
+
       
     </div>
     
@@ -682,8 +785,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/11/16/南瓜/" rel="next" title="南瓜">
-                <i class="fa fa-chevron-left"></i> 南瓜
+              <a href="/2020/05/30/这段时间的总结/" rel="next" title="这段时间的总结">
+                <i class="fa fa-chevron-left"></i> 这段时间的总结
               </a>
             
           </div>
@@ -692,8 +795,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/12/14/LCD驱动/" rel="prev" title="LCD驱动">
-                LCD驱动 <i class="fa fa-chevron-right"></i>
+              <a href="/2020/05/30/Modbus协议-具体实现/" rel="prev" title="Modbus协议_具体实现">
+                Modbus协议_具体实现 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -778,7 +881,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">35</span>
+                  <span class="site-state-item-count">36</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -884,7 +987,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一、基本概念"><span class="nav-text">一、基本概念</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二、消息格式"><span class="nav-text">二、消息格式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-Modbus部分功能码"><span class="nav-text">2.1 Modbus部分功能码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-Modbus-寄存器地址分配"><span class="nav-text">2.2 Modbus 寄存器地址分配</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三、通讯方式"><span class="nav-text">三、通讯方式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-ASCII模式"><span class="nav-text">3.1 ASCII模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-RTU模式"><span class="nav-text">3.2 RTU模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-TCP-IP模式"><span class="nav-text">3.3 TCP/IP模式</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#四、ModBus从机"><span class="nav-text">四、ModBus从机</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-FreeModbus简介"><span class="nav-text">4.1 FreeModbus简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2-FreeModbus移植"><span class="nav-text">4.2 FreeModbus移植</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-3-FreeModbus应用层"><span class="nav-text">4.3 FreeModbus应用层</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-1-FreeModbus协议栈处理"><span class="nav-text">4.3.1 FreeModbus协议栈处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-2-线圈和寄存器处理"><span class="nav-text">4.3.2 线圈和寄存器处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-3-用户自定义的具体线圈和寄存器处理"><span class="nav-text">4.3.3 用户自定义的具体线圈和寄存器处理</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#五、ModBus主机"><span class="nav-text">五、ModBus主机</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#六、调试工具"><span class="nav-text">六、调试工具</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#七、具体例子"><span class="nav-text">七、具体例子</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#7-1-RTU模式的主机读取"><span class="nav-text">7.1 RTU模式的主机读取</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-2-RTU模式的主机写入"><span class="nav-text">7.2 RTU模式的主机写入</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#八、拓展思路"><span class="nav-text">八、拓展思路</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一、基本概念"><span class="nav-text">一、基本概念</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二、报文格式-通用部分"><span class="nav-text">二、报文格式_通用部分</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-Modbus部分功能码"><span class="nav-text">2.1 Modbus部分功能码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-错误代码表"><span class="nav-text">2.2 错误代码表</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三、各报文格式-详细解析"><span class="nav-text">三、各报文格式_详细解析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-RTU模式"><span class="nav-text">3.1 RTU模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-ASCII模式"><span class="nav-text">3.2 ASCII模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-TCP-IP模式"><span class="nav-text">3.3 TCP/IP模式</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#四、调试工具"><span class="nav-text">四、调试工具</span></a></li></ol></div>
             
 
           </div>
