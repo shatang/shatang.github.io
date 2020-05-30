@@ -1,0 +1,1468 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-flash.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="指针,数组,字符串,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="大道至简，悟在天成" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="&amp;emsp;&amp;emsp;无情的搬砖机器= =">
+<meta name="keywords" content="指针,数组,字符串">
+<meta property="og:type" content="article">
+<meta property="og:title" content="指针&amp;数组&amp;字符串">
+<meta property="og:url" content="http://shatang.github.io/2020/03/15/指针-数组-字符串/index.html">
+<meta property="og:site_name" content="大道至简，悟在天成">
+<meta property="og:description" content="&amp;emsp;&amp;emsp;无情的搬砖机器= =">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-03-15T03:01:33.345Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="指针&amp;数组&amp;字符串">
+<meta name="twitter:description" content="&amp;emsp;&amp;emsp;无情的搬砖机器= =">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+<script>
+    (function(){
+        if(''){
+            if (prompt('请输入文章密码') !== ''){
+                alert('密码错误！');
+                history.back();
+            }
+        }
+    })();
+</script>
+
+
+
+  <link rel="canonical" href="http://shatang.github.io/2020/03/15/指针-数组-字符串/">
+
+
+
+
+
+  <title>指针&数组&字符串 | 大道至简，悟在天成</title>
+  
+
+
+
+
+
+
+
+
+  
+  
+</head>
+
+
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">大道至简，悟在天成</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">It's not hard to give up, but it must be cool to stick to it.</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home                          //首页"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive          //归档"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th           //分类"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags                     //标签"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user                   //关于"></i> <br>
+            
+            关于我
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://shatang.github.io/2020/03/15/指针-数组-字符串/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Shatang">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/header.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="大道至简，悟在天成">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">指针&数组&字符串</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-03-15T10:53:44+08:00">
+                2020-03-15
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2020-03-15T11:01:33+08:00">
+                2020-03-15
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/C/" itemprop="url" rel="index">
+                    <span itemprop="name">C</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+		
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>次阅读
+            </span>
+          
+		  
+
+          
+            <div class="post-wordcount">
+              
+                
+                  <span class="post-meta-divider">|</span>
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  2.9k
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>&emsp;&emsp;无情的搬砖机器= =</p>
+<a id="more"></a>
+
+<h1 id="一、指针-amp-数组-细品"><a href="#一、指针-amp-数组-细品" class="headerlink" title="一、指针 &amp; 数组(细品)"></a>一、指针 &amp; 数组(细品)</h1><p>&emsp;&emsp;指针就是指针，指针<strong>变量</strong>在32位系统下，永远占4字节，其值为某一个内存的地址。指针可以指向任何地方(内存)，但是不是任何地方你都能通过这个指针变量访问到呢？(有地址，无[权限]空间)</p>
+<p>&emsp;&emsp;数组就是数组，其大小与元素的类型和个数有关；定义数组时，必须指定其元素的类型和个数；数组可以存任何类型的数据，但是不能存函数。</p>
+<p>总结如下：</p>
+<ul>
+<li>指针本质上也是一个变量</li>
+<li>指针要占用一定的内存空间（任何类型的指针的内存大小是一样的）</li>
+<li>指针用于保存内存地址的值</li>
+</ul>
+<hr>
+<blockquote>
+<p>数组&amp;结构体</p>
+</blockquote>
+<ul>
+<li><strong>数组</strong>：所有的C/C++编译器在排列数组的单元时，总是把各个数组单元存放在连续的存储区里，单元和单元之间没有空隙</li>
+<li><strong>结构体</strong>：在存放结构对象的各个成员时，在某种编译环境下，可能会需要字对齐或双字对齐或者是别的什么对齐，需要在相邻两个成员之间加若干个”填充字节”，这就导致各个成员之间可能会有若干个字节的空隙。</li>
+</ul>
+<hr>
+<h1 id="二、数组"><a href="#二、数组" class="headerlink" title="二、数组"></a>二、数组</h1><h2 id="2-1-数组的基础"><a href="#2-1-数组的基础" class="headerlink" title="2.1 数组的基础"></a>2.1 数组的基础</h2><ol>
+<li>数组在一片连续的内存中存储元素</li>
+<li>元素的个数可以是显示的也可以是隐式的<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> a[<span class="number">5</span>]=&#123;<span class="number">1</span>,<span class="number">2</span>&#125;;<span class="comment">//其中,其他的元素都为0来填充</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h2 id="2-2-数组地址与数组名"><a href="#2-2-数组地址与数组名" class="headerlink" title="2.2 数组地址与数组名"></a>2.2 数组地址与数组名</h2><ol>
+<li>数组名代表数组首元素的地址</li>
+<li>数组的地址需要取地址才可以得到</li>
+<li>数组首元素的地址值 与 数组的地址值 相同(注意是值)</li>
+<li>数组首元素的地址 <code>&a[0]</code> 与数组的地址 <code>&a</code> 是两个不同的概念</li>
+</ol>
+<p>&emsp;&emsp;举例，湖南省的省政府在长沙，长沙的市政府也在长沙，两个政府都在长沙。</p>
+<h2 id="2-3-数组名的盲点"><a href="#2-3-数组名的盲点" class="headerlink" title="2.3 数组名的盲点"></a>2.3 数组名的盲点</h2><p>&emsp;&emsp;数组名如何理解呢？用来存放数组的区域是一块在栈中静态分配的内存(非static)，而数组名是这块内存的代表，它被定义为这块内存的首地址。这就说明了数组名是一个地址，而且，还是一个不可修改的常量，完整地说，就是一个地址常量。</p>
+<p>&emsp;&emsp;数组名跟枚举常量类似，都属于符号常量。数组名这个符号，就代表了那块内存的首地址。注意了！不是数组名这个符号的值是那块内存的首地址，而是数组名这个符号本身就代表了首地址这个地址值，它就是这个地址，这就是数组名属于符号常量的意义所在。</p>
+<p>&emsp;&emsp;由于数组名是一种符号常量，因此它是一个右值，而指针，作为变量，却是一个左值，一个右值永远都不会是左值，那么，数组名永远都不会是指针！</p>
+<ol>
+<li>数组名可以看作一个常量指针（指针所指向的内容不能改变）</li>
+<li>既然是指向常量，那就不能作为表达式左值，因为左值能被修改</li>
+<li>可以单独修改数组元素，但用数组名(实际上是符号常量)不能直接修改数组</li>
+</ol>
+<h2 id="2-4-指针-amp-数组-的定义与声明-经典错误"><a href="#2-4-指针-amp-数组-的定义与声明-经典错误" class="headerlink" title="2.4 指针 &amp; 数组 的定义与声明(经典错误)"></a>2.4 指针 &amp; 数组 的定义与声明(经典错误)</h2><h3 id="2-4-1-定义为指针，声明为数组"><a href="#2-4-1-定义为指针，声明为数组" class="headerlink" title="2.4.1 定义为指针，声明为数组"></a>2.4.1 定义为指针，声明为数组</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//test1 文件1</span></span><br><span class="line"><span class="keyword">char</span> * p=<span class="string">"Hello World!"</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//test2 文件2</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="keyword">extern</span> <span class="keyword">char</span> p[];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%s\n"</span>,p);<span class="comment">//printf("%s\n",*(unsigned int *)p);正确</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-4-2-定义为数组，声明为指针"><a href="#2-4-2-定义为数组，声明为指针" class="headerlink" title="2.4.2 定义为数组，声明为指针"></a>2.4.2 定义为数组，声明为指针</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//test1 文件1</span></span><br><span class="line"><span class="keyword">char</span> a[<span class="number">100</span>];</span><br><span class="line"></span><br><span class="line"><span class="comment">//test2 文件2</span></span><br><span class="line"><span class="keyword">extern</span> <span class="keyword">char</span> *a;</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-5-定义数组类型"><a href="#2-5-定义数组类型" class="headerlink" title="2.5 定义数组类型"></a>2.5 定义数组类型</h2><p>&emsp;&emsp;C语言中，可以通过typedef为数组类型重命名</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">typedef type(name)[size];</span><br></pre></td></tr></table></figure>
+
+<p>数组类型(重命名了一种一个数组类型）：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">typedef int(AINT5)[5];</span><br><span class="line">typedef float(AFLOAT10)[10];</span><br></pre></td></tr></table></figure>
+
+<p>数组定义：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">AINT5 i = &#123;<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>&#125;;</span><br><span class="line">AFLOAT10 f;</span><br></pre></td></tr></table></figure>
+
+<h1 id="三、-字符串"><a href="#三、-字符串" class="headerlink" title="三、 字符串"></a>三、 字符串</h1><ul>
+<li>从概念上讲，C语言中没有字符串数据类型</li>
+<li>在C语言中使用字符数组来模拟字符串<ul>
+<li>单引号<code>' '</code>括起来的一个字符代表整数</li>
+<li>双引号<code>" "</code>括起来的字符(串)代表一个指针 </li>
+</ul>
+</li>
+<li>字符串是以 <code>'\0'</code>结束的字符数组</li>
+<li>字符串可以分配于栈空间，堆空间或者 字符常量区（不能被改变）</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span>* s1 = <span class="string">"Hello World"</span>；      <span class="comment">//在字符常量区,不可改变这个字符串中的字符</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">char</span> s2[<span class="number">100</span>] = <span class="string">"Hello world"</span>;   <span class="comment">//在栈上，可修改(不能通过数组名！)</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="3-1-实-字符数组、-虚-字符串"><a href="#3-1-实-字符数组、-虚-字符串" class="headerlink" title="3.1 (实)字符数组、(虚)字符串"></a>3.1 (实)字符数组、(虚)字符串</h2><p>&emsp;&emsp;下面的代码合法吗？使用它有什么隐患？</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span> a[<span class="number">3</span>] = <span class="string">"abc"</span>;</span><br><span class="line"><span class="keyword">char</span> *p = &amp;a;</span><br><span class="line">p[<span class="number">0</span>]= <span class="string">'I'</span>;</span><br><span class="line">答案与分析：</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;在标准C中这是合法的，但是它的生存环境非常狭小；它定义一个大小为3的字符数组，初始化为“abc”；注意，它没有通常的字符串终止符’\0’，因此这个数组只是看起来像C语言中的字符串，实质上却不是。因此所有对字符串进行处理的函数，比如strcpy、printf等，都不能够被使用在这个假字符串上。</p>
+<h2 id="3-2-字符串的长度"><a href="#3-2-字符串的长度" class="headerlink" title="3.2 字符串的长度"></a>3.2 字符串的长度</h2><ul>
+<li>字符串的长度就是字符串说包含字符的个数</li>
+<li>C语言中的字符串的长度值得是第一个<code>'\0'</code>字符串出现的字符个数</li>
+<li>C语言中通过<code>'\0'</code>结束来确定字符串的长度</li>
+</ul>
+<p>以<code>strlen()</code>为例，<code>strlen()</code>为无符号类型</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//比较两个字符串的长度的时候</span></span><br><span class="line"><span class="comment">//正确用法</span></span><br><span class="line"><span class="keyword">if</span>(<span class="built_in">strlen</span>(a)&gt;=<span class="built_in">strlen</span>(b))</span><br><span class="line"><span class="comment">//错误用法</span></span><br><span class="line"><span class="keyword">if</span>(<span class="built_in">strlen</span>(a)-<span class="built_in">strlen</span>(b)&gt;<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-3-不受限制的字符串函数"><a href="#3-3-不受限制的字符串函数" class="headerlink" title="3.3 不受限制的字符串函数"></a>3.3 不受限制的字符串函数</h2><p>&emsp;&emsp;不受限制的字符串函数是通过寻找字符串得结束符 <code>'\0'</code>来判断长度。</p>
+<ul>
+<li>字符串复制函数： <code>char* strcpy(char* dst,const char* src)</code></li>
+<li>字符串连接： <code>char* strcat(char* dst,const char* src)</code></li>
+<li>字符串比较函数：<code>int strcmp(const char* s1,const char* s2)</code></li>
+</ul>
+<p>注意事项</p>
+<ul>
+<li>不受限制的字符串函数都是以’\0’作为结束标记来进行的，因此输入参数必须包含’\0’</li>
+<li>strcat和strcpy必须保证目标字符数组的剩余空间足以保存整个源字符串</li>
+<li>strcmp以0值表示两个字符串相同<ul>
+<li>第一个字符串大于第二个字符串的时候返回值大于0</li>
+<li>第一个字符串小于第二个字符串的时候返回值小于0</li>
+<li>strcmp不会修改参数值，但依然以’\0’作为结束符号</li>
+</ul>
+</li>
+</ul>
+<h2 id="3-4-长度受限制的字符串函数"><a href="#3-4-长度受限制的字符串函数" class="headerlink" title="3.4 长度受限制的字符串函数"></a>3.4 长度受限制的字符串函数</h2><p>&emsp;&emsp;长度受限的字符串函数接收一个显示的长度参数用于限定操作的字符串。</p>
+<ul>
+<li>字符串复制:<code>char* strncpy</code></li>
+<li>字符串连接:<code>char* strncat</code></li>
+<li>字符串比较:<code>char* strncmp</code></li>
+</ul>
+<h1 id="四、数组参数和指针参数-针对函数传入"><a href="#四、数组参数和指针参数-针对函数传入" class="headerlink" title="四、数组参数和指针参数(针对函数传入)"></a>四、数组参数和指针参数(针对函数传入)</h1><p>&emsp;&emsp;数组的两个特殊性质对我们定义和使用作用在数组上的函数有影响，这两个性质分别是：</p>
+<ul>
+<li>不允许拷贝数组</li>
+<li>使用数组时通常会将其转换成指针</li>
+</ul>
+<p>因为不能拷贝数组，所以我们无法以值传递的方式使用数组参数。</p>
+<p>因为数组会被转换成指针，所以当我们为函数传递一个数组时，实际上传递的是指向数组首元素的指针。(数组参数退化为指针)</p>
+<p>尽管不能以值传递的形式传递数组，但是我们可以把形参写成类似数组的形式：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//尽管形式不同，但这三个进行print函数是等价的</span></span><br><span class="line"><span class="comment">//每个函数都有一个const int*类型的形参</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">print</span><span class="params">(<span class="keyword">const</span> <span class="keyword">int</span>*)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">print</span><span class="params">(<span class="keyword">const</span> <span class="keyword">int</span>[])</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">print</span><span class="params">(<span class="keyword">const</span> <span class="keyword">int</span>[<span class="number">10</span>])</span><span class="comment">//这里的维度表示我们期望数组含有多少元素，实际不一定</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="comment">//第三种容易被误会，且容易造成数组越界:</span></span></span><br><span class="line"><span class="function"><span class="comment">//实际元素不确定，但是函数操作(传入数组较短)以10个操作，越界</span></span></span><br></pre></td></tr></table></figure>
+
+<p>当编译器处理对print函数的调用时，只检查传入的参数是否是const int*类型：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> i = <span class="number">2</span>;</span><br><span class="line"><span class="keyword">int</span> j[<span class="number">2</span>] = &#123;<span class="number">1</span>,<span class="number">2</span>&#125;;</span><br><span class="line">print(&amp;i);  <span class="comment">//正确，&amp;i的类型是int*</span></span><br><span class="line">print(j);   <span class="comment">//正确，j被转换成int*并指向j[0]</span></span><br></pre></td></tr></table></figure>
+
+<p>如果我们传给printf函数的是一个数组，则实参自动地转换成指向首元素的指针，数组的大小对函数的调用没有影响。</p>
+<h1 id="五、二维数组"><a href="#五、二维数组" class="headerlink" title="五、二维数组"></a>五、二维数组</h1><h2 id="5-1-二维数组参数和指针参数"><a href="#5-1-二维数组参数和指针参数" class="headerlink" title="5.1 二维数组参数和指针参数"></a>5.1 二维数组参数和指针参数</h2><p>&emsp;&emsp;C语言的编译器会让（不论是一维数组还是二维数组）数组参数退化为指针。C语言中无法向一个函数传递任意的多维数组。</p>
+<ul>
+<li>二维数组参数同样存在退化问题。<ul>
+<li>二维数组可以看作是一维数组</li>
+<li>二维数组中的每一个元素是一维数组</li>
+</ul>
+</li>
+<li>二维数组参数中第一维的参数可以省略（退化过程） </li>
+</ul>
+<p>注意事项</p>
+<ul>
+<li>C语言中无法向一个函数传递任意的多维数组</li>
+<li>为了提供正确的指针运算，必须提供除一维之外的所有维的长度(程序写法)<br>限制<ul>
+<li>一维数组-必须提供结束的标志</li>
+<li>二维数组-不能直接传递给函数</li>
+<li>多维-无法使用</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;malloc.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">access</span><span class="params">(<span class="keyword">int</span> a[][<span class="number">3</span>],<span class="keyword">int</span> row)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> col=<span class="keyword">sizeof</span>(*a)/<span class="keyword">sizeof</span>(<span class="keyword">int</span>);<span class="comment">//去推导出列的数量</span></span><br><span class="line">    <span class="keyword">int</span> i=<span class="number">0</span>,j=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;row;i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span>(j=<span class="number">0</span>;j&lt;col;j++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"%d "</span>,a[i][j]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"\n"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> a[<span class="number">3</span>][<span class="number">3</span>]=&#123;</span><br><span class="line">    &#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>&#125;,</span><br><span class="line">    &#123;<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>&#125;,</span><br><span class="line">    &#123;<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>&#125;</span><br><span class="line">    &#125;;</span><br><span class="line">    access(a,<span class="number">3</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="5-2-二维数组与数组指针"><a href="#5-2-二维数组与数组指针" class="headerlink" title="5.2 二维数组与数组指针"></a>5.2 二维数组与数组指针</h2><ul>
+<li>二维数组在内存中以一维的方式排布</li>
+<li>二维数组中的第一维是一维数组</li>
+<li>二维数组中的第二维才是具体的值</li>
+<li>二维数组的数组名同样可以看作常量指针</li>
+<li>二维数组同样代表数组首元素的地址</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> a[<span class="number">5</span>][<span class="number">5</span>];</span><br><span class="line">    <span class="keyword">int</span> (*p) [<span class="number">4</span>];</span><br><span class="line">    p=a;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%d\n"</span>,&amp;p[<span class="number">4</span>][<span class="number">2</span>]-&amp;a[<span class="number">4</span>][<span class="number">2</span>]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>答案为-4，因为（*p）一次跨越4个，而a一次跨越5个</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//用指针遍历二维数组</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i,j; </span><br><span class="line">    <span class="keyword">int</span> a[<span class="number">3</span>][<span class="number">3</span>]=&#123;&#123;&#125;&#125;;</span><br><span class="line">    <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;<span class="number">3</span>;i++)</span><br><span class="line">        <span class="keyword">for</span>(j=<span class="number">0</span>;j&lt;<span class="number">3</span>;j++)</span><br><span class="line">            *(*(a+i)+j)=<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;<span class="number">3</span>;i++)</span><br><span class="line">        <span class="keyword">for</span>(j=<span class="number">0</span>;j&lt;<span class="number">3</span>;j++)</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"%d"</span>,*(*(a+i)+j));     </span><br><span class="line">            </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="六、指向指针的指针"><a href="#六、指向指针的指针" class="headerlink" title="六、指向指针的指针"></a>六、指向指针的指针</h1><p>为什么需要指向指针的指针？</p>
+<ul>
+<li>指针在本质上也是一个变量</li>
+<li>对于指针来讲也有传值调用与传址调用</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//重置动态空间</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;malloc.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">rest</span><span class="params">(<span class="keyword">char</span>** p,<span class="keyword">int</span> size,<span class="keyword">int</span> new_size)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> ret=<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> len=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> i=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">char</span>* mid=<span class="literal">NULL</span>;</span><br><span class="line">    <span class="keyword">char</span>* pt=<span class="literal">NULL</span>;</span><br><span class="line">    <span class="keyword">char</span>* pp=*p;</span><br><span class="line">    <span class="keyword">if</span>((p!=<span class="literal">NULL</span>)&amp;&amp;(new_size&gt;<span class="number">0</span>))</span><br><span class="line">    &#123;</span><br><span class="line">        mid=(<span class="keyword">char</span>*)<span class="built_in">malloc</span>(<span class="number">3</span>);</span><br><span class="line">        pt=mid;</span><br><span class="line">        len=(size&lt;new_size)?size:new_size;</span><br><span class="line">        <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;len;i++)</span><br><span class="line">        &#123;</span><br><span class="line">            *pt++=*pp++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">free</span>(*p);</span><br><span class="line">        *p=pt;</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        ret=<span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ret;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">char</span> *p=(<span class="keyword">char</span>*)<span class="built_in">malloc</span>(<span class="number">5</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%0X\n"</span>,p);</span><br><span class="line">    <span class="keyword">if</span>(rest(&amp;p,<span class="number">5</span>,<span class="number">3</span>))</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"%0X\n"</span>,p);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    
+    
+    
+
+	<div>
+	  
+		<div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+	  
+	</div>
+
+    
+	
+
+	
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/指针/" <i class="fa fa-tag"> 指针</a>
+          
+            <a href="/tags/数组/" <i class="fa fa-tag"> 数组</a>
+          
+            <a href="/tags/字符串/" <i class="fa fa-tag"> 字符串</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/03/15/在嵌入式中的各种指针用法和概念/" rel="next" title="在嵌入式中的各种指针用法和概念">
+                <i class="fa fa-chevron-left"></i> 在嵌入式中的各种指针用法和概念
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/03/15/指针类型-的-函数形参/" rel="prev" title="指针类型_的_函数形参">
+                指针类型_的_函数形参 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC80NjcwNy8yMzIxNw=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/header.jpg" alt="Shatang">
+            
+              <p class="site-author-name" itemprop="name">Shatang</p>
+              <p class="site-description motion-element" itemprop="description">身体和灵魂总要有一个在路上</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">34</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">41</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/ShaTang" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.bilibili.com/video/av42311652" title="火影.青春.梦想" target="_blank">火影.青春.梦想</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.bilibili.com/video/av45828728" title="FATE.士郎" target="_blank">FATE.士郎</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://tieba.baidu.com/p/6185344159?see_lz=1&pn=1" title="Hide on bush" target="_blank">Hide on bush</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.zhihu.com/question/272137224/answer/821655151" title="声微饭否" target="_blank">声微饭否</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.bilibili.com/video/av43067703" title="生老病死" target="_blank">生老病死</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.bilibili.com/video/av82424567" title="眉山剑客" target="_blank">眉山剑客</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一、指针-amp-数组-细品"><span class="nav-text">一、指针 &amp; 数组(细品)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二、数组"><span class="nav-text">二、数组</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-数组的基础"><span class="nav-text">2.1 数组的基础</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-数组地址与数组名"><span class="nav-text">2.2 数组地址与数组名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-数组名的盲点"><span class="nav-text">2.3 数组名的盲点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-4-指针-amp-数组-的定义与声明-经典错误"><span class="nav-text">2.4 指针 &amp; 数组 的定义与声明(经典错误)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-1-定义为指针，声明为数组"><span class="nav-text">2.4.1 定义为指针，声明为数组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-2-定义为数组，声明为指针"><span class="nav-text">2.4.2 定义为数组，声明为指针</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-5-定义数组类型"><span class="nav-text">2.5 定义数组类型</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三、-字符串"><span class="nav-text">三、 字符串</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-实-字符数组、-虚-字符串"><span class="nav-text">3.1 (实)字符数组、(虚)字符串</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-字符串的长度"><span class="nav-text">3.2 字符串的长度</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-不受限制的字符串函数"><span class="nav-text">3.3 不受限制的字符串函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-4-长度受限制的字符串函数"><span class="nav-text">3.4 长度受限制的字符串函数</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#四、数组参数和指针参数-针对函数传入"><span class="nav-text">四、数组参数和指针参数(针对函数传入)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#五、二维数组"><span class="nav-text">五、二维数组</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#5-1-二维数组参数和指针参数"><span class="nav-text">5.1 二维数组参数和指针参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-2-二维数组与数组指针"><span class="nav-text">5.2 二维数组与数组指针</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#六、指向指针的指针"><span class="nav-text">六、指向指针的指针</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Shatang</span>
+
+   
+</div>
+
+
+
+
+
+
+
+
+
+
+
+<span id="timeDate" title="网站运行时间">载入天数...</span><span id="times" title="网站运行时间">载入时分秒...</span>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i> 有
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人看过我的博客啦
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i> 本站总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/three.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/canvas_lines.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":180,"height":360},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
+
+<!--浏览器搞笑标题-->
+<script type="text/javascript" src="/js/src/FunnyTitle.js"></script>
+<!-- 页面点击颜文字表情 -->
+<script type="text/javascript" src="/js/src/emoji.js"></script>
+<!--此处为建站时间 -->
+<script>
+  var now = new Date(); 
+  function createtime() { 
+      var grt= new Date("09/13/2019 12:00:00");
+      now.setTime(now.getTime()+250); 
+      days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+      hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+      if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+      mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+      seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+      snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+      document.getElementById("timeDate").innerHTML ="(ㆆᴗㆆ)本站建立了"+dnum+"&thinsp;天"; 
+      document.getElementById("times").innerHTML = hnum + "&thinsp;时" + mnum + "&thinsp;分" + snum + "&thinsp;秒"; 
+  } 
+setInterval("createtime()",250);
+</script>
+<!-- 代码块复制功能 -->
+<script type="text/javascript" src="/js/src/clipboard.min.js"></script>  
+<script type="text/javascript" src="/js/src/clipboard-use.js"></script>
+
+
+
+<!--  
+数字雨 
+<canvas id="canvas" width="1440" height="900" ></canvas>
+<script type="text/javascript" src="/js/src/DigitalRain.js"></script>
+-->

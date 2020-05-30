@@ -1,0 +1,1431 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-flash.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="工具,keil,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="大道至简，悟在天成" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="keywords" content="工具,keil">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Keil软件配置">
+<meta property="og:url" content="http://shatang.github.io/2019/09/17/Keil软件配置/index.html">
+<meta property="og:site_name" content="大道至简，悟在天成">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://shatang.github.io/2019/09/17/Keil软件配置/0.jpg">
+<meta property="og:image" content="http://shatang.github.io/2019/09/17/Keil软件配置/1.png">
+<meta property="og:image" content="http://shatang.github.io/2019/09/17/Keil软件配置/2.png">
+<meta property="og:image" content="http://shatang.github.io/2019/09/17/Keil软件配置/3.png">
+<meta property="og:image" content="http://shatang.github.io/2019/09/17/Keil软件配置/4.png">
+<meta property="og:image" content="http://shatang.github.io/2019/09/17/Keil软件配置/5.png">
+<meta property="og:image" content="http://shatang.github.io/2019/09/17/Keil软件配置/6.png">
+<meta property="og:image" content="http://shatang.github.io/2019/09/17/Keil软件配置/7.png">
+<meta property="og:image" content="http://shatang.github.io/2019/09/17/Keil软件配置/13.png">
+<meta property="og:image" content="http://shatang.github.io/2019/09/17/Keil软件配置/18.jpg">
+<meta property="og:image" content="http://shatang.github.io/2019/09/17/Keil软件配置/8.png">
+<meta property="og:image" content="http://shatang.github.io/2019/09/17/Keil软件配置/9.png">
+<meta property="og:image" content="http://shatang.github.io/2019/09/17/Keil软件配置/10.png">
+<meta property="og:image" content="http://shatang.github.io/2019/09/17/Keil软件配置/11.png">
+<meta property="og:image" content="http://shatang.github.io/2019/09/17/Keil软件配置/12.png">
+<meta property="og:image" content="http://shatang.github.io/2019/09/17/Keil软件配置/14.png">
+<meta property="og:image" content="http://shatang.github.io/2019/09/17/Keil软件配置/15.jpg">
+<meta property="og:image" content="http://shatang.github.io/2019/09/17/Keil软件配置/17.png">
+<meta property="og:image" content="http://shatang.github.io/2019/09/17/Keil软件配置/16.png">
+<meta property="og:updated_time" content="2020-02-11T04:18:48.018Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Keil软件配置">
+<meta name="twitter:image" content="http://shatang.github.io/2019/09/17/Keil软件配置/0.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+<script>
+    (function(){
+        if(''){
+            if (prompt('请输入文章密码') !== ''){
+                alert('密码错误！');
+                history.back();
+            }
+        }
+    })();
+</script>
+
+
+
+  <link rel="canonical" href="http://shatang.github.io/2019/09/17/Keil软件配置/">
+
+
+
+
+
+  <title>Keil软件配置 | 大道至简，悟在天成</title>
+  
+
+
+
+
+
+
+
+
+  
+  
+</head>
+
+
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">大道至简，悟在天成</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">It's not hard to give up, but it must be cool to stick to it.</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home                          //首页"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive          //归档"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th           //分类"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags                     //标签"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user                   //关于"></i> <br>
+            
+            关于我
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://shatang.github.io/2019/09/17/Keil软件配置/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Shatang">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/header.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="大道至简，悟在天成">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Keil软件配置</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-17T20:33:28+08:00">
+                2019-09-17
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2020-02-11T12:18:48+08:00">
+                2020-02-11
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/C/" itemprop="url" rel="index">
+                    <span itemprop="name">C</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+		
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>次阅读
+            </span>
+          
+		  
+
+          
+            <div class="post-wordcount">
+              
+                
+                  <span class="post-meta-divider">|</span>
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  4.1k
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <img src="/2019/09/17/Keil软件配置/0.jpg">
+<a id="more"></a>
+
+<h1 id="一、Keil5-背景主题安装"><a href="#一、Keil5-背景主题安装" class="headerlink" title="一、Keil5 背景主题安装"></a>一、Keil5 背景主题安装</h1><p>&emsp;&emsp;keil5背景主题在网上有很多，直接从网上下载，安装方法如下：</p>
+<ol>
+<li>找到安装Keil路径(X:\Keil_v5\UV4);</li>
+<li>在UV4目录下的global.prop文件;</li>
+<li>将网上下载的.prop文件覆盖原有文件，建议覆盖前备份原文件。</li>
+</ol>
+<p>当然也可以细点配制出自己想要的风格（我比较懒），详细的配色方法可以参照这位博主：<a href="https://syydnrycx.top/2019/09/03/Keil软件配置/#more" target="_blank" rel="noopener">Keil软件配置</a></p>
+<h1 id="二、Configuration配置"><a href="#二、Configuration配置" class="headerlink" title="二、Configuration配置"></a>二、Configuration配置</h1><p>&emsp;&emsp;在工具栏中找到小扳手图标或者在菜单栏中打开 <code>Edit-Configuration</code>，大多数功能都在这改。</p>
+<h2 id="2-1-缩进和编码设置"><a href="#2-1-缩进和编码设置" class="headerlink" title="2.1 缩进和编码设置"></a>2.1 缩进和编码设置</h2><p>&emsp;&emsp;如下图设置将编码格式设置为国标，Tab固定缩进为4格</p>
+<img src="/2019/09/17/Keil软件配置/1.png">
+<ol>
+<li><strong>ASCII编码</strong>：一个英文字母（不分大小写）占一个字节的空间，一个中文汉字占两个字节的空间。一个二进制数字序列，在计算机中作为一个数字单元，一般为8位二进制数，换算为十进制。最小值0，最大值255。</li>
+<li><strong>UTF-8编码</strong>：一个英文字符等于一个字节，一个中文（含繁体）等于三个字节。</li>
+<li><strong>Unicode编码</strong>：一个英文等于两个字节，一个中文（含繁体）等于两个字节。<br>符号：英文标点占一个字节，中文标点占两个字节。举例：英文句号“.”占1个字节的大小，中文句号“。”占2个字节的大小。</li>
+<li><strong>GBK编码</strong>：方式是中文占两个字节，英文占1个字节。</li>
+</ol>
+<p>&emsp;&emsp;从上面可知，假如是做嵌入式前端界面时，不要采用我们编程通用的 UTF-8格式，因为它的中文储存字节相对更大。前端界面要储存较多的汉字字库等，因此界面不会采用UTF-8编码格式。</p>
+<h2 id="2-2-代码自动补全"><a href="#2-2-代码自动补全" class="headerlink" title="2.2 代码自动补全"></a>2.2 代码自动补全</h2><p>&emsp;&emsp;进入<code>Text Completion</code>，勾选如下图并填入你需要在输入第几个字符后开启补全提示。</p>
+<img src="/2019/09/17/Keil软件配置/2.png">
+<h2 id="2-3-快捷键的设置"><a href="#2-3-快捷键的设置" class="headerlink" title="2.3 快捷键的设置"></a>2.3 快捷键的设置</h2><p>&emsp;&emsp;查询某句代码时候，往往会使用<code>ctrl+F</code>跳到<code>Find</code>选项进行查询，如下图所示</p>
+<img src="/2019/09/17/Keil软件配置/3.png">
+<p><code>Look in:</code>有两个选项：<br>&emsp;&emsp;1)<code>Current Document</code>   只查询当前文档<br>&emsp;&emsp;2)<code>Current Project</code>      查询整个工程<br><strong><code>Find</code>选项，查询到的时候，是要一直点击next查看下一个的；而<code>Find in Files</code>则是可以在下面列出一个所有能查询到的列表，实际上更常用的是这个（每次都要动下鼠标改成<code>Find in Files</code>）。</strong></p>
+<p>因此，在Configuration找到Shortcut Keys选项</p>
+<img src="/2019/09/17/Keil软件配置/4.png">
+<p>1)将<code>Edit：Find</code>快捷键去掉，将<code>Edit：Find in Files</code>快捷键补上<code>ctrl+F</code>；<br>2)顺便加一下注释的快捷键 <code>Edit：Advanced ：Comment Selection</code>和<code>Edit：Advanced ：Uncomment Selection</code>为<code>ctrl+shift+ c|v</code>（个人喜好）；<br>3)顺便将<code>Edit：Advanceed:Go toDefinition of current Word</code>设置为<code>ctrl+d</code>，这样后面进入具体参数位置就<code>ctrl+d</code>或<code>F12</code>都可以用。</p>
+<h2 id="2-4-快速浏览-c文件的函数位置"><a href="#2-4-快速浏览-c文件的函数位置" class="headerlink" title="2.4 快速浏览 .c文件的函数位置"></a>2.4 快速浏览 .c文件的函数位置</h2><p>&emsp;&emsp;先在<code>view</code>选项把基本没用的<code>books</code>和<code>Templates</code>功能给隐藏掉。如下图所示</p>
+<img src="/2019/09/17/Keil软件配置/5.png">
+<p>然后进入在<code>Configuration</code>找到<code>Scan funtion names in project files</code> 给关掉</p>
+<img src="/2019/09/17/Keil软件配置/6.png">
+<p>关掉它有什么好处呢？我们可以在<code>Project</code>旁边的<code>｛｝Functions</code>只会显示你在右边的框打开的.c文件，然后 你就可以.c文件打开查看函数，假如没有关掉它的话，它会把项目所有的 .c和.h文件都放出来，到时候别说找函数了，你可能连 .c文件都找不到。</p>
+<img src="/2019/09/17/Keil软件配置/7.png">
+
+<h1 id="三、Options-for-Target配置"><a href="#三、Options-for-Target配置" class="headerlink" title="三、Options for Target配置"></a>三、Options for Target配置</h1><p>&emsp;&emsp;这里讲下Options for Target配置里面需要注意的内容</p>
+<h2 id="3-1-Target选项"><a href="#3-1-Target选项" class="headerlink" title="3.1 Target选项"></a>3.1 Target选项</h2><p>&emsp;&emsp;Target界面主要分为两块</p>
+<h3 id="3-1-1-FPU浮点处理器"><a href="#3-1-1-FPU浮点处理器" class="headerlink" title="3.1.1 FPU浮点处理器"></a>3.1.1 FPU浮点处理器</h3><p>&emsp;&emsp;基于Cortex-m4（例如：STM32F407）最大的特色就是加入了一个<strong>FPU浮点处理器</strong>，能支持DSP运算。更高版本的甚至能够支持double类型处理（例如：STMH7）。</p>
+<img src="/2019/09/17/Keil软件配置/13.png">
+<p>&emsp;&emsp;如果只是写裸机程序的话，就无需在意；<br>&emsp;&emsp;假如是写实时操作系统（例如UCOSIII）需要注意的是：<strong>UCOS III官方的移植版本竟然不支持FPU浮点运算</strong>；如果在MDK的设置选项中,使能<code>FPU</code>， 运行的时候会出现奇怪的错误，有时候直接跑飞（例如：程序如果进行打印浮点型数据就会进入硬件错误；甚至有时候程序量大的时候，一编译，你根本不知道bug在哪？而且还会报错）。逐步调试会发现：只要运行打印浮点数就会程序跳转到硬件fault；<br>1）可能是字节对齐问题，修改字节对齐即可解决问题；<br>2）或者你移植的RTOS本来就不支持，需要修改底层配置函数；<br>解决方法：<a href="http://www.openedv.com/posts/list/0/46839.htm" target="_blank" rel="noopener">ucosii中调用Printf打印浮点型数据就进入硬件错误，STM32F4</a><br>&emsp;&emsp;个人建议：<strong><em>移植UcosIII的时候，程序运行暂时先不启用FPU，等到程序跑得稳定、需要优化的时候，再启用FPU，明确不是原有程序版本带有的bug。</em></strong></p>
+<h3 id="3-1-2-IROM"><a href="#3-1-2-IROM" class="headerlink" title="3.1.2 IROM"></a>3.1.2 IROM</h3><p>&emsp;&emsp;如果不涉及bootloader在线升级的情况下，采用一般的例程的配置<code>IROM</code>即可；倘若涉及到，可详细看这篇博文：<a href="https://shatang.github.io/2020/01/09/20-STM32%E5%BC%80%E5%8F%91/#more">STM32开发</a></p>
+<img src="/2019/09/17/Keil软件配置/18.jpg">
+<h2 id="3-2-Output"><a href="#3-2-Output" class="headerlink" title="3.2 Output"></a>3.2 Output</h2><img src="/2019/09/17/Keil软件配置/8.png">
+<p><code>Browse Information</code>选项是可以查看函数具体内容和位置；但是这里有点经验，就是当你编译类似stm32H7系列那种大容量RAM的芯片的时候，往往它自带的库也是很大，里面有很多函数要编译；当你编译工程的时候，那速度你会怀疑人生，这个时候你可以关闭这个选项，可以大大减少你需要的编译时间，但是缺点是不能跳转函数，可以用<code>ctrl+F</code>替代找到你要的函数位置。</p>
+<p><code>Create HEX File</code>选项，是生成hex文件<br>&emsp;&emsp;烧录程序方式分为两种：<br>1） <code>.bin</code>文件进行烧录<br>2） <code>.hex</code>文件进行烧录<br>我们常用的串口、J-link（SW模式，直接在项目工程）烧录程序进芯片，均是采用hex文件；<code>.bin</code>文件只会在脱机烧录和在线升级的时候才会用到。</p>
+<p>更多相关<code>.bin</code>文件和<code>.hex</code>文件知识，可详细看这篇博文的bootloader章节：<a href="https://shatang.github.io/2020/01/09/20-STM32%E5%BC%80%E5%8F%91/#more">STM32开发</a></p>
+<h2 id="3-3-User"><a href="#3-3-User" class="headerlink" title="3.3 User"></a>3.3 User</h2><img src="/2019/09/17/Keil软件配置/9.png">
+<p>&emsp;&emsp;这里是运行keil脚本的地方，是要在编译前调用执行脚本，还是编译后调用执行脚本。如 *<em>3.2 Output *</em>所示，<code>Output选项</code>中只有生成<code>.hex</code>文件，没有生成<code>.bin</code>文件的选项；一般情况下，就有人在 编译后选项 里调用keil自带的脚本<code>fromelf.exe</code>，用于生成<code>.bin</code>文件。<br>&emsp;&emsp;由于每个人的电脑的Keil安装路径不同，因此别人安装的脚本位置也就不同；有时候你编译别人的代码，会出现非代码的Error：显示你找不到对应路径的<code>fromelf.exe</code>；这个就是找(错)不到脚本位置而报错，这个时候可以将上图红色地方选项，勾选给取消掉就可以用了，当需要对应的bin文件再进行更改具体路径即可。</p>
+<h2 id="3-4-C-C"><a href="#3-4-C-C" class="headerlink" title="3.4 C/C++"></a>3.4 C/C++</h2><img src="/2019/09/17/Keil软件配置/10.png">
+<h3 id="3-4-1-芯片库选择"><a href="#3-4-1-芯片库选择" class="headerlink" title="3.4.1 芯片库选择"></a>3.4.1 芯片库选择</h3><p>Stm32芯片型号移植的时候，最重要的就是这个位置；在这里举例一下F10x系列</p>
+<img src="/2019/09/17/Keil软件配置/11.png">
+<p>&emsp;&emsp;至于要使用哪个宏，则需要根据具体的芯片来进行选择。如果是STM32F105xx和STM32F107xx，是Connectivity Line Devices，则宏定义选择的是STM32F10X_CL；如果是别的型号，则根据FLASH的容量来进行选择。可能文字写的有点不太清楚，还是以表格来说明：</p>
+<img src="/2019/09/17/Keil软件配置/12.png">
+<p>&emsp;&emsp;宏定义更换的时候，也好同时把启动文件给换掉，例如：startup_stm32f10x_hd.s修改为startup_stm32f10x_md.s<br>Ps：其实到这里基本移植完了，不过有时候会出现程序跑的非常慢，有些工程在汇编底层启动文件调用<code>Systeminit()</code>;再跳转到<code>main()</code>，有些则无配置时钟树，这个时候在系统初始化时调用 <code>SystemInit();</code>，后面就正常了</p>
+<h3 id="3-4-2-优化等级"><a href="#3-4-2-优化等级" class="headerlink" title="3.4.2 优化等级"></a>3.4.2 优化等级</h3><p>&emsp;&emsp;在上图所示，中间有一个<code>Optimization</code>选项，是对程序优化的等级；一般我们调试的时候，采用最低的<code>Level 0</code>，因为如果我们进行仿真调试，优化等级太高，程序无法跳转运行到设置的断点；当程序调试稳定后，再根据需求提高其代码优化等级即可。</p>
+<h1 id="四、技巧用法"><a href="#四、技巧用法" class="headerlink" title="四、技巧用法"></a>四、技巧用法</h1><p>&emsp;&emsp;这里讲一些自己在用的实用小技巧</p>
+<h2 id="4-1-仿真精确测量代码运行时间"><a href="#4-1-仿真精确测量代码运行时间" class="headerlink" title="4.1 仿真精确测量代码运行时间"></a>4.1 仿真精确测量代码运行时间</h2><p>&emsp;&emsp;为什么需要精确测量代码运行时间？其实往往之所以需要其精确的运行时间，主要分为两种情况：</p>
+<ol>
+<li><strong>上电初始化，某些芯片模块本身的器件性质，导致MCU不能上电立马 初始化(通信进行软件配置)该芯片</strong>；根据初始化函数放的位置，MCU初始化的指令执行够快，上电快速与其芯片立马通讯后，导致会出现不可预知且随机的bug；并且这种bug是隐性的，如果你其他的功能所需的初始化时间够长，这个bug就会(偶然)消失掉。因此需要测出时间，并在该芯片初始化通讯前增加延时(死循环)</li>
+<li><strong>需要知道整个程序循环一遍需要多长时间</strong>。往往串口通讯、开关扫描、AD采样等的数据处理往往是通过 <code>轮询</code> 的方式实现的。例如，AD采样频率是 960次/秒 ，如果你的程序的循环次数 达不到至少(冗余) 1000次/秒 ，那么就算是使用 ADC采样（外部）中断 及时获取到数据，但是由于程序循环速度太慢，AD采样数据无法及时进行处理换算，实际上 AD采样频率 &lt; 程序循环次数 &lt; 960次/秒 。因此 <strong>程序循环所需时间大小，也决定了轮询处理响应速度的慢快。</strong></li>
+</ol>
+<p><strong><font color="red">Ps：</font></strong>获取数据的方式有两种：轮询 和 中断 。一般情况下，最好是使用中断方式，能够及时获取到数据；采用轮询方式来获取数据，当没有数据来临时，也会进入轮询。当你的程序量比较少的时候，你的程序循环速度会很快，这样的话，轮询将会占用较多的CPU(内存)资源，而中断如果不触发，则不会进入，单位时间内程序循环将会相对来讲会优化一些。</p>
+<p>&emsp;&emsp;实际上有很多种方法可以实现测量运行时间</p>
+<h3 id="4-1-1-采用Keil仿真的-Trace-功能"><a href="#4-1-1-采用Keil仿真的-Trace-功能" class="headerlink" title="4.1.1 采用Keil仿真的 Trace 功能"></a>4.1.1 采用Keil仿真的 Trace 功能</h3><p>&emsp;&emsp;首先要先配置好仿真的时钟：在<cdoe>Target进入<code>Debug</code>，然后设置成<code>J-link</code>（或者ST-link，大同小异），进入<code>setting</code>，再选择<code>Trace</code>选项</cdoe></p>
+<img src="/2019/09/17/Keil软件配置/14.png">
+<p>SW模式：先勾选Enable，调成对应时钟（例：72MHz），再使能<code>Autodetect max SWO Clk</code><br>JTAG模式（不常用）：设置时钟，然后不勾选Enable（<strong>JTAG不支持Trace，会报错</strong>，容易出现<code>SW</code>切换<code>JTAG</code>时忘记关掉<code>Trace</code>）</p>
+<p>仿真的时候找下有个时间窗口</p>
+<img src="/2019/09/17/Keil软件配置/15.jpg">
+<p>上面两个是复位“<code>t1</code>”和“<code>t2</code>”的，下面3个是选择在状态栏上显示哪个时间。</p>
+<p>“<code>t0</code>”表示程序开始运行到现在的时间，是不能复位的。另外两个可以随便复位，就可以用来测具体某一个函数或某一行程序的运行时间。</p>
+<p>&emsp;&emsp;具体操作为：在要测试的代码前加一个断点，当程序运行到目标行时会停下，然后复位“t1”或“t2”，并在下一行代码前加断点，然后继续运行程序，程序会停在下一行代码前，这个时候“t1”的值就是目标行程序的运行时间。</p>
+<p><strong><font color="red">Ps：</font></strong>Keil仿真 全速运行时 观察窗口变量没刷新；解决方法：在仿真时点击工具栏里的<code>view</code>选择下面的<code>periodict window update</code>，勾选完后数据开始动态更新。</p>
+<img src="/2019/09/17/Keil软件配置/17.png">
+<p><strong><font color="red">Ps：</font></strong>Cortex-M0不支持Trace功能，因为是ARM V6结构，比较旧，所以无论你用J-link，还是ST-Link，都不能用到Trace。Keil会提示<code>TRACE HW not present</code></p>
+<h3 id="4-1-2-采用定时器计时"><a href="#4-1-2-采用定时器计时" class="headerlink" title="4.1.2 采用定时器计时"></a>4.1.2 采用定时器计时</h3><p>&emsp;&emsp;配置好一个定时器，具体计算配置操作可以看<a href="https://shatang.github.io/2020/01/09/20-STM32%E5%BC%80%E5%8F%91/#more">STM32开发</a><br>思路：获取 进入程序段的当前时间，退出程序段后再获取当前时间，两个时间之差就是其运行时间(* 定时器计时基数)。</p>
+<h2 id="4-2-程序跑飞跳转"><a href="#4-2-程序跑飞跳转" class="headerlink" title="4.2 程序跑飞跳转"></a>4.2 程序跑飞跳转</h2><p>&emsp;&emsp;有时候你会在工程看到这段汇编的函数.</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">__<span class="function"><span class="keyword">asm</span> <span class="keyword">void</span> <span class="title">wait</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;       </span><br><span class="line">　　BX lr</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">HardFault_Handler</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;    </span><br><span class="line">　　<span class="comment">/* Go to infinite loop when Hard Fault exception occurs */</span>   </span><br><span class="line">　　wait();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;<code>HardFault_Handler</code>栈溢出检查机制，适用于所有CM3芯片，造成主栈(MSP)溢出的原因有很多，如过多的定义局部变量，递归调用，中断嵌套等都有可能会导致主栈溢出，stm32不具备MPU，没有对内存进行保护的硬件机制，而软件检测栈溢出又有其局限性。</p>
+<p>STM32出现<code>HardFault_Handler</code>故障的原因主要有两个方面：</p>
+<ol>
+<li>内存溢出或者访问越界。这个需要自己写程序的时候规范代码，遇到了需要慢慢排查。</li>
+<li>堆栈溢出。增加堆栈的大小。大多数是因为中断嵌套寄存器均是32位，且STM32是小端模式(参考Cortex-M3权威)</li>
+</ol>
+<p>1)出现问题时排查的方法：DEBUG，下断点单步看程序停在哪<br>2)另一种方法：默认的<code>HardFault_Handler</code>处理方法为：内部是一个 汇编 或者 C语言 形式的死循环；<br>将它改成如上面代码的 <code>BX LR</code>直接返回的形式。然后在这条语句打个断点，一旦在断点中停下来，说明出错了，然后再返回，就可以找到程序跑飞出错的位置的语句在哪。</p>
+<h2 id="4-3-自动生成版本号（编译时间和编译日期）"><a href="#4-3-自动生成版本号（编译时间和编译日期）" class="headerlink" title="4.3 自动生成版本号（编译时间和编译日期）"></a>4.3 自动生成版本号（编译时间和编译日期）</h2><p>&emsp;&emsp;经常都需要手动添加版本号或者生成时间会很繁琐。这个时候，C语言中的两个宏<code>__DATE__</code>和<code>__TIME__</code>可以帮到我们。<br><strong>__DATE__用于获取系统日期，而__TIME__用于获取系统时间，我们可以根据该两个宏获取到的信息将其保存于程序变量中，在程序运行过程中直接调用。</strong></p>
+<p>我们在程序中可以按以下所示使用：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span>  <span class="keyword">unsigned</span> <span class="keyword">char</span> cRevisionDate[<span class="number">12</span>] = __DATE__;</span><br><span class="line"><span class="keyword">const</span>  <span class="keyword">unsigned</span> <span class="keyword">char</span> cRevisionTime[<span class="number">16</span>] = __TIME__;</span><br><span class="line"></span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"Rev Info: %s %s\r\n"</span>, cRevisionDate, cRevisionTime);</span><br></pre></td></tr></table></figure>
+
+<p>运行结果如下所示：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Rev Info: Sep  <span class="number">8</span> <span class="number">2018</span> <span class="number">17</span> <span class="number">51</span> <span class="number">26</span></span><br></pre></td></tr></table></figure>
+
+<p>更复杂的使用方法可以看这篇：<a href="https://shatang.github.io/2019/10/08/9-Keil%E7%89%88%E6%9C%AC%E5%8F%B7/#more">Keil版本号生成</a></p>
+<h2 id="4-4-仿真动态显示"><a href="#4-4-仿真动态显示" class="headerlink" title="4.4 仿真动态显示"></a>4.4 仿真动态显示</h2><p>&emsp;&emsp;点击仿真后，如果<code>Watch</code>窗口数据不能动态显示，可在仿真状态下点击<code>tool</code>栏的<code>view</code>，观察<code>periodict window update</code>是否勾选，确保勾选即可。此时数据动态更新。<br><strong><font color="red">Ps：</font></strong>退出仿真状态下，工具栏的<code>view</code>没有<code>periodict window update</code>选项。</p>
+<h2 id="4-5-如何上传github"><a href="#4-5-如何上传github" class="headerlink" title="4.5 如何上传github"></a>4.5 如何上传github</h2><p>&emsp;&emsp;首先新建一个批处理，用于清除掉keil工程的编译文件：</p>
+<figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">::删除Keil编译产生的一些垃圾文件</span><br><span class="line">::删除Code Warrior编译产生的一些垃圾文件</span><br><span class="line"><span class="built_in">del</span> *.bak /s</span><br><span class="line"><span class="built_in">del</span> *.ddk /s</span><br><span class="line"><span class="built_in">del</span> *.edk /s</span><br><span class="line"><span class="built_in">del</span> *.lst /s</span><br><span class="line"><span class="built_in">del</span> *.lnp /s</span><br><span class="line"><span class="built_in">del</span> *.mpf /s</span><br><span class="line"><span class="built_in">del</span> *.mpj /s</span><br><span class="line"><span class="built_in">del</span> *.obj /s</span><br><span class="line"><span class="built_in">del</span> *.omf /s</span><br><span class="line">::<span class="built_in">del</span> *.opt /s  ::不允许删除JTAG的设置</span><br><span class="line"><span class="built_in">del</span> *.plg /s</span><br><span class="line"><span class="built_in">del</span> *.rpt /s</span><br><span class="line"><span class="built_in">del</span> *.tmp /s</span><br><span class="line"><span class="built_in">del</span> *.__i /s</span><br><span class="line"><span class="built_in">del</span> *.crf /s</span><br><span class="line"><span class="built_in">del</span> *.o /s</span><br><span class="line"><span class="built_in">del</span> *.d /s</span><br><span class="line"><span class="built_in">del</span> *.axf /s</span><br><span class="line"><span class="built_in">del</span> *.tra /s</span><br><span class="line"><span class="built_in">del</span> *.dep /s           </span><br><span class="line"><span class="built_in">del</span> JLinkLog.txt /s</span><br><span class="line"><span class="built_in">del</span> *.iex /s</span><br><span class="line"><span class="built_in">del</span> *.htm /s</span><br><span class="line"><span class="built_in">del</span> *.sct /s</span><br><span class="line"><span class="built_in">del</span> *.map /s</span><br><span class="line"><span class="built_in">del</span> *._2i /s</span><br><span class="line"><span class="built_in">del</span> *.L2P /s</span><br><span class="line"><span class="built_in">del</span> *.FED /s</span><br><span class="line"></span><br><span class="line"><span class="built_in">del</span> *.elf /s</span><br><span class="line"><span class="built_in">del</span> *.args /s</span><br><span class="line"><span class="built_in">del</span> *.mk /s</span><br><span class="line"><span class="built_in">del</span> *.local /s</span><br><span class="line"></span><br><span class="line"><span class="keyword">exit</span></span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;具体的批处理操作解读，可以看另外一篇文章<a href="https://shatang.github.io/2019/12/22/14-Window%E7%9A%84%E7%AE%80%E6%98%93bat%E5%A4%84%E7%90%86/#more">Window的简易bat处理</a></p>
+<h2 id="4-6-搭配推荐"><a href="#4-6-搭配推荐" class="headerlink" title="4.6 搭配推荐"></a>4.6 搭配推荐</h2><p>&emsp;&emsp;推荐一些自己在用的实用搭配    </p>
+<h3 id="4-6-1-Astyle"><a href="#4-6-1-Astyle" class="headerlink" title="4.6.1 Astyle"></a>4.6.1 Astyle</h3><p>&emsp;&emsp;Astyle是keil的一个插件，关于Astyle看另外一篇博客：<a href="https://shatang.github.io/2019/09/15/2-Keil%E4%BB%A3%E7%A0%81%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%B7%A5%E5%85%B7-Astyle/#more">Keil格式化工具_Astyle</a></p>
+<h3 id="4-6-2-Snipatse"><a href="#4-6-2-Snipatse" class="headerlink" title="4.6.2 Snipatse"></a>4.6.2 Snipatse</h3><p>&emsp;&emsp;Snipatse是一个超级方便的截图软件</p>
+<img src="/2019/09/17/Keil软件配置/16.png">
+<h3 id="4-6-3-Compare"><a href="#4-6-3-Compare" class="headerlink" title="4.6.3 Compare"></a>4.6.3 Compare</h3><p>&emsp;&emsp;Compare是一个比较代码的软件，特别好用。你可以比较现在版本和之前版本的区别；或者是你的版本和别人的版本，能很快找到差别</p>
+
+      
+    </div>
+    
+    
+    
+
+	<div>
+	  
+		<div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+	  
+	</div>
+
+    
+	
+
+	
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/工具/" <i class="fa fa-tag"> 工具</a>
+          
+            <a href="/tags/keil/" <i class="fa fa-tag"> keil</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/09/15/Keil代码格式化工具-Astyle/" rel="next" title="(转)Keil代码格式化工具_Astyle">
+                <i class="fa fa-chevron-left"></i> (转)Keil代码格式化工具_Astyle
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/09/27/如何搭建hexo博客/" rel="prev" title="如何搭建自己的hexo博客">
+                如何搭建自己的hexo博客 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC80NjcwNy8yMzIxNw=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/header.jpg" alt="Shatang">
+            
+              <p class="site-author-name" itemprop="name">Shatang</p>
+              <p class="site-description motion-element" itemprop="description">身体和灵魂总要有一个在路上</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">34</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">41</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/ShaTang" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.bilibili.com/video/av42311652" title="火影.青春.梦想" target="_blank">火影.青春.梦想</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.bilibili.com/video/av45828728" title="FATE.士郎" target="_blank">FATE.士郎</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://tieba.baidu.com/p/6185344159?see_lz=1&pn=1" title="Hide on bush" target="_blank">Hide on bush</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.zhihu.com/question/272137224/answer/821655151" title="声微饭否" target="_blank">声微饭否</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.bilibili.com/video/av43067703" title="生老病死" target="_blank">生老病死</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.bilibili.com/video/av82424567" title="眉山剑客" target="_blank">眉山剑客</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一、Keil5-背景主题安装"><span class="nav-text">一、Keil5 背景主题安装</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二、Configuration配置"><span class="nav-text">二、Configuration配置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-缩进和编码设置"><span class="nav-text">2.1 缩进和编码设置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-代码自动补全"><span class="nav-text">2.2 代码自动补全</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-快捷键的设置"><span class="nav-text">2.3 快捷键的设置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-4-快速浏览-c文件的函数位置"><span class="nav-text">2.4 快速浏览 .c文件的函数位置</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三、Options-for-Target配置"><span class="nav-text">三、Options for Target配置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-Target选项"><span class="nav-text">3.1 Target选项</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-1-FPU浮点处理器"><span class="nav-text">3.1.1 FPU浮点处理器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-2-IROM"><span class="nav-text">3.1.2 IROM</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-Output"><span class="nav-text">3.2 Output</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-User"><span class="nav-text">3.3 User</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-4-C-C"><span class="nav-text">3.4 C/C++</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-1-芯片库选择"><span class="nav-text">3.4.1 芯片库选择</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-2-优化等级"><span class="nav-text">3.4.2 优化等级</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#四、技巧用法"><span class="nav-text">四、技巧用法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-仿真精确测量代码运行时间"><span class="nav-text">4.1 仿真精确测量代码运行时间</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-1-采用Keil仿真的-Trace-功能"><span class="nav-text">4.1.1 采用Keil仿真的 Trace 功能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-2-采用定时器计时"><span class="nav-text">4.1.2 采用定时器计时</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2-程序跑飞跳转"><span class="nav-text">4.2 程序跑飞跳转</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-3-自动生成版本号（编译时间和编译日期）"><span class="nav-text">4.3 自动生成版本号（编译时间和编译日期）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-4-仿真动态显示"><span class="nav-text">4.4 仿真动态显示</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-5-如何上传github"><span class="nav-text">4.5 如何上传github</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-6-搭配推荐"><span class="nav-text">4.6 搭配推荐</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-6-1-Astyle"><span class="nav-text">4.6.1 Astyle</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-6-2-Snipatse"><span class="nav-text">4.6.2 Snipatse</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-6-3-Compare"><span class="nav-text">4.6.3 Compare</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Shatang</span>
+
+   
+</div>
+
+
+
+
+
+
+
+
+
+
+
+<span id="timeDate" title="网站运行时间">载入天数...</span><span id="times" title="网站运行时间">载入时分秒...</span>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i> 有
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人看过我的博客啦
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i> 本站总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/three.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/canvas_lines.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":180,"height":360},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
+
+<!--浏览器搞笑标题-->
+<script type="text/javascript" src="/js/src/FunnyTitle.js"></script>
+<!-- 页面点击颜文字表情 -->
+<script type="text/javascript" src="/js/src/emoji.js"></script>
+<!--此处为建站时间 -->
+<script>
+  var now = new Date(); 
+  function createtime() { 
+      var grt= new Date("09/13/2019 12:00:00");
+      now.setTime(now.getTime()+250); 
+      days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+      hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+      if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+      mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+      seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+      snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+      document.getElementById("timeDate").innerHTML ="(ㆆᴗㆆ)本站建立了"+dnum+"&thinsp;天"; 
+      document.getElementById("times").innerHTML = hnum + "&thinsp;时" + mnum + "&thinsp;分" + snum + "&thinsp;秒"; 
+  } 
+setInterval("createtime()",250);
+</script>
+<!-- 代码块复制功能 -->
+<script type="text/javascript" src="/js/src/clipboard.min.js"></script>  
+<script type="text/javascript" src="/js/src/clipboard-use.js"></script>
+
+
+
+<!--  
+数字雨 
+<canvas id="canvas" width="1440" height="900" ></canvas>
+<script type="text/javascript" src="/js/src/DigitalRain.js"></script>
+-->

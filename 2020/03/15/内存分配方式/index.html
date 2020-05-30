@@ -1,0 +1,1500 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-flash.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="内存,堆栈,野指针,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="大道至简，悟在天成" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="&amp;emsp;&amp;emsp;无情的搬砖机器= =">
+<meta name="keywords" content="内存,堆栈,野指针">
+<meta property="og:type" content="article">
+<meta property="og:title" content="内存分配方式">
+<meta property="og:url" content="http://shatang.github.io/2020/03/15/内存分配方式/index.html">
+<meta property="og:site_name" content="大道至简，悟在天成">
+<meta property="og:description" content="&amp;emsp;&amp;emsp;无情的搬砖机器= =">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-03-18T15:41:19.841Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="内存分配方式">
+<meta name="twitter:description" content="&amp;emsp;&amp;emsp;无情的搬砖机器= =">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+<script>
+    (function(){
+        if(''){
+            if (prompt('请输入文章密码') !== ''){
+                alert('密码错误！');
+                history.back();
+            }
+        }
+    })();
+</script>
+
+
+
+  <link rel="canonical" href="http://shatang.github.io/2020/03/15/内存分配方式/">
+
+
+
+
+
+  <title>内存分配方式 | 大道至简，悟在天成</title>
+  
+
+
+
+
+
+
+
+
+  
+  
+</head>
+
+
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">大道至简，悟在天成</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">It's not hard to give up, but it must be cool to stick to it.</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home                          //首页"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive          //归档"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th           //分类"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags                     //标签"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user                   //关于"></i> <br>
+            
+            关于我
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://shatang.github.io/2020/03/15/内存分配方式/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Shatang">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/header.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="大道至简，悟在天成">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">内存分配方式</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-03-15T14:32:56+08:00">
+                2020-03-15
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2020-03-18T23:41:19+08:00">
+                2020-03-18
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/C/" itemprop="url" rel="index">
+                    <span itemprop="name">C</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+		
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>次阅读
+            </span>
+          
+		  
+
+          
+            <div class="post-wordcount">
+              
+                
+                  <span class="post-meta-divider">|</span>
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  6.3k
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>&emsp;&emsp;无情的搬砖机器= =</p>
+<a id="more"></a>
+
+<h1 id="一、内存分配方式"><a href="#一、内存分配方式" class="headerlink" title="一、内存分配方式"></a>一、内存分配方式</h1><p>&emsp;&emsp;一个由C/C++编译的程序占用的内存分为以下几个部分：</p>
+<ol>
+<li><strong>栈区（stack）</strong>：<em>由编译器自动分配释放</em> ；存放函数的参数值，局部变量的值等。其操作方式类似于数据结构中的栈。</li>
+<li><strong>堆区（heap）</strong> ： <em>一般由程序员分配释放</em>； 若程序员不释放，程序结束时可能由OS回收 。注意它与数据结构中的堆是两回事，分配方式倒是类似于链表，呵呵。</li>
+<li><strong>全局区(静态区)(static)</strong>：<em>程序结束后有系统释放</em>；全局变量和静态变量的存储是放在一块的，初始化的全局变量和静态变量在一块区域， 未初始化的全局变量和未初始化的静态变量在相邻的另一块区域。</li>
+<li><strong>文字(字符)常量区</strong> ：<em>程序结束后由系统释放</em>；常量字符串就是放在这里的。 </li>
+<li><strong>程序代码区</strong> ：存放函数体的二进制代码。</li>
+</ol>
+<h1 id="二、例子程序"><a href="#二、例子程序" class="headerlink" title="二、例子程序"></a>二、例子程序</h1><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> a = <span class="number">0</span>;  <span class="comment">//全局初始化区</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">char</span> *p1;   <span class="comment">//全局未初始化区</span></span><br><span class="line"></span><br><span class="line">main()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">int</span> b;              <span class="comment">//栈</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">char</span> s[] = <span class="string">"abc"</span>;   <span class="comment">//栈</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">char</span> *p2;           <span class="comment">//栈</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">char</span> *p3 = <span class="string">"123456"</span>;<span class="comment">//123456在常量区，p3在栈上</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">int</span> c =<span class="number">0</span>；   <span class="comment">//全局（静态）初始化区</span></span><br><span class="line"></span><br><span class="line">    p1 = (<span class="keyword">char</span> *)<span class="built_in">malloc</span>(<span class="number">10</span>);</span><br><span class="line">    p2 = (<span class="keyword">char</span> *)<span class="built_in">malloc</span>(<span class="number">20</span>);</span><br><span class="line">    <span class="comment">//申请分配得来的10和20字节的区域就在堆区   </span></span><br><span class="line"></span><br><span class="line">    <span class="built_in">strcpy</span>(p1, <span class="string">"123456"</span>);</span><br><span class="line">    <span class="comment">//123456放在常量区</span></span><br><span class="line">    <span class="comment">//编译器可能会将它与p3所指向的"123456"优化成一个地方</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="三、堆和栈的理论知识"><a href="#三、堆和栈的理论知识" class="headerlink" title="三、堆和栈的理论知识"></a>三、堆和栈的理论知识</h1><h2 id="3-1-申请方式"><a href="#3-1-申请方式" class="headerlink" title="3.1 申请方式"></a>3.1 申请方式</h2><blockquote>
+<p><strong>stack</strong>：由系统自动分配。 </p>
+</blockquote>
+<p>例如，声明在函数中一个局部变量 int b; 系统自动在栈中为b开辟空间</p>
+<blockquote>
+<p><strong>heap</strong>：需要程序员自己申请，并指明大小(在c中为，malloc函数)</p>
+</blockquote>
+<p>例如，<code>p1 = (char *)malloc(10);</code></p>
+<p><strong><font color="red">Ps：</font></strong> 但是要注意<code>p1</code>本身是在栈中的。</p>
+<h2 id="3-2-申请后系统的响应"><a href="#3-2-申请后系统的响应" class="headerlink" title="3.2 申请后系统的响应"></a>3.2 申请后系统的响应</h2><p><strong>栈</strong>：只要栈的剩余空间大于所申请空间，系统将为程序提供内存，否则将报异常提示栈溢出。</p>
+<p><strong>堆</strong>：首先应该知道操作系统有一个记录空闲内存地址的链表，当系统收到程序的申请时， 会遍历该链表，寻找第一个空间大于所申请空间的堆结点，然后将该结点从空闲结点链表中删除，并将该结点的空间分配给程序，另外，对于大多数系统，会在这块内存空间中的首地址处记录本次分配的大小，这样，代码中的delete语句才能正确的释放本内存空间。另外，由于找到的堆结点的大小不一定正好等于申请的大小，系统会自动的将多余的那部分重新放入空闲链表中。</p>
+<h2 id="3-3-申请大小的限制"><a href="#3-3-申请大小的限制" class="headerlink" title="3.3 申请大小的限制"></a>3.3 申请大小的限制</h2><p><strong>栈</strong>：在Windows下,栈是向低地址扩展的数据结构，是一块连续的内存的区域。这句话的意思是栈顶的地址和栈的最大容量是系统预先规定好的，在 WINDOWS下，栈的大小是2M（也有的说是1M，总之是一个编译时就确定的常数），如果申请的空间超过栈的剩余空间时，将提示overflow。因此，能从栈获得的空间较小。</p>
+<p><strong>堆</strong>：堆是向高地址扩展的数据结构，是不连续的内存区域。这是由于系统是用链表来存储的空闲内存地址的，自然是不连续的，而链表的遍历方向是由低地址向高地址。堆的大小受限于计算机系统中有效的虚拟内存。由此可见，堆获得的空间比较灵活，也比较大。</p>
+<h2 id="3-4-申请效率的比较"><a href="#3-4-申请效率的比较" class="headerlink" title="3.4 申请效率的比较"></a>3.4 申请效率的比较</h2><p><strong>栈</strong>：由系统自动分配，速度较快。但程序员是无法控制的。</p>
+<p><strong>堆</strong>：是由new分配的内存，一般速度比较慢，而且容易产生内存碎片,不过用起来最方便.</p>
+<p>&emsp;&emsp;另外，在WINDOWS下，最好的方式是用VirtualAlloc分配内存，他不是在堆，也不是在栈是直接在进程的地址空间中保留一块内存，虽然用起来最不方便。但是速度快，也最灵活。</p>
+<h2 id="3-5-堆和栈的存储内容"><a href="#3-5-堆和栈的存储内容" class="headerlink" title="3.5 堆和栈的存储内容"></a>3.5 堆和栈的存储内容</h2><p><strong>栈</strong>： 在函数调用时，第一个进栈的是主函数中后的下一条指令（函数调用语句的下一条可执行语句）的地址，然后是函数的各个参数，在大多数的C编译器中，参数是由右往左入栈的，然后是函数中的局部变量。注意静态变量是不入栈的。</p>
+<p>&emsp;&emsp;当本次函数调用结束后，局部变量先出栈，然后是参数，最后栈顶指针指向最开始存的地址，也就是主函数中的下一条指令，程序由该点继续运行。</p>
+<p><strong>堆</strong>：一般是在堆的头部用一个字节存放堆的大小。堆中的具体内容有程序员安排。</p>
+<h2 id="3-6-存取效率的比较"><a href="#3-6-存取效率的比较" class="headerlink" title="3.6 存取效率的比较"></a>3.6 存取效率的比较</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span> s1[] = <span class="string">"aaaaaaaaaaaaaaa"</span>;</span><br><span class="line"><span class="keyword">char</span> *s2 = <span class="string">"bbbbbbbbbbbbbbbbb"</span>;</span><br></pre></td></tr></table></figure>
+
+<p>aaaaaaaaaaa是在运行时刻赋值的；而bbbbbbbbbbb是在编译时就确定的；<br>但是，在以后的存取中，在栈上的数组比指针所指向的字符串(例如堆)快。比如：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">char</span> a = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">char</span> c[] = <span class="string">"1234567890"</span>;</span><br><span class="line">    <span class="keyword">char</span> *p =<span class="string">"1234567890"</span>;</span><br><span class="line">    </span><br><span class="line">    a = c[<span class="number">1</span>];</span><br><span class="line">    a = p[<span class="number">1</span>];</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>对应的汇编代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">10: a = c[1];</span><br><span class="line"></span><br><span class="line">00401067 8A 4D F1 mov cl,byte ptr [ebp-0Fh]</span><br><span class="line"></span><br><span class="line">0040106A 88 4D FC mov byte ptr [ebp-4],cl</span><br><span class="line"></span><br><span class="line">11: a = p[1];</span><br><span class="line"></span><br><span class="line">0040106D 8B 55 EC mov edx,dword ptr [ebp-14h]</span><br><span class="line"></span><br><span class="line">00401070 8A 42 01 mov al,byte ptr [edx+1]</span><br><span class="line"></span><br><span class="line">00401073 88 45 FC mov byte ptr [ebp-4],al</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;第一种在读取时直接就把字符串中的元素读到寄存器cl中，而第二种则要先把指针值读到edx中，再根据edx读取字符，显然慢了。</p>
+<h2 id="3-7-小结"><a href="#3-7-小结" class="headerlink" title="3.7 小结"></a>3.7 小结</h2><p>堆和栈的区别可以用如下的比喻来看出：<br>&emsp;&emsp;使用栈就象我们去饭馆里吃饭，只管点菜（发出申请）、付钱、和吃（使用），吃饱了就走，不必理会切菜、洗菜等准备工作和洗碗、刷锅等扫尾工作，他的好处是快捷，但是自由度小。<br>&emsp;&emsp;使用堆就象是自己动手做喜欢吃的菜肴，比较麻烦，但是比较符合自己的口味，而且自由度大。</p>
+<ol>
+<li>内存分配方面：</li>
+</ol>
+<p><strong>堆</strong>：一般由程序员分配释放， 若程序员不释放，程序结束时可能由OS回收 。注意它与数据结构中的堆是两回事，分配方式是类似于链表。可能用到的关键字如下：new、malloc、delete、free等等。<br><strong>栈</strong>：由编译器(Compiler)自动分配释放，存放函数的参数值，局部变量的值等。其操作方式类似于数据结构中的栈。</p>
+<ol start="2">
+<li>申请方式方面：</li>
+</ol>
+<p><strong>堆</strong>：需要程序员自己申请，并指明大小。在c中malloc函数如p1 = (char *)malloc(10)；在C++中用new运算符，但是注意p1、p2本身是在栈中的。因为他们还是可以认为是局部变量。<br><strong>栈</strong>：由系统自动分配。 例如，声明在函数中一个局部变量 int b；系统自动在栈中为b开辟空间。</p>
+<ol start="3">
+<li>系统响应方面：</li>
+</ol>
+<p><strong>堆</strong>：操作系统有一个记录空闲内存地址的链表，当系统收到程序的申请时，会遍历该链表，寻找第一个空间大于所申请空间的堆结点，然后将该结点从空闲结点链表中删除，并将该结点的空间分配给程序，另外，对于大多数系统，会在这块内存空间中的首地址处记录本次分配的大小，这样代码中的delete语句才能正确的释放本内存空间。另外由于找到的堆结点的大小不一定正好等于申请的大小，系统会自动的将多余的那部分重新放入空闲链表中。<br><strong>栈</strong>：只要栈的剩余空间大于所申请空间，系统将为程序提供内存，否则将报异常提示栈溢出。</p>
+<ol start="4">
+<li>大小限制方面：</li>
+</ol>
+<p><strong>堆</strong>：是向高地址扩展的数据结构，是不连续的内存区域。这是由于系统是用链表来存储的空闲内存地址的，自然是不连续的，而链表的遍历方向是由低地址向高地址。堆的大小受限于计算机系统中有效的虚拟内存。由此可见，堆获得的空间比较灵活，也比较大。<br><strong>栈</strong>：在Windows下, 栈是向低地址扩展的数据结构，是一块连续的内存的区域。这句话的意思是栈顶的地址和栈的最大容量是系统预先规定好的，在WINDOWS下，栈的大小是固定的（是一个编译时就确定的常数），如果申请的空间超过栈的剩余空间时，将提示overflow。因此，能从栈获得的空间较小。</p>
+<ol start="5">
+<li>效率方面：</li>
+</ol>
+<p><strong>堆</strong>：是由new分配的内存，一般速度比较慢，而且容易产生内存碎片，不过用起来最方便，另外，在WINDOWS下，最好的方式是用VirtualAlloc分配内存，他不是在堆，也不是在栈是直接在进程的地址空间中保留一快内存，虽然用起来最不方便。但是速度快，也最灵活。<br><strong>栈</strong>：由系统自动分配，速度较快。但程序员是无法控制的。</p>
+<ol start="6">
+<li>存放内容方面：</li>
+</ol>
+<p><strong>堆</strong>：一般是在堆的头部用一个字节存放堆的大小。堆中的具体内容有程序员安排。<br><strong>栈</strong>：在函数调用时第一个进栈的是主函数中后的下一条指令（函数调用语句的下一条可执行语句）的地址然后是函数的各个参数，在大多数的C编译器中，参数是由右往左入栈，然后是函数中的局部变量。 注意: 静态变量是不入栈的。当本次函数调用结束后，局部变量先出栈，然后是参数，最后栈顶指针指向最开始存的地址，也就是主函数中的下一条指令，程序由该点继续运行。</p>
+<ol start="7">
+<li>存取效率方面：</li>
+</ol>
+<p><strong>堆</strong>：是在编译时就确定的；<br><strong>栈</strong>：是在运行时赋值的；</p>
+<hr>
+<p><code>char *s1 = "Hello Word";</code><br><code>char s1[] = "Hello Word";</code><br>&emsp;&emsp;用数组比用指针速度要快一些，因为指针在底层汇编中需要用<code>edx</code>寄存器中转一下，而数组在栈上直接读取。</p>
+<hr>
+<h1 id="四、C-的内存分配方式"><a href="#四、C-的内存分配方式" class="headerlink" title="四、C++的内存分配方式"></a>四、C++的内存分配方式</h1><p>&emsp;&emsp;在C++中，内存分成5个区，他们分别是堆、栈、自由存储区、全局/静态存储区和常量存储区。 </p>
+<p><strong>栈</strong>，就是那些由编译器在需要的时候分配，在不需要的时候自动清楚的变量的存储区。里面的变量通常是局部变量、函数参数等。<br><strong>堆</strong>，就是那些由new分配的内存块，他们的释放编译器不去管，由我们的应用程序去控制，一般一个new就要对应一个delete。如果程序员没有释放掉，那么在程序结束后，操作系统会自动回收。<br><strong>自由存储区</strong>，就是那些由malloc等分配的内存块，他和堆是十分相似的，不过它是用free来结束自己的生命的。<br><strong>全局/静态存储区</strong>，全局变量和静态变量被分配到同一块内存中，在以前的C语言中，全局变量又分为初始化的和未初始化的，在C++里面没有这个区分了，他们共同占用同一块内存区。<br><strong>常量存储区</strong>，这是一块比较特殊的存储区，他们里面存放的是常量，不允许修改（当然，你要通过非正当手段也可以修改，而且方法很多）</p>
+<h1 id="五、内存分配方式引发的概念区别-C"><a href="#五、内存分配方式引发的概念区别-C" class="headerlink" title="五、内存分配方式引发的概念区别(C)"></a>五、内存分配方式引发的概念区别(C)</h1><h2 id="5-1-只读变量和常量"><a href="#5-1-只读变量和常量" class="headerlink" title="5.1 只读变量和常量"></a>5.1 只读变量和常量</h2><p>下面的例子用一个const变量来初始化数组，ANSI C的编译器会报告一个错误呢？</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> n = <span class="number">5</span>;</span><br><span class="line"><span class="keyword">int</span> a[n];</span><br></pre></td></tr></table></figure>
+
+<p>答案与分析:<br>1）这个问题讨论的是“常量”与“只读变量”的区别。常量肯定是只读的，例如 5， “abc”，等，肯定是只读的，因为程序中根本没有地方存放它的值(存放在字符常量区，不可修改，只读)，当然也就不能够去修改它。而“只读变量”则是在内存中开辟一个地方来存放它的值，只不过这个值由编译器限定不允许被修改。C语言关键字const就是用来限定一个变量不允许被改变的修饰符（Qualifier）。上述代码中变量n被修饰为只读变量，可惜再怎么修饰也不是常量。而ANSI C规定数组定义时维度必须是“常量”，“只读变量”也是不可以的。<br>2）注意：在ANSI C中，这种写法是错误的，因为数组的大小应该是个常量，而const int n,n只是一个变量（常量 != 不可变的变量，但在标准C++中，这样定义的是一个常量，这种写法是对的），实际上，根据编译过程及内存分配来看，这种用法本来就应该是合理的，只是 ANSI C对数组的规定限制了它。<br>3）那么，在 ANSI C 语言中用什么来定义常量呢？答案是enum类型和#define宏，这两个都可以用来定义常量。</p>
+<h2 id="5-2-指针-和-字符串常量"><a href="#5-2-指针-和-字符串常量" class="headerlink" title="5.2 指针 和 字符串常量"></a>5.2 指针 和 字符串常量</h2><p>请问下面的代码有什么问题？</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span> *p = <span class="string">"i'm hungry!"</span>;</span><br><span class="line"></span><br><span class="line">p[<span class="number">0</span>]= <span class="string">'I'</span>;</span><br></pre></td></tr></table></figure>
+
+<p>答案与分析：<br>&emsp;&emsp;上面的代码会造成内存的非法写操作。分析如下， “i’m hungry”实质上是字符串常量，而字符串常量被编译器放在只读的字符常量区内，不可写。指针p初始化，指向这个只读的内存区，是不能修改其中元素值(即存放值)；而<code>p[0] = 'I';</code>则企图修改内存存放值，编译器当然不会答应。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span> *p = <span class="string">"i'm hungry!"</span>;</span><br><span class="line">p = <span class="string">"I'm hungry!"</span>;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"%s\n"</span>,p);</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;虽说字符串常量(字符常量区)内容不可修改，但指针是变量，可以修改指针p指向的内存位置；即实际上又找了一个新的字符串常量(新申请在字符常量区)。</p>
+<h2 id="5-3-字符串数组-和-字符串常量"><a href="#5-3-字符串数组-和-字符串常量" class="headerlink" title="5.3 字符串数组 和 字符串常量"></a>5.3 字符串数组 和 字符串常量</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span> a[<span class="number">15</span>] = <span class="string">"i'm hungry!"</span>;</span><br><span class="line"><span class="keyword">char</span> *p = &amp;a;</span><br><span class="line"></span><br><span class="line">p[<span class="number">0</span>]= <span class="string">'I'</span>;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"%s\n"</span>,p);</span><br></pre></td></tr></table></figure>
+
+<p>答案与分析：</p>
+<p>&emsp;&emsp;相比较与5.2，由于字符串数组是存放在 栈 或 堆 ，该区是可以修改的，因此对字符串(数组,这里不是常量)的元素可以修改。</p>
+<h2 id="5-4-指针-amp-内存"><a href="#5-4-指针-amp-内存" class="headerlink" title="5.4 指针 &amp; 内存"></a>5.4 指针 &amp; 内存</h2><p>&emsp;&emsp;往往别人在教指针知识的时候，往往强调指针存放着地址，并举出类似下面的例子：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> *p;</span><br><span class="line">p = (<span class="keyword">int</span>*)<span class="number">0x12ff7c</span>;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"%x\n"</span>,p);</span><br></pre></td></tr></table></figure>
+
+<p>程序结果如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">12f</span>f7c</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;的确是能够打印出来，<code>0x12ff7c</code>是在前面随便打印一个<code>int</code>类型变量的地址获取的。但是如果给这个内存进行赋值操作的话，就会出现 <strong>段错误</strong>。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> *p;</span><br><span class="line">p = (<span class="keyword">int</span>*)<span class="number">0x12ff7c</span>;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"%x\n"</span>,p);</span><br><span class="line"></span><br><span class="line">*p = <span class="number">100</span>;</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;地址和内存是两回事！！！每段内存都有自己的地址，地址映射可以通过指针操作；但是，你无权更改内存存放的值，除非这段内存是 栈 或 堆 分配给你的。需要注意：<strong>有地址，没空间</strong>(字符常量区也是这样)。</p>
+<p><strong><font color="red">Ps：</font></strong> 如果有地址就能合法操作对应内存空间，那还要什么(手动)内存分配。</p>
+<h1 id="六、内存知识的重新总结"><a href="#六、内存知识的重新总结" class="headerlink" title="六、内存知识的重新总结"></a>六、内存知识的重新总结</h1><p>一个程序分为：</p>
+<ul>
+<li>栈区（stack） –编译器自动分配释放，主要存放函数的参数值，局部变量值等；</li>
+<li>堆区（heap）  –由程序员分配释放；</li>
+<li>全局(静态)区 –存放全局变量和静态变量；程序结束时由系统释放，分为全局初始化区(.data)和全局未初始化区(.bss)；</li>
+<li>字符常量区(.rodata)   –常量字符串放与此，程序结束时由系统释放；</li>
+<li>程序代码区(.text)</li>
+</ul>
+<p><strong>栈</strong> ：(<strong>后进先出</strong>)栈在程序中用于维护函数的调用上下文；栈保存了一个函数调用所需要的维护信息。</p>
+<pre><code>1)函数参数，函数返回地址
+2)局部变量
+3)函数调用上下文</code></pre><p><strong>堆</strong>：(<strong>堆内存需要主动申请</strong>)为什么有了栈还需要堆？</p>
+<pre><code>1)栈上的数据在函数返回后就会被释放掉，无法传递到函数外部，如局部变量(关键原因)
+2)堆是程序中一块巨大的内存空间，可由程序自由支配
+3)堆中被程序申请使用的内存在程序主动释放前将一直有效</code></pre><p><strong>(全局)静态存储区</strong>：</p>
+<pre><code>1)程序的静态存储区随着程序的运行而分配空间，直到程序运行结束
+2)在程序编译期间静态存储区的大小就已经确定
+3)程序的静态存储区主要用于保存程序中的全局变量和静态变量
+4)与栈和堆不同，静态存储区的信息最终会保存在可执行程序中</code></pre><h1 id="七、-非法内存操作分析"><a href="#七、-非法内存操作分析" class="headerlink" title="七、 非法内存操作分析"></a>七、 非法内存操作分析</h1><h2 id="7-1-指针没有初始化进行内存操作"><a href="#7-1-指针没有初始化进行内存操作" class="headerlink" title="7.1 指针没有初始化进行内存操作"></a>7.1 指针没有初始化进行内存操作</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;malloc.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span>* d1;</span><br><span class="line">    <span class="keyword">int</span> i=<span class="number">0</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;<span class="number">10</span>;i++)<span class="comment">//问题1：不能直接赋值，因为并没有分配内存，也没有初始化。</span></span><br><span class="line">    &#123;</span><br><span class="line">        d1[i]=i+<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%d-&gt;%p\n"</span>, *(d1+<span class="number">6</span>), d1);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>编译器1，程序执行的结果如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">7</span>-&gt;<span class="number">0x7ffeaaf62970</span></span><br></pre></td></tr></table></figure>
+
+<p>编译器2，程序执行的结果如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">11</span> Segmentation fault</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;这里理所应当地出现两种情况：</p>
+<ol>
+<li>出现段错误，则是编译器自动将指针置<code>NULL</code></li>
+<li>编译通过的，则是 野指针</li>
+</ol>
+<h2 id="7-2-没有给指针分配足够的内存"><a href="#7-2-没有给指针分配足够的内存" class="headerlink" title="7.2 没有给指针分配足够的内存"></a>7.2 没有给指针分配足够的内存</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;malloc.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> *d2;</span><br><span class="line">    <span class="keyword">int</span> i=<span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    d2=(<span class="keyword">int</span> *)<span class="built_in">calloc</span>(<span class="number">5</span>,<span class="keyword">sizeof</span>(<span class="keyword">int</span>));</span><br><span class="line">    <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;<span class="number">10</span>;i++)<span class="comment">//问题2：只分配了5个空间，却用了10个。</span></span><br><span class="line">    &#123;</span><br><span class="line">        d2[i]=i+<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%d-&gt;%p\n"</span>, *(d2+<span class="number">6</span>), d2);</span><br><span class="line">    <span class="built_in">free</span>(d2);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%d-&gt;%p\n"</span>, *(d2+<span class="number">6</span>), d2);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>编译器1，程序执行的结果如下：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">7</span>-&gt;<span class="number">0x1b3d010</span></span><br><span class="line">*** Error in `./a.out': free(): invalid next size (fast): 0x0000000001b3d010 ***</span><br></pre></td></tr></table></figure>
+
+<p>编译器2，程序执行的结果如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">7</span>-&gt;<span class="number">0x1602010</span></span><br><span class="line"><span class="number">4113</span>-&gt;<span class="number">0x1602010</span></span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;这里会出现<code>free()</code>操作 非法(没有分配)的内存；还有个编译器神奇通过(野指针的恐怖之处)。</p>
+<h2 id="7-3-内存分配成功但是没有初始化"><a href="#7-3-内存分配成功但是没有初始化" class="headerlink" title="7.3 内存分配成功但是没有初始化"></a>7.3 内存分配成功但是没有初始化</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;malloc.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">char</span>* s=(<span class="keyword">char</span>*)<span class="built_in">malloc</span>(<span class="number">5</span>);</span><br><span class="line">    s[<span class="number">0</span>]=<span class="string">'A'</span>;</span><br><span class="line">    <span class="comment">//s[1]='\0';</span></span><br><span class="line"> 	s[<span class="number">2</span>]=<span class="string">'B'</span>;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%s\n"</span>,s);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"%p\n"</span>,s);</span><br><span class="line">    <span class="built_in">free</span>(s);</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>编译器程序执行的结果如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">A</span><br><span class="line"><span class="number">0x14e5010</span></span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;需要注意的是，上面虽然编译通过但是是有问题的。犯这个错误往往是由于没有初始化的概念或者是以为内存分配好之后其缺省初值自然为0。未初始化指针变量也许看起来不那么严重，但是它确确实实是个非常严重的问题，而且往往出现这种错误很难找到原因。(<strong>尤其在字库驱动</strong>)</p>
+<p>&emsp;&emsp;内存的缺省初值究竟是什么并没有统一的标准，尽管有些时候为零值，但这点在不同的编译器上会有不同的实现。所以好的做法，是手动给数组赋上初值。</p>
+<p>&emsp;&emsp;当你只分配内存给字符(串)型指针，并没有缺省初值，严格意义上来讲是不算初始化；有些编译器自然里面都是<code>'\0'</code>，<code>printf</code>打印时，打印出来的数据自然会被其中字符的<code>'\0'</code>截胡。不然可以把上述例子的注释去掉再测试一遍。</p>
+<p>也许这种严重的问题并不多见，但是也绝不能掉以轻心。所以在定义一个变量时，第一件事就是初始化。你可以把它初始化为一个有效的值。</p>
+<h2 id="7-4-内存-数组-越界"><a href="#7-4-内存-数组-越界" class="headerlink" title="7.4 内存(数组)越界"></a>7.4 内存(数组)越界</h2><p>数组有两个特性，影响作用在数组上的函数：</p>
+<ol>
+<li>不能复制数组；</li>
+<li>使用数组名时， 数组名会自动指向其第一个元素的指针。</li>
+<li>因为不能复制，所以无法编写使用数组类型的形参，数组会自动转化为指针。<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">(<span class="keyword">int</span> a[<span class="number">10</span>])</span><span class="comment">//这里面的[10]仅表示我们希望数组是多大；实际没有用处，传入是指针</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;<span class="number">10</span>;i++)</span><br><span class="line">    &#123;</span><br><span class="line">        a[i]=i;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"%d\n"</span>,a[i]);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> a[<span class="number">5</span>];</span><br><span class="line">    f(a);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<p>编译器程序执行的结果如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">0</span><br><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td></tr></table></figure>
+
+<p><strong><font color="red">数组作为形参时的一个陷阱：</font></strong>在数组当形参的函数中，使用sizeof来计算传入的实参数组的大小。但是当数组作为形参的时候，其退化为一个指针，如果sizeof其数组名将计算的是一个指针的大小！</p>
+<h2 id="7-5-内存泄漏"><a href="#7-5-内存泄漏" class="headerlink" title="7.5 内存泄漏"></a>7.5 内存泄漏</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;malloc.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">(<span class="keyword">unsigned</span> <span class="keyword">int</span> size)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span>* p = (<span class="keyword">int</span>*)<span class="built_in">malloc</span>(size*<span class="keyword">sizeof</span>(<span class="keyword">int</span>));</span><br><span class="line">    <span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span>( size % <span class="number">2</span> != <span class="number">0</span> )</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span>; <span class="comment">//奇数个size的情况直接跳转，但申请的内存没有free掉；内存泄漏</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(i=<span class="number">0</span>; i&lt;size; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        p[i] = i;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"%d\n"</span>, p[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">free</span>(p);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    f(<span class="number">9</span>);</span><br><span class="line">    f(<span class="number">10</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>解决方法：当函数申请了内存：采用单入口，单出口程序</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">(<span class="keyword">unsigned</span> <span class="keyword">int</span> size)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span>* p = (<span class="keyword">int</span>*)<span class="built_in">malloc</span>(size*<span class="keyword">sizeof</span>(<span class="keyword">int</span>));</span><br><span class="line">    <span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span>( size % <span class="number">2</span> == <span class="number">0</span> )</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span>(i=<span class="number">0</span>; i&lt;size; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            p[i] = i;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"%d\n"</span>, p[i]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">free</span>(p);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="7-6-多次释放指针"><a href="#7-6-多次释放指针" class="headerlink" title="7.6 多次释放指针"></a>7.6 多次释放指针</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;malloc.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">(<span class="keyword">int</span>* p, <span class="keyword">int</span> size)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(i=<span class="number">0</span>; i&lt;size; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        p[i] = i;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"%d\n"</span>, p[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">free</span>(p);    <span class="comment">//第1次</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span>* p = (<span class="keyword">int</span>*)<span class="built_in">malloc</span>(<span class="number">5</span> * <span class="keyword">sizeof</span>(<span class="keyword">int</span>));</span><br><span class="line">    f(p, <span class="number">5</span>);</span><br><span class="line">    <span class="built_in">free</span>(p);    <span class="comment">//第2次</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>多次释放内存的后果，就是强退出</strong></p>
+<p><strong><font color="red"> Ps：</font></strong>分配多次完全可以，既然是变量那就是可变的！但是多次释放就是自杀！</p>
+<h2 id="7-7-使用已经释放的内存"><a href="#7-7-使用已经释放的内存" class="headerlink" title="7.7 使用已经释放的内存"></a>7.7 使用已经释放的内存</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//这个和前面的例子有点类似</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;malloc.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">(<span class="keyword">int</span>* p, <span class="keyword">int</span> size)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(i=<span class="number">0</span>; i&lt;size; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"%d\n"</span>, p[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">free</span>(p);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span>* p = (<span class="keyword">int</span>*)<span class="built_in">malloc</span>(<span class="number">5</span> * <span class="keyword">sizeof</span>(<span class="keyword">int</span>));</span><br><span class="line">    <span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line">    f(p, <span class="number">5</span>);</span><br><span class="line">    <span class="keyword">for</span>(i=<span class="number">0</span>; i&lt;<span class="number">5</span>; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        p[i] = i; <span class="comment">// OOPS!</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="八、C语言有关内存的规则"><a href="#八、C语言有关内存的规则" class="headerlink" title="八、C语言有关内存的规则"></a>八、C语言有关内存的规则</h1><h2 id="8-1用malloc申请了内存之后，应该立即检查指针值是否为NULL，防止使用值为NULL的指针"><a href="#8-1用malloc申请了内存之后，应该立即检查指针值是否为NULL，防止使用值为NULL的指针" class="headerlink" title="8.1用malloc申请了内存之后，应该立即检查指针值是否为NULL，防止使用值为NULL的指针"></a>8.1用malloc申请了内存之后，应该立即检查指针值是否为NULL，防止使用值为NULL的指针</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> *p=(<span class="keyword">int</span> *)<span class="built_in">malloc</span>(<span class="number">5</span>*<span class="keyword">sizeof</span>(<span class="keyword">int</span>));</span><br><span class="line"><span class="keyword">if</span>(p!=<span class="literal">NULL</span>)</span><br><span class="line">&#123;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">free</span>(p);</span><br></pre></td></tr></table></figure>
+
+<h2 id="8-2-牢记数组长度，防止数组越界操作，考虑使用柔性数组"><a href="#8-2-牢记数组长度，防止数组越界操作，考虑使用柔性数组" class="headerlink" title="8.2 牢记数组长度，防止数组越界操作，考虑使用柔性数组"></a>8.2 牢记数组长度，防止数组越界操作，考虑使用柔性数组</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> _<span class="title">soft_array</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="keyword">int</span> len;</span><br><span class="line">    <span class="keyword">int</span> <span class="built_in">array</span>[];</span><br><span class="line">&#125;SoftArray;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> i=<span class="number">0</span>;</span><br><span class="line">SoftArray* sa=(SoftArray*)mallo(<span class="keyword">sizeof</span>(SoftArray)+<span class="keyword">sizeof</span>(<span class="keyword">int</span>)*<span class="number">10</span>);</span><br><span class="line"></span><br><span class="line">sa-&gt;len=<span class="number">10</span>;</span><br><span class="line"><span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;sa-&gt;len;i++)</span><br><span class="line">&#123;</span><br><span class="line">    sa-&gt;<span class="built_in">array</span>[i]= i + <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="8-3-动态申请操作必须和释放操作匹配，防止内存泄漏和多次释放"><a href="#8-3-动态申请操作必须和释放操作匹配，防止内存泄漏和多次释放" class="headerlink" title="8.3 动态申请操作必须和释放操作匹配，防止内存泄漏和多次释放"></a>8.3 动态申请操作必须和释放操作匹配，防止内存泄漏和多次释放</h2><p><strong><font color="red"> Ps：</font></strong>可以用if…else…来确定是否释放</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> *p= (<span class="keyword">int</span>*)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(<span class="keyword">int</span>));</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">free</span>(p);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> *p= (<span class="keyword">int</span>*)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(<span class="keyword">int</span>));</span><br><span class="line">    </span><br><span class="line">    f();</span><br><span class="line">    <span class="built_in">free</span>(p);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="8-4-free指针之后必须赋值为NULL"><a href="#8-4-free指针之后必须赋值为NULL" class="headerlink" title="8.4 free指针之后必须赋值为NULL"></a>8.4 free指针之后必须赋值为NULL</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> *p=(<span class="keyword">int</span>*)(<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(<span class="keyword">int</span>));</span><br><span class="line"><span class="built_in">free</span>(p);</span><br><span class="line">p=<span class="literal">NULL</span>;</span><br><span class="line"><span class="comment">//···</span></span><br><span class="line"><span class="comment">//······</span></span><br><span class="line"><span class="comment">//·········</span></span><br><span class="line"><span class="comment">//············</span></span><br><span class="line"><span class="keyword">if</span>(p!=<span class="literal">NULL</span>)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">int</span> i=<span class="number">0</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;<span class="number">5</span>;i++)</span><br><span class="line">    &#123;</span><br><span class="line">          p[i]=i;        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="九、嵌入式的内存分配"><a href="#九、嵌入式的内存分配" class="headerlink" title="九、嵌入式的内存分配"></a>九、嵌入式的内存分配</h1><p>&emsp;&emsp;通常应用程序可以调用ANSI C编译器的malloc()和free()函数来动态的分配和释放内存，但多次这样的操作会把原来很大的一块连续存储区域逐渐地分割成许多非常小并且彼此不相邻的存储区域，这就是存储碎片。</p>
+<p>&emsp;&emsp;malloc( )属于标准C语言函数，当然可以在单片机上使用，如STM32可以先在启动文件中设置heap的大小，再使用动态内存分配：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Heap_Size     EQU    <span class="number">0x00000200</span>     <span class="comment">//也就是 512字节</span></span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;但是在嵌入式(裸机)中最好不要这么做，一般单片机的内存都比较小，而且没有MMU(内存管理管理单元),多次的<code>malloc</code> 与<code>free</code>的使用容易造成内存碎片。当后面因为空间不足而分配失败，从而导致系统崩溃，因此应该慎用，或者自己实现内存管理。除了UCOS或FREERTOS等嵌入式操作系统有自带的MMU处理外，裸机长时间连续工作产生的内存碎片为系统工作稳定埋下隐患。</p>
+
+      
+    </div>
+    
+    
+    
+
+	<div>
+	  
+		<div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+	  
+	</div>
+
+    
+	
+
+	
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/内存/" <i class="fa fa-tag"> 内存</a>
+          
+            <a href="/tags/堆栈/" <i class="fa fa-tag"> 堆栈</a>
+          
+            <a href="/tags/野指针/" <i class="fa fa-tag"> 野指针</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/03/15/大小端和联合体/" rel="next" title="大小端和联合体">
+                <i class="fa fa-chevron-left"></i> 大小端和联合体
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/03/15/野指针/" rel="prev" title="野指针">
+                野指针 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC80NjcwNy8yMzIxNw=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/header.jpg" alt="Shatang">
+            
+              <p class="site-author-name" itemprop="name">Shatang</p>
+              <p class="site-description motion-element" itemprop="description">身体和灵魂总要有一个在路上</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">34</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">41</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/ShaTang" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.bilibili.com/video/av42311652" title="火影.青春.梦想" target="_blank">火影.青春.梦想</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.bilibili.com/video/av45828728" title="FATE.士郎" target="_blank">FATE.士郎</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://tieba.baidu.com/p/6185344159?see_lz=1&pn=1" title="Hide on bush" target="_blank">Hide on bush</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.zhihu.com/question/272137224/answer/821655151" title="声微饭否" target="_blank">声微饭否</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.bilibili.com/video/av43067703" title="生老病死" target="_blank">生老病死</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.bilibili.com/video/av82424567" title="眉山剑客" target="_blank">眉山剑客</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一、内存分配方式"><span class="nav-text">一、内存分配方式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二、例子程序"><span class="nav-text">二、例子程序</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三、堆和栈的理论知识"><span class="nav-text">三、堆和栈的理论知识</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-申请方式"><span class="nav-text">3.1 申请方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-申请后系统的响应"><span class="nav-text">3.2 申请后系统的响应</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-申请大小的限制"><span class="nav-text">3.3 申请大小的限制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-4-申请效率的比较"><span class="nav-text">3.4 申请效率的比较</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-5-堆和栈的存储内容"><span class="nav-text">3.5 堆和栈的存储内容</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-6-存取效率的比较"><span class="nav-text">3.6 存取效率的比较</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-7-小结"><span class="nav-text">3.7 小结</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#四、C-的内存分配方式"><span class="nav-text">四、C++的内存分配方式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#五、内存分配方式引发的概念区别-C"><span class="nav-text">五、内存分配方式引发的概念区别(C)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#5-1-只读变量和常量"><span class="nav-text">5.1 只读变量和常量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-2-指针-和-字符串常量"><span class="nav-text">5.2 指针 和 字符串常量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-3-字符串数组-和-字符串常量"><span class="nav-text">5.3 字符串数组 和 字符串常量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-4-指针-amp-内存"><span class="nav-text">5.4 指针 &amp; 内存</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#六、内存知识的重新总结"><span class="nav-text">六、内存知识的重新总结</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#七、-非法内存操作分析"><span class="nav-text">七、 非法内存操作分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#7-1-指针没有初始化进行内存操作"><span class="nav-text">7.1 指针没有初始化进行内存操作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-2-没有给指针分配足够的内存"><span class="nav-text">7.2 没有给指针分配足够的内存</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-3-内存分配成功但是没有初始化"><span class="nav-text">7.3 内存分配成功但是没有初始化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-4-内存-数组-越界"><span class="nav-text">7.4 内存(数组)越界</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-5-内存泄漏"><span class="nav-text">7.5 内存泄漏</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-6-多次释放指针"><span class="nav-text">7.6 多次释放指针</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-7-使用已经释放的内存"><span class="nav-text">7.7 使用已经释放的内存</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#八、C语言有关内存的规则"><span class="nav-text">八、C语言有关内存的规则</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#8-1用malloc申请了内存之后，应该立即检查指针值是否为NULL，防止使用值为NULL的指针"><span class="nav-text">8.1用malloc申请了内存之后，应该立即检查指针值是否为NULL，防止使用值为NULL的指针</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-2-牢记数组长度，防止数组越界操作，考虑使用柔性数组"><span class="nav-text">8.2 牢记数组长度，防止数组越界操作，考虑使用柔性数组</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-3-动态申请操作必须和释放操作匹配，防止内存泄漏和多次释放"><span class="nav-text">8.3 动态申请操作必须和释放操作匹配，防止内存泄漏和多次释放</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-4-free指针之后必须赋值为NULL"><span class="nav-text">8.4 free指针之后必须赋值为NULL</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#九、嵌入式的内存分配"><span class="nav-text">九、嵌入式的内存分配</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Shatang</span>
+
+   
+</div>
+
+
+
+
+
+
+
+
+
+
+
+<span id="timeDate" title="网站运行时间">载入天数...</span><span id="times" title="网站运行时间">载入时分秒...</span>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i> 有
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人看过我的博客啦
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i> 本站总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/three.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/canvas_lines.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":180,"height":360},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
+
+<!--浏览器搞笑标题-->
+<script type="text/javascript" src="/js/src/FunnyTitle.js"></script>
+<!-- 页面点击颜文字表情 -->
+<script type="text/javascript" src="/js/src/emoji.js"></script>
+<!--此处为建站时间 -->
+<script>
+  var now = new Date(); 
+  function createtime() { 
+      var grt= new Date("09/13/2019 12:00:00");
+      now.setTime(now.getTime()+250); 
+      days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+      hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+      if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+      mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+      seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+      snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+      document.getElementById("timeDate").innerHTML ="(ㆆᴗㆆ)本站建立了"+dnum+"&thinsp;天"; 
+      document.getElementById("times").innerHTML = hnum + "&thinsp;时" + mnum + "&thinsp;分" + snum + "&thinsp;秒"; 
+  } 
+setInterval("createtime()",250);
+</script>
+<!-- 代码块复制功能 -->
+<script type="text/javascript" src="/js/src/clipboard.min.js"></script>  
+<script type="text/javascript" src="/js/src/clipboard-use.js"></script>
+
+
+
+<!--  
+数字雨 
+<canvas id="canvas" width="1440" height="900" ></canvas>
+<script type="text/javascript" src="/js/src/DigitalRain.js"></script>
+-->
