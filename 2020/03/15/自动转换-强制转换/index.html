@@ -84,7 +84,7 @@
 
 
 
-  <link rel="alternate" href="/atom.xml" title="大道至简，悟在天成" type="application/atom+xml">
+  <link rel="alternate" href="/atom.xml" title="道简顿悟，法深渐修" type="application/atom+xml">
 
 
 
@@ -96,10 +96,10 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="自动转换&amp;强制转换">
 <meta property="og:url" content="http://shatang.github.io/2020/03/15/自动转换-强制转换/index.html">
-<meta property="og:site_name" content="大道至简，悟在天成">
+<meta property="og:site_name" content="道简顿悟，法深渐修">
 <meta property="og:description" content="&amp;emsp;&amp;emsp;无情的搬砖机器">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-03-15T02:49:15.307Z">
+<meta property="og:updated_time" content="2020-06-14T14:47:19.476Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="自动转换&amp;强制转换">
 <meta name="twitter:description" content="&amp;emsp;&amp;emsp;无情的搬砖机器">
@@ -149,7 +149,7 @@
 
 
 
-  <title>自动转换&强制转换 | 大道至简，悟在天成</title>
+  <title>自动转换&强制转换 | 道简顿悟，法深渐修</title>
   
 
 
@@ -183,7 +183,7 @@
     <div class="custom-logo-site-title">
       <a href="/" class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">大道至简，悟在天成</span>
+        <span class="site-title">道简顿悟，法深渐修</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
@@ -333,7 +333,7 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="大道至简，悟在天成">
+      <meta itemprop="name" content="道简顿悟，法深渐修">
     </span>
 
     
@@ -369,8 +369,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2020-03-15T10:49:15+08:00">
-                2020-03-15
+              <time title="更新于" itemprop="dateModified" datetime="2020-06-14T22:47:19+08:00">
+                2020-06-14
               </time>
             
           </span>
@@ -427,7 +427,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1.4k
+                  1.7k
                 </span>
               
 
@@ -520,6 +520,30 @@
 <li>如果程序是由多个程序合并的（bootloader跳转），跳转到某一个确定的用户程序地址执行。</li>
 <li>如果flash空间足够大的话，甚至还可以实现当多份不相同的代码合并为一份后，在软件上做逻辑跳转，好处是新程序不必为旧程序做大量的兼容工作，通常旧程序含有大量的前人的(坏)编程习惯。可以选择执行想要的版本软件程序。</li>
 </ol>
+<h1 id="四。衍生出来的常见例子"><a href="#四。衍生出来的常见例子" class="headerlink" title="四。衍生出来的常见例子"></a>四。衍生出来的常见例子</h1><h2 id="4-1-int-a-b-amp-int-a-b"><a href="#4-1-int-a-b-amp-int-a-b" class="headerlink" title="4.1 (int)(a+b) &amp; (int)a+b"></a>4.1 (int)(a+b) &amp; (int)a+b</h2><ol>
+<li>前者是(a+b)共同强制转换成整形常数</li>
+<li>后者是a强制成整形 加上b的值</li>
+</ol>
+<ul>
+<li>举例 a=5.1，b=2.2<ul>
+<li>(int)(a+b)=7</li>
+<li>(int)a+b=7.2</li>
+</ul>
+</li>
+</ul>
+<hr>
+<ul>
+<li>同理，举例 int a=2,b=3;<ul>
+<li>(float)(a+b)/2 = 2.5</li>
+</ul>
+</li>
+</ul>
+<h2 id="4-2-精度问题"><a href="#4-2-精度问题" class="headerlink" title="4.2 精度问题"></a>4.2 精度问题</h2><p>&emsp;&emsp;首先 float double这类的数据是近似值 有精度问题。也就是说打印出来的知8.0000 未必是8.00000<br>在你这个例子里面<br>我改了一下 改为打印出20位小数</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> temp,i;</span><br><span class="line">    <span class="keyword">double</span> a=<span class="number">2.4568</span>;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">char</span> b[<span class="number">5</span>];</span><br><span class="line">    <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;<span class="number">5</span>;i++)</span><br><span class="line">    &#123;</span><br><span class="line">        temp=(<span class="keyword">int</span>)a;</span><br><span class="line">        b[i]=temp+<span class="string">'0'</span>;</span><br><span class="line">        a=(a-temp)*<span class="number">10</span>;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"%.20f %d\n"</span>,a,(<span class="keyword">int</span>)a);</span><br><span class="line">    &#125;</span><br><span class="line">    b[<span class="number">5</span>]=<span class="string">'\0'</span>;</span><br><span class="line">    <span class="built_in">puts</span>(b);</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>你再运行一下看看</p>
+<p>可以发现8.00000实际上是7.99999999999872812850 所以会是转为int的7</p>
+<p>一般来说 要把浮点转为int 要取得最近似的值道 都是采用(int)(a+0.5) 从而达到一种四舍五入的效果</p>
 
       
     </div>
@@ -660,7 +684,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">44</span>
+                  <span class="site-state-item-count">45</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -766,7 +790,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一、类型转换的来源"><span class="nav-text">一、类型转换的来源</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二、自动类型转换-隐式"><span class="nav-text">二、自动类型转换(隐式)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三、强制类型转换"><span class="nav-text">三、强制类型转换</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一、类型转换的来源"><span class="nav-text">一、类型转换的来源</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二、自动类型转换-隐式"><span class="nav-text">二、自动类型转换(隐式)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三、强制类型转换"><span class="nav-text">三、强制类型转换</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#四。衍生出来的常见例子"><span class="nav-text">四。衍生出来的常见例子</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-int-a-b-amp-int-a-b"><span class="nav-text">4.1 (int)(a+b) &amp; (int)a+b</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2-精度问题"><span class="nav-text">4.2 精度问题</span></a></li></ol></li></ol></div>
             
 
           </div>
