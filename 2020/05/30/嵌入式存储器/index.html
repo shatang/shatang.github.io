@@ -99,7 +99,7 @@
 <meta property="og:site_name" content="道简顿悟，法深渐修">
 <meta property="og:description" content="&amp;emsp;&amp;emsp;这里分享一下在嵌入式设备的存储器科普。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-05-30T03:10:36.111Z">
+<meta property="og:updated_time" content="2020-08-10T15:16:37.357Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="嵌入式存储器">
 <meta name="twitter:description" content="&amp;emsp;&amp;emsp;这里分享一下在嵌入式设备的存储器科普。">
@@ -369,8 +369,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2020-05-30T11:10:36+08:00">
-                2020-05-30
+              <time title="更新于" itemprop="dateModified" datetime="2020-08-10T23:16:37+08:00">
+                2020-08-10
               </time>
             
           </span>
@@ -474,7 +474,7 @@
 <p>&emsp;&emsp;EEPROM：电可擦除可编程只读存储器，Flash的操作特性完全符合EEPROM的定义，属EEPROM无疑，首款Flash推出时其数据手册上也清楚的标明是EEPROM，现在的多数Flash手册上也是这么标明的，<strong>二者的关系是“白马”和“马”</strong>。至于为什么业界要区分二者，主要的原因是 Flash EEPROM的操作方法和传统EEPROM截然不同，次要的原因是为了语言的简练，非正式文件和口语中Flash EEPROM就简称为Flash，这里要强调的是白马的“白”属性而非其“马”属性以区别Flash和传统EEPROM。</p>
 <p>&emsp;&emsp;Flash的特点是结构简单，同样工艺和同样晶元面积下可以得到更高容量且大数据量下的操作速度更快，但<strong>Flash缺点是操作过程麻烦，特别是在小数据量反复重写时</strong>，所以<strong>在MCU中的Flash结构适于不需频繁改写的程序存储器</strong>。</p>
 <p>&emsp;&emsp;很多应用中，<strong>需要频繁的改写某些小量数据且需掉电非易失，传统结构的EEPROM在此非常适合</strong>。所以很多MCU内部设计了两种EEPROM结构，FLASH的和传统的以期获得成本和功能的均衡，这极大的方便了使用者。随着ISP、IAP的流行，特别是在程序存储地址空间和数据存储地址空间重叠的MCU系中，现在越来越多的MCU生产商用支持IAP的程序存储器来模拟EEPROM对应的数据存储器，这是低成本下实现非易失数据存储器的一种变通方法。为在商业宣传上取得和双EEPROM工艺的“等效”性，不少采用Flash程序存储器“模拟”（注意，技术概念上并非真正的模拟）EEPROM数据存储器的厂家纷纷宣称其产品是带EEPROM的，严格说，这是非常不严谨的，但商人有商人的目的和方法，<strong>用Flash“模拟”EEPROM</strong>可以获取更大商业利益，所以在事实上，技术概念混淆的始作俑者正是他们。</p>
-<h2 id="1-3-Flash的粗分"><a href="#1-3-Flash的粗分" class="headerlink" title="1.3 Flash的粗分"></a>1.3 Flash的粗分</h2><p>&emsp;&emsp;目前Flash主要有两种，NOR Flash和NADN Flash。</p>
+<h2 id="1-3-Flash的粗分"><a href="#1-3-Flash的粗分" class="headerlink" title="1.3 Flash的粗分"></a>1.3 Flash的粗分</h2><p>&emsp;&emsp;目前Flash主要有两种，NOR Flash和NAND Flash。</p>
 <ul>
 <li><strong>NOR Flash</strong>：NOR Flash的读取和我们常见的SDRAM的读取是一样，用户可以直接运行装载在NOR FLASH里面的代码，这样可以减少SRAM的容量从而节约了成本。</li>
 <li><strong>NAND Flash</strong>：NAND Flash没有采取内存的随机读取技术，它的读取是以一次读取一块的形式来进行的，通常是一次读取512个字节，采用这种技术的Flash比较廉价。</li>
@@ -586,7 +586,7 @@
 </blockquote>
 <p>&emsp;&emsp;闪存内的坏块处理，是指生产出的闪存并不是完美的，总会有某些比特或者某些区域不可使用，这时候就要对闪存进行坏块处理。</p>
 <p>&emsp;&emsp;一开始生产的时候，发现到这个问题，想处理这些坏块。但是呢，由于处理起来成本太高(即，良品率太低)，索性就让他坏块，出厂前做下坏块处理，检测一下坏块数量不多就出厂了。</p>
-<p>&emsp;&emsp;Nand Flash是存在挺多坏块的。我们那些移动硬盘，那么大容量，当然是采用Nand Flash做成的。至于遇到所谓的黑心商家，就是把坏块率高的(或者寿命较短，用过的)移动硬盘(Nand Flash)卖给你。</p>
+<p>&emsp;&emsp;Nand Flash是存在挺多坏块的。我们那些移动硬盘，那么大容量，当然是采用Nand Flash做成的。至于遇到所谓的黑心商家，就是把坏块率高的(或者寿命较短，因为用过的)移动硬盘(Nand Flash)卖给你。</p>
 <p>&emsp;&emsp;<strong>Nor Flash没有坏块</strong>(你可以认为)。实际上 Nor Flash 是存在坏块的，只不过是在内对坏块进行了处理。</p>
 <blockquote>
 <p>另类的 “坏块”</p>
@@ -738,7 +738,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">47</span>
+                  <span class="site-state-item-count">48</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -760,7 +760,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">48</span>
+                  <span class="site-state-item-count">49</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
