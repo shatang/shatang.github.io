@@ -1,0 +1,1342 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-flash.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="bootloader,stm32,Flash,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="道简顿悟，法深渐修" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="&amp;emsp;&amp;emsp;由于嵌入式IAP升级时，制作的Bootloader往往会涉及到Stm32的Flash的一些操作(用于写入App程序)，因此这里讲解一下Stm32的Flash相关操作">
+<meta name="keywords" content="bootloader,stm32,Flash">
+<meta property="og:type" content="article">
+<meta property="og:title" content="stm32内部Flash基础知识">
+<meta property="og:url" content="http://shatang.github.io/2020/08/12/stm32内部Flash基础知识/index.html">
+<meta property="og:site_name" content="道简顿悟，法深渐修">
+<meta property="og:description" content="&amp;emsp;&amp;emsp;由于嵌入式IAP升级时，制作的Bootloader往往会涉及到Stm32的Flash的一些操作(用于写入App程序)，因此这里讲解一下Stm32的Flash相关操作">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-08-12T14:19:00.756Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="stm32内部Flash基础知识">
+<meta name="twitter:description" content="&amp;emsp;&amp;emsp;由于嵌入式IAP升级时，制作的Bootloader往往会涉及到Stm32的Flash的一些操作(用于写入App程序)，因此这里讲解一下Stm32的Flash相关操作">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+<script>
+    (function(){
+        if(''){
+            if (prompt('请输入文章密码') !== ''){
+                alert('密码错误！');
+                history.back();
+            }
+        }
+    })();
+</script>
+
+
+
+  <link rel="canonical" href="http://shatang.github.io/2020/08/12/stm32内部Flash基础知识/">
+
+
+
+
+
+  <title>stm32内部Flash基础知识 | 道简顿悟，法深渐修</title>
+  
+
+
+
+
+
+
+
+
+  
+  
+</head>
+
+
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">道简顿悟，法深渐修</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">It's not hard to give up, but it must be cool to stick to it.</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home                          //首页"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive          //归档"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th           //分类"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags                     //标签"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user                   //关于"></i> <br>
+            
+            关于我
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://shatang.github.io/2020/08/12/stm32内部Flash基础知识/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Shatang">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/header.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="道简顿悟，法深渐修">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">stm32内部Flash基础知识</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-08-12T22:14:08+08:00">
+                2020-08-12
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2020-08-12T22:19:00+08:00">
+                2020-08-12
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/驱动编写/" itemprop="url" rel="index">
+                    <span itemprop="name">驱动编写</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+		
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>次阅读
+            </span>
+          
+		  
+
+          
+            <div class="post-wordcount">
+              
+                
+                  <span class="post-meta-divider">|</span>
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  1.2k
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>&emsp;&emsp;由于嵌入式IAP升级时，制作的Bootloader往往会涉及到Stm32的Flash的一些操作(用于写入App程序)，因此这里讲解一下Stm32的Flash相关操作</p>
+<a id="more"></a>
+
+<h1 id="一、Stm32的Flash"><a href="#一、Stm32的Flash" class="headerlink" title="一、Stm32的Flash"></a>一、Stm32的Flash</h1><h2 id="1-1-Flash的基础原理"><a href="#1-1-Flash的基础原理" class="headerlink" title="1.1 Flash的基础原理"></a>1.1 Flash的基础原理</h2><p>&emsp;&emsp;此处内容可以看该篇博文：<a href="https://shatang.github.io/2020/05/30/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%AD%98%E5%82%A8%E5%99%A8/">嵌入式存储器</a></p>
+<h2 id="1-2-Stm32的Flash特性、操作"><a href="#1-2-Stm32的Flash特性、操作" class="headerlink" title="1.2 Stm32的Flash特性、操作"></a>1.2 Stm32的Flash特性、操作</h2><ul>
+<li>已知Flash写入前需要擦除的特性</li>
+<li>Nor Flash接口与RAM接口相同，因此往往MCU内部采用Nor Flash；即Stm32的Flash为 Nor Flash<ul>
+<li>因此如果是擦除大块区域时，会相对较慢</li>
+</ul>
+</li>
+<li>Stm32的Flash使用前后，需要 解锁 、 锁定<ul>
+<li>在实际发布的产品中，在STM32芯片的内部FLASH存储了控制程序，如果不作任何保护措施的话，可以使用下载器直接把内部FLASH的内容读取回来，得到bin或hex文件格式的代码拷贝，别有用心的厂商即可利用该代码文件山寨产品。 </li>
+</ul>
+</li>
+</ul>
+<hr>
+<p>&emsp;&emsp;对STM32 内部FLASH进行编程操作，一般需要遵循以下流程：</p>
+<ol>
+<li>Flash解锁</li>
+<li>清除相关标志位</li>
+<li>擦除Flash</li>
+<li>写入Flash</li>
+<li>锁定Flash</li>
+</ol>
+<h2 id="1-3-Flash的底层操作函数-仅限Stm32"><a href="#1-3-Flash的底层操作函数-仅限Stm32" class="headerlink" title="1.3 Flash的底层操作函数(仅限Stm32)"></a>1.3 Flash的底层操作函数(仅限Stm32)</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">FLASH_Unlock(); <span class="comment">//Flash解锁函数</span></span><br><span class="line">FLASH_Lock();   <span class="comment">//Flash锁定函数</span></span><br><span class="line"><span class="function">FLASH_Status <span class="title">FLASH_EraseSector</span><span class="params">(<span class="keyword">uint32_t</span> FLASH_Sector, <span class="keyword">uint8_t</span> VoltageRange)</span></span>;    <span class="comment">//Flash擦除函数</span></span><br><span class="line"><span class="function">FLASH_Status <span class="title">FLASH_ProgramWord</span><span class="params">(uint32_r Address， <span class="keyword">uint32_t</span> Data)</span></span>;   <span class="comment">//Flash写入函数</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="1-4-Flash的衍生操作函数"><a href="#1-4-Flash的衍生操作函数" class="headerlink" title="1.4 Flash的衍生操作函数"></a>1.4 Flash的衍生操作函数</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">extern</span> <span class="keyword">void</span> <span class="title">FLASH_If_Init</span><span class="params">(<span class="keyword">void</span>)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">extern</span> <span class="keyword">void</span> <span class="title">FLASH_If_Finish</span><span class="params">(<span class="keyword">void</span>)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">extern</span> uint32_t <span class="title">FLASH_If_Erase</span><span class="params">(<span class="keyword">uint32_t</span> StartSector)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">extern</span> uint32_t <span class="title">FLASH_If_Write</span><span class="params">(__IO <span class="keyword">uint32_t</span>* FlashAddress, <span class="keyword">uint32_t</span>* Data ,<span class="keyword">uint32_t</span> DataLength)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">extern</span> <span class="keyword">void</span> <span class="title">FLASH_IF_Read</span><span class="params">(<span class="keyword">uint32_t</span> ReadAddr, <span class="keyword">uint32_t</span> *pBuffer, <span class="keyword">uint32_t</span> NumToRead)</span></span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//例子：Stm32F407VGT6的Flash</span></span><br><span class="line"><span class="comment">//FLASH 扇区的起始地址</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> ADDR_FLASH_SECTOR_0     ((uint32_t)0x08000000) 	<span class="comment">//扇区0起始地址, 16 Kbytes</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> ADDR_FLASH_SECTOR_1     ((uint32_t)0x08004000) 	<span class="comment">//扇区1起始地址, 16 Kbytes</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> ADDR_FLASH_SECTOR_2     ((uint32_t)0x08008000) 	<span class="comment">//扇区2起始地址, 16 Kbytes</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> ADDR_FLASH_SECTOR_3     ((uint32_t)0x0800C000) 	<span class="comment">//扇区3起始地址, 16 Kbytes</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> ADDR_FLASH_SECTOR_4     ((uint32_t)0x08010000) 	<span class="comment">//扇区4起始地址, 64 Kbytes</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> ADDR_FLASH_SECTOR_5     ((uint32_t)0x08020000) 	<span class="comment">//扇区5起始地址, 128 Kbytes</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> ADDR_FLASH_SECTOR_6     ((uint32_t)0x08040000) 	<span class="comment">//扇区6起始地址, 128 Kbytes</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> ADDR_FLASH_SECTOR_7     ((uint32_t)0x08060000) 	<span class="comment">//扇区7起始地址, 128 Kbytes</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> ADDR_FLASH_SECTOR_8     ((uint32_t)0x08080000) 	<span class="comment">//扇区8起始地址, 128 Kbytes</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> ADDR_FLASH_SECTOR_9     ((uint32_t)0x080A0000) 	<span class="comment">//扇区9起始地址, 128 Kbytes</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> ADDR_FLASH_SECTOR_10    ((uint32_t)0x080C0000) 	<span class="comment">//扇区10起始地址,128 Kbytes</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> ADDR_FLASH_SECTOR_11    ((uint32_t)0x080E0000) 	<span class="comment">//扇区11起始地址,128 Kbytes</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/********************************************************************************</span></span><br><span class="line"><span class="comment">* 函数名 :  GetSector</span></span><br><span class="line"><span class="comment">* 功  能 :  获取某个地址所在的flash扇区</span></span><br><span class="line"><span class="comment">* 说  明 :  Stm32F407VGT6的Flash扇区分配</span></span><br><span class="line"><span class="comment">* 入  参 :  fu32_Addr：flash地址</span></span><br><span class="line"><span class="comment">* 返  回 :  0~11,即addr所在的扇区</span></span><br><span class="line"><span class="comment">* 设  计 :  Shatang                   时  间 :  2020.06.18</span></span><br><span class="line"><span class="comment">* 修  改 :  none                      时  间 :  none</span></span><br><span class="line"><span class="comment">********************************************************************************/</span></span><br><span class="line"><span class="function"><span class="keyword">static</span> uint16_t <span class="title">GetSector</span><span class="params">(<span class="keyword">uint32_t</span> fu32_Addr)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(fu32_Addr&lt;ADDR_FLASH_SECTOR_1)<span class="keyword">return</span> FLASH_Sector_0;</span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">if</span>(fu32_Addr&lt;ADDR_FLASH_SECTOR_2)<span class="keyword">return</span> FLASH_Sector_1;</span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">if</span>(fu32_Addr&lt;ADDR_FLASH_SECTOR_3)<span class="keyword">return</span> FLASH_Sector_2;</span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">if</span>(fu32_Addr&lt;ADDR_FLASH_SECTOR_4)<span class="keyword">return</span> FLASH_Sector_3;</span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">if</span>(fu32_Addr&lt;ADDR_FLASH_SECTOR_5)<span class="keyword">return</span> FLASH_Sector_4;</span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">if</span>(fu32_Addr&lt;ADDR_FLASH_SECTOR_6)<span class="keyword">return</span> FLASH_Sector_5;</span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">if</span>(fu32_Addr&lt;ADDR_FLASH_SECTOR_7)<span class="keyword">return</span> FLASH_Sector_6;</span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">if</span>(fu32_Addr&lt;ADDR_FLASH_SECTOR_8)<span class="keyword">return</span> FLASH_Sector_7;</span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">if</span>(fu32_Addr&lt;ADDR_FLASH_SECTOR_9)<span class="keyword">return</span> FLASH_Sector_8;</span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">if</span>(fu32_Addr&lt;ADDR_FLASH_SECTOR_10)<span class="keyword">return</span> FLASH_Sector_9;</span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">if</span>(fu32_Addr&lt;ADDR_FLASH_SECTOR_11)<span class="keyword">return</span> FLASH_Sector_10; </span><br><span class="line">	<span class="keyword">return</span> FLASH_Sector_11;	</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/********************************************************************************</span></span><br><span class="line"><span class="comment">* 函数名 :  FLASH_If_Init</span></span><br><span class="line"><span class="comment">* 功  能 :  stm32的内部flash初始化(解锁)</span></span><br><span class="line"><span class="comment">* 说  明 :  none</span></span><br><span class="line"><span class="comment">* 入  参 :  none</span></span><br><span class="line"><span class="comment">* 返  回 :  none</span></span><br><span class="line"><span class="comment">* 设  计 :  Shatang                   时  间 :  2020.06.18</span></span><br><span class="line"><span class="comment">* 修  改 :  none                      时  间 :  none</span></span><br><span class="line"><span class="comment">********************************************************************************/</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">FLASH_If_Init</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123; </span><br><span class="line">    FLASH_Unlock();</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* Clear pending flags (if any) */</span></span><br><span class="line">    FLASH_ClearFlag(FLASH_FLAG_EOP | FLASH_FLAG_OPERR | FLASH_FLAG_WRPERR |</span><br><span class="line">                  FLASH_FLAG_PGAERR | FLASH_FLAG_PGPERR|FLASH_FLAG_PGSERR);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/********************************************************************************</span></span><br><span class="line"><span class="comment">* 函数名 : FLASH_If_Finish</span></span><br><span class="line"><span class="comment">* 功  能 : stm32的内部flash关闭(上锁)</span></span><br><span class="line"><span class="comment">* 说  明 : none</span></span><br><span class="line"><span class="comment">* 入  参 : none</span></span><br><span class="line"><span class="comment">* 返  回 : none</span></span><br><span class="line"><span class="comment">* 设  计 : Shatang                    时  间 : 2020.07.29</span></span><br><span class="line"><span class="comment">* 修  改 : none                       时  间 : none</span></span><br><span class="line"><span class="comment">********************************************************************************/</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">FLASH_If_Finish</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">/* Clear pending flags (if any) */</span></span><br><span class="line">    FLASH_ClearFlag(FLASH_FLAG_EOP | FLASH_FLAG_OPERR | FLASH_FLAG_WRPERR |</span><br><span class="line">                  FLASH_FLAG_PGAERR | FLASH_FLAG_PGPERR|FLASH_FLAG_PGSERR);</span><br><span class="line">    </span><br><span class="line">    FLASH_Lock();</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/********************************************************************************</span></span><br><span class="line"><span class="comment">* 函数名 :  FLASH_If_Erase</span></span><br><span class="line"><span class="comment">* 功  能 :  stm32的内部flash擦除</span></span><br><span class="line"><span class="comment">* 说  明 :  只针对APP文件地址的存储内容进行擦除</span></span><br><span class="line"><span class="comment">* 入  参 :  none</span></span><br><span class="line"><span class="comment">* 返  回 :  none</span></span><br><span class="line"><span class="comment">* 设  计 :  Shatang                   时  间 :  2020.06.18</span></span><br><span class="line"><span class="comment">* 修  改 :  none                      时  间 :  none</span></span><br><span class="line"><span class="comment">********************************************************************************/</span></span><br><span class="line"><span class="keyword">uint32_t</span> FLASH_If_Erase(<span class="keyword">uint32_t</span> StartSector)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">uint32_t</span> UserStartSector;</span><br><span class="line">    <span class="keyword">uint32_t</span> i = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* Get the sector where start the user flash area */</span></span><br><span class="line">    UserStartSector = GetSector(StartSector);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span>(i = UserStartSector; i &lt;= GetSector(APPLICATION_END_ADDRESS); i += <span class="number">8</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">/* Device voltage range supposed to be [2.7V to 3.6V], the operation will</span></span><br><span class="line"><span class="comment">        be done by word */</span> </span><br><span class="line">        <span class="keyword">if</span> (FLASH_EraseSector(i, VoltageRange_3) != FLASH_COMPLETE)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">/* Error occurred while page erase */</span></span><br><span class="line">            <span class="keyword">return</span> (<span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> (<span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/********************************************************************************</span></span><br><span class="line"><span class="comment">* 函数名 :  FLASH_If_Write</span></span><br><span class="line"><span class="comment">* 功  能 :  stm32的内部flash写操作</span></span><br><span class="line"><span class="comment">* 说  明 :  none</span></span><br><span class="line"><span class="comment">* 入  参 :  none</span></span><br><span class="line"><span class="comment">* 返  回 :  none</span></span><br><span class="line"><span class="comment">* 设  计 :  Shatang                   时  间 :  2020.06.18</span></span><br><span class="line"><span class="comment">* 修  改 :  none                      时  间 :  none</span></span><br><span class="line"><span class="comment">********************************************************************************/</span></span><br><span class="line"><span class="keyword">uint32_t</span> FLASH_If_Write(__IO <span class="keyword">uint32_t</span>* FlashAddress, <span class="keyword">uint32_t</span>* Data ,<span class="keyword">uint32_t</span> DataLength)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">uint32_t</span> i = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; (i &lt; DataLength) &amp;&amp; (*FlashAddress &lt;= (APPLICATION_END_ADDRESS<span class="number">-4</span>)); i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">/* Device voltage range supposed to be [2.7V to 3.6V], the operation will</span></span><br><span class="line"><span class="comment">           be done by word */</span> </span><br><span class="line">        <span class="keyword">if</span> (FLASH_ProgramWord(*FlashAddress, *(<span class="keyword">uint32_t</span>*)(Data+i)) == FLASH_COMPLETE)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">/* Check the written value */</span></span><br><span class="line">            <span class="keyword">if</span> (*(<span class="keyword">uint32_t</span>*)*FlashAddress != *(<span class="keyword">uint32_t</span>*)(Data+i))</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="comment">/* Flash content doesn't match SRAM content */</span></span><br><span class="line">                <span class="keyword">return</span>(<span class="number">2</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">/* Increment FLASH destination address */</span></span><br><span class="line">            *FlashAddress += <span class="number">4</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">/* Error occurred while writing data in Flash memory */</span></span><br><span class="line">            <span class="keyword">return</span> (<span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> (<span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/********************************************************************************</span></span><br><span class="line"><span class="comment">* 函数名 :  STMFLASH_ReadWord</span></span><br><span class="line"><span class="comment">* 功  能 :  读取指定地址的半字(16位数据) </span></span><br><span class="line"><span class="comment">* 说  明 :  none</span></span><br><span class="line"><span class="comment">* 入  参 :  fu32_Addr：读地址 </span></span><br><span class="line"><span class="comment">* 返  回 :  对应数据</span></span><br><span class="line"><span class="comment">* 设  计 :  Shatang                   时  间 :  2020.06.18</span></span><br><span class="line"><span class="comment">* 修  改 :  none                      时  间 :  none</span></span><br><span class="line"><span class="comment">********************************************************************************/</span></span><br><span class="line"><span class="function"><span class="keyword">static</span> uint32_t <span class="title">STMFLASH_ReadWord</span><span class="params">(<span class="keyword">uint32_t</span> fu32_Addr)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> *(<span class="keyword">volatile</span> <span class="keyword">uint32_t</span>*)fu32_Addr; </span><br><span class="line">&#125;  </span><br><span class="line"><span class="comment">/********************************************************************************</span></span><br><span class="line"><span class="comment">* 函数名 :  STMFLASH_ReadWord</span></span><br><span class="line"><span class="comment">* 功  能 :  从指定地址开始读出指定长度的数据</span></span><br><span class="line"><span class="comment">* 说  明 :  none</span></span><br><span class="line"><span class="comment">* 入  参 :  ReadAddr：起始地址</span></span><br><span class="line"><span class="comment">            pBuffer：数据指针</span></span><br><span class="line"><span class="comment">            NumToRead：读的数据个数</span></span><br><span class="line"><span class="comment">* 返  回 :  对应数据</span></span><br><span class="line"><span class="comment">* 设  计 :  Shatang                   时  间 :  2020.06.18</span></span><br><span class="line"><span class="comment">* 修  改 :  none                      时  间 :  none</span></span><br><span class="line"><span class="comment">********************************************************************************/</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">FLASH_IF_Read</span><span class="params">(<span class="keyword">uint32_t</span> ReadAddr, <span class="keyword">uint32_t</span> *pBuffer, <span class="keyword">uint32_t</span> NumToRead)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">uint32_t</span> i;</span><br><span class="line">	<span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;NumToRead;i++)</span><br><span class="line">	&#123;</span><br><span class="line">		pBuffer[i] = STMFLASH_ReadWord(ReadAddr);<span class="comment">//读取4个字节.</span></span><br><span class="line">		ReadAddr+=<span class="number">4</span>;<span class="comment">//偏移4个字节.</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="二、详细应用实例"><a href="#二、详细应用实例" class="headerlink" title="二、详细应用实例"></a>二、详细应用实例</h1><p>&emsp;&emsp;具体实际应用：基于Xmodem协议的IAP升级，可以看这篇文章：<a href></a></p>
+
+      
+    </div>
+    
+    
+    
+
+	<div>
+	  
+		<div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+	  
+	</div>
+
+    
+	
+
+	
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/bootloader/" <i class="fa fa-tag"> bootloader</a>
+          
+            <a href="/tags/stm32/" <i class="fa fa-tag"> stm32</a>
+          
+            <a href="/tags/Flash/" <i class="fa fa-tag"> Flash</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/08/10/CRC校验算法原理分析/" rel="next" title="CRC校验算法原理分析">
+                <i class="fa fa-chevron-left"></i> CRC校验算法原理分析
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/08/12/Xmodem协议/" rel="prev" title="Xmodem协议">
+                Xmodem协议 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC80NjcwNy8yMzIxNw=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/header.jpg" alt="Shatang">
+            
+              <p class="site-author-name" itemprop="name">Shatang</p>
+              <p class="site-description motion-element" itemprop="description">身体和灵魂总要有一个在路上</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">51</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">55</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/ShaTang" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.bilibili.com/video/av42311652" title="火影.青春.梦想" target="_blank">火影.青春.梦想</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.bilibili.com/video/av45828728" title="FATE.士郎" target="_blank">FATE.士郎</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://tieba.baidu.com/p/6185344159?see_lz=1&pn=1" title="Hide on bush" target="_blank">Hide on bush</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.zhihu.com/question/272137224/answer/821655151" title="声微饭否" target="_blank">声微饭否</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.bilibili.com/video/av43067703" title="生老病死" target="_blank">生老病死</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.bilibili.com/video/av82424567" title="眉山剑客" target="_blank">眉山剑客</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一、Stm32的Flash"><span class="nav-text">一、Stm32的Flash</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-Flash的基础原理"><span class="nav-text">1.1 Flash的基础原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-Stm32的Flash特性、操作"><span class="nav-text">1.2 Stm32的Flash特性、操作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-Flash的底层操作函数-仅限Stm32"><span class="nav-text">1.3 Flash的底层操作函数(仅限Stm32)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-4-Flash的衍生操作函数"><span class="nav-text">1.4 Flash的衍生操作函数</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二、详细应用实例"><span class="nav-text">二、详细应用实例</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Shatang</span>
+
+   
+</div>
+
+
+
+
+
+
+
+
+
+
+
+<span id="timeDate" title="网站运行时间">载入天数...</span><span id="times" title="网站运行时间">载入时分秒...</span>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i> 有
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人看过我的博客啦
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i> 本站总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/three.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/canvas_lines.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":180,"height":360},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
+
+<!--浏览器搞笑标题-->
+<script type="text/javascript" src="/js/src/FunnyTitle.js"></script>
+<!-- 页面点击颜文字表情 -->
+<script type="text/javascript" src="/js/src/emoji.js"></script>
+<!--此处为建站时间 -->
+<script>
+  var now = new Date(); 
+  function createtime() { 
+      var grt= new Date("09/13/2019 12:00:00");
+      now.setTime(now.getTime()+250); 
+      days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+      hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+      if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+      mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+      seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+      snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+      document.getElementById("timeDate").innerHTML ="(ㆆᴗㆆ)本站建立了"+dnum+"&thinsp;天"; 
+      document.getElementById("times").innerHTML = hnum + "&thinsp;时" + mnum + "&thinsp;分" + snum + "&thinsp;秒"; 
+  } 
+setInterval("createtime()",250);
+</script>
+<!-- 代码块复制功能 -->
+<script type="text/javascript" src="/js/src/clipboard.min.js"></script>  
+<script type="text/javascript" src="/js/src/clipboard-use.js"></script>
+
+
+
+<!--  
+数字雨 
+<canvas id="canvas" width="1440" height="900" ></canvas>
+<script type="text/javascript" src="/js/src/DigitalRain.js"></script>
+-->

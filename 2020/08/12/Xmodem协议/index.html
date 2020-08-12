@@ -1,0 +1,1449 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-flash.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="IAP,串口协议,文件传输,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="道简顿悟，法深渐修" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="&amp;emsp;&amp;emsp;常用于嵌入式IAP串口升级。">
+<meta name="keywords" content="IAP,串口协议,文件传输">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Xmodem协议">
+<meta property="og:url" content="http://shatang.github.io/2020/08/12/Xmodem协议/index.html">
+<meta property="og:site_name" content="道简顿悟，法深渐修">
+<meta property="og:description" content="&amp;emsp;&amp;emsp;常用于嵌入式IAP串口升级。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://shatang.github.io/2020/08/12/Xmodem协议/1.png">
+<meta property="og:image" content="http://shatang.github.io/2020/08/12/Xmodem协议/2.png">
+<meta property="og:image" content="http://shatang.github.io/2020/08/12/Xmodem协议/3.png">
+<meta property="og:updated_time" content="2020-08-12T14:30:00.452Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Xmodem协议">
+<meta name="twitter:description" content="&amp;emsp;&amp;emsp;常用于嵌入式IAP串口升级。">
+<meta name="twitter:image" content="http://shatang.github.io/2020/08/12/Xmodem协议/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+<script>
+    (function(){
+        if(''){
+            if (prompt('请输入文章密码') !== ''){
+                alert('密码错误！');
+                history.back();
+            }
+        }
+    })();
+</script>
+
+
+
+  <link rel="canonical" href="http://shatang.github.io/2020/08/12/Xmodem协议/">
+
+
+
+
+
+  <title>Xmodem协议 | 道简顿悟，法深渐修</title>
+  
+
+
+
+
+
+
+
+
+  
+  
+</head>
+
+
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">道简顿悟，法深渐修</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">It's not hard to give up, but it must be cool to stick to it.</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home                          //首页"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive          //归档"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th           //分类"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags                     //标签"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user                   //关于"></i> <br>
+            
+            关于我
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://shatang.github.io/2020/08/12/Xmodem协议/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Shatang">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/header.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="道简顿悟，法深渐修">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Xmodem协议</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-08-12T22:22:43+08:00">
+                2020-08-12
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2020-08-12T22:30:00+08:00">
+                2020-08-12
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/驱动编写/" itemprop="url" rel="index">
+                    <span itemprop="name">驱动编写</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+		
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>次阅读
+            </span>
+          
+		  
+
+          
+            <div class="post-wordcount">
+              
+                
+                  <span class="post-meta-divider">|</span>
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  3k
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>&emsp;&emsp;常用于嵌入式IAP串口升级。</p>
+<a id="more"></a>
+
+<h1 id="一、什么是Xmodem协议？"><a href="#一、什么是Xmodem协议？" class="headerlink" title="一、什么是Xmodem协议？"></a>一、什么是Xmodem协议？</h1><p>&emsp;&emsp;XMODEM协议是一种串口通信中广泛用到的异步文件传输协议。分为标准Xmodem和1k-Xmodem两种，前者以128字节块的形式传输数据，后者字节块为1k即1024字节，并且每个块都使用一个校验和过程来进行错误检测。在校验过程中如果接收方关于一个块的校验和与它在发送方的校验和相同时，接收方就向发送方发送一个确认字节(ACK)。由于Xmodem需要对每个块都进行认可，这将导致性能有所下降，特别是延时比较长的场合，这种协议显得效率更低。</p>
+<p>&emsp;&emsp;除了Xmodem，还有Ymodem，Zmodem协议。他们的协议内容和Xmodem类似，但是进行了拓展。</p>
+<ul>
+<li>Ymodem允许批处理文件传输，效率更高；</li>
+<li>Zmodem则是改进的了Xmodem，它只需要对损坏的块进行重发，其它正确的块不需要发送确认字节。减少了通信量。</li>
+</ul>
+<h1 id="二、Xmodem协议相关控制字符"><a href="#二、Xmodem协议相关控制字符" class="headerlink" title="二、Xmodem协议相关控制字符"></a>二、Xmodem协议相关控制字符</h1><table>
+<thead>
+<tr>
+<th>命令字符</th>
+<th>命令码</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>SOH</td>
+<td>0x01 (Modem数据头)</td>
+</tr>
+<tr>
+<td>STX</td>
+<td>0x02</td>
+</tr>
+<tr>
+<td>EOT</td>
+<td>0x04 (发送结束)</td>
+</tr>
+<tr>
+<td>ACK</td>
+<td>0x06 (应答)</td>
+</tr>
+<tr>
+<td>NAK</td>
+<td>0x15 (非应答)</td>
+</tr>
+<tr>
+<td>CAN</td>
+<td>0x18 (取消发送)</td>
+</tr>
+<tr>
+<td>CTRLZ</td>
+<td>0x1A</td>
+</tr>
+</tbody></table>
+<h1 id="三、Xmodem数据包格式"><a href="#三、Xmodem数据包格式" class="headerlink" title="三、Xmodem数据包格式"></a>三、Xmodem数据包格式</h1><blockquote>
+<p>标准Xmodem协议（每个数据包含有128字节数据）帧格式</p>
+</blockquote>
+<p>| SOH | 信息包序号 | 信息包序号的补码 | 数据区段(128个字节) | 校验和 |</p>
+<img src="/2020/08/12/Xmodem协议/1.png">
+
+<blockquote>
+<p>标准XModem传输流程</p>
+</blockquote>
+<img src="/2020/08/12/Xmodem协议/2.png">
+
+<p>&emsp;&emsp;1k-Xmodem 只是在Xmodem协议基础上，进行了数据包长度的改进，从原有的128字节更改为1k字节。同时每个信息报的第一个字节的SOH变成了STX，STX定义为 <code><stx> 0x02</stx></code> ，能有效的加快数据传输速率。</p>
+<h1 id="四、校验方式和传输流程"><a href="#四、校验方式和传输流程" class="headerlink" title="四、校验方式和传输流程"></a>四、校验方式和传输流程</h1><h2 id="4-1-校验方式说明"><a href="#4-1-校验方式说明" class="headerlink" title="4.1 校验方式说明"></a>4.1 校验方式说明</h2><p>&emsp;&emsp;Xmodem协议支持2种校验和，它们是累加和与CRC校验。</p>
+<ul>
+<li>当接收方一开始启动传输时发送的是NAK，表示它希望以累加和方式校验；</li>
+<li>当接收方一开始启动传输时发送的是字符“C”，表示它希望以CRC方式校验。</li>
+</ul>
+<p>&emsp;&emsp;可能有人会问，接收方想怎么校验发送方都得配合吗，难道发送方必须都支持累加和校验和CRC校验？事实上Xmodem要求支持CRC的就必须同时支持累加和。如果发送方只支持累加和，而接收方用字符“C”来启动，那么发送方只要不管它，当接收方继续发送“C”，三次后都没收到应答，就自动会改为发送 NAK；因为它已经明白发送方可能不支持CRC校验，现在接收方改为累加和校验和发送方通讯。发送方收到NAK就赶紧发送数据包响应。 </p>
+<h2 id="4-2-启动传输"><a href="#4-2-启动传输" class="headerlink" title="4.2 启动传输"></a>4.2 启动传输</h2><p>&emsp;&emsp;传输由接收方启动，方法是向发送方发送”C”或者NAK （注意哦，这里提到的NAK是用来启动传输的；以后我们会看到NAK还可以用来对数据产生重传的机制）。</p>
+<ul>
+<li>接收方发送NAK信号表示接收方打算用累加和校验；</li>
+<li>发送字符”C”则表示接收方想打算使用CRC校验</li>
+</ul>
+<p>举例，接收方要求发送方以校验和方式发送时以NAK来请求，发送方将对此做出应答。如下图：</p>
+<img src="/2020/08/12/Xmodem协议/3.png">
+
+<h2 id="4-3-传输过程"><a href="#4-3-传输过程" class="headerlink" title="4.3 传输过程"></a>4.3 传输过程</h2><p>&emsp;&emsp;当接收方发送的第一个”C”或者NAK到达发送方，发送方认为可以发送第一个数据包，传输已经启动。发送方接着应该将数据以每次128字节的数据加上包头，包号，包号补码，末尾加上校验和，打包成帧格式传送。</p>
+<p>&emsp;&emsp;发送方发了第一包后就等待接收方的确认字节ACK，收到接收方传来的ACK确认，就认为数据包被接收方正确接收，并且接收方要求发送方继续发送下一个包；如果发送方收到接收方传来的NAK （这里，NAK用来告诉发送方重传，不是用来启动传输） 字节，则表示接收方请求重发刚才的数据包；</p>
+<p>&emsp;&emsp;如果发送方收到接收方传来的CAN字节，则表示接收方请求无条件停止传输。</p>
+<h2 id="4-4-结束传输"><a href="#4-4-结束传输" class="headerlink" title="4.4 结束传输"></a>4.4 结束传输</h2><p>&emsp;&emsp;如果发送方正常传输完全部数据，需要结束传输，正常结束需要发送方发送EOT 字节通知接收方。接收方回以ACK进行确认。当然接收方也可强制停止传输，当接收方发送CAN 字节给发送方，表示接收方想无条件停止传输，发送方收到CAN后，不需要再发送 EOT确认（因为接收方已经不想理它了，呵呵）。</p>
+<h2 id="4-5-特殊处理"><a href="#4-5-特殊处理" class="headerlink" title="4.5 特殊处理"></a>4.5 特殊处理</h2><p>&emsp;&emsp;虽然数据包是以 SOH 来标志一个信息包的起始的，但在 SOH 位置上如果出现EOT则表示数据传输结束，再也没有数据传过来。</p>
+<ul>
+<li>接收方首先应确认数据包序号的完整性，通过对数据包序号取补，然后和数据包序号的补码异或，结果为0表示正确，结果不为0则发送NAK请求重传。</li>
+<li>接收方确认数据包序号正确后，然后检查是否期望的序号。如果不是期望得到的数据包序号，说明发生严重错误，应该发送一个 CAN 来中止传输。</li>
+<li>如果接收到的数据包的包序号和前一包相同，那么接收方会忽略这个重复包，向发送方发出 ACK ，准备接收下一个包。</li>
+<li>接收方确认了信息包序号的完整性和是正确期望的后，只对 128 字节的数据区段进行算术和校验，结果与帧中最后一个字节（算术校验和）比较，相同发送 ACK，不同发送 NAK。</li>
+</ul>
+<h2 id="4-6-数据包特殊说明"><a href="#4-6-数据包特殊说明" class="headerlink" title="4.6 数据包特殊说明"></a>4.6 数据包特殊说明</h2><p>&emsp;&emsp;对于标准Xmodem协议来说，如果传送的文件不是128的整数倍，那么最后一个数据包的有效内容肯定小于帧长，不足的部分需要用CTRL- Z(0x1A)来填充。这里可能有人会问，我数据末尾是0x1A呢？</p>
+<ul>
+<li>如果传送的是文本文件，那么接收方对于接收的内容是很容易识别的，因为Xmodem协议定义的<strong>CTRL-Z(0x1A)</strong> 不是前128个ascii码中的通用可见字母等字符( 0x1A 对应 SUB[替补] )。</li>
+<li>如果传送的是二进制文件，例如 bootloader 工程生成的.bin文件。假如我的.bin文件最末尾是0x1A，那如何区分填充的0x1A？<ul>
+<li>例如像excel文件等，由于其数据内部会有些结构表示各个字段长度等，所以不会读取多余的填充字符。</li>
+<li>而.bin文件，一般是不做区分的，它直接把填充码直接同样写入flash<ul>
+<li>Flash写入是要擦除的，如果想利用填充码位置的Flash，只能用一次性，不然会损坏到IAP升级的APP文件</li>
+<li>Mcu其实不会把填充码当作代码来执行(没有跳转到该位置的代码块)。</li>
+<li>如果使用 1k-Xmodem ，最极端的情况下，也就浪费Mcu不到1K flash；(对于芯片Flash容量小，即扇区也小，干脆直接用Xmodem升级)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="五、补充知识：128个字符的ASCII码表"><a href="#五、补充知识：128个字符的ASCII码表" class="headerlink" title="五、补充知识：128个字符的ASCII码表"></a>五、补充知识：128个字符的ASCII码表</h1><p>&emsp;&emsp;由于上面的文本文件，对编码格式有疑惑的，建议重新看一下128字符的ASCII码表。<strong>基础ascii码值最大值是0x7f=127，扩展ascii码值最大值是0xFF=255。</strong><br>&emsp;&emsp;文章的链接为：<a href="https://shatang.github.io/2020/06/28/128%E4%B8%AA%E5%AD%97%E7%AC%A6%E7%9A%84ASCII%E7%A0%81%E8%A1%A8/#more">128个字符的ASIIC码表</a></p>
+<h1 id="六、补充知识：CRC16校验的实现"><a href="#六、补充知识：CRC16校验的实现" class="headerlink" title="六、补充知识：CRC16校验的实现"></a>六、补充知识：CRC16校验的实现</h1><p>&emsp;&emsp;对CRC校验有疑惑、不了解的，可以看这篇博文：<a href="https://shatang.github.io/2020/08/10/CRC%E6%A0%A1%E9%AA%8C%E7%AE%97%E6%B3%95%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90/#more">CRC校验算法原理分析</a></p>
+<h1 id="七、代码实例"><a href="#七、代码实例" class="headerlink" title="七、代码实例"></a>七、代码实例</h1><p>&emsp;&emsp;这里先放一个官方例程：<a href="https://pan.baidu.com/s/1-jREbLowNT3TbI_50aAgBg" target="_blank" rel="noopener">ST官方的IAP + Ymodem代码</a>；提取码为：aan9<br>&emsp;&emsp;再放一个超级终端方便调试升级：<a href="https://pan.baidu.com/s/1OgDHkVzkezVbZZcGGQCMZw" target="_blank" rel="noopener">超级终端(支持win10)</a>；提取码为：3ejn</p>
+<h2 id="7-1-Ymodem协议"><a href="#7-1-Ymodem协议" class="headerlink" title="7.1 Ymodem协议"></a>7.1 Ymodem协议</h2><p>&emsp;&emsp;从上述Xmodem知识讲解后，如果你去查询 Ymodem协议概念 ，你会发现及其相似。这里我放我的实例；根据官方IAP升级例程进行修改简化，芯片是Stm32F407vgt6，支持多串口任选升级 的代码：<a href>基于Ymodem协议的IAP升级</a>。</p>
+<p>&emsp;&emsp;<strong>标准</strong>Ymodem的特点，就是相对Xmodem能进行批文件传输。具体的实现方法就是：文件发送完以后，发送方发出一个“EOT”信号，接收方也以“ACK”回应；然后接收方会再次发出“C”开启另一次传输，若接着发送方会发出一个“全0数据包”，接收方“ACK”以后，本次通信正式结束。</p>
+<p>&emsp;&emsp;这样的话，每次建立连接，标准Ymodem能多次传输文件，即批文件传输。</p>
+<p><strong>Ps：</strong> 如果应用在嵌入式Bootloader的话，基本都只用一次，即接收方嵌入式固件常为非标准的Ymodem协议。</p>
+<h2 id="7-2-Xmodem-amp-Ymodem"><a href="#7-2-Xmodem-amp-Ymodem" class="headerlink" title="7.2 Xmodem &amp; Ymodem"></a>7.2 Xmodem &amp; Ymodem</h2><p>&emsp;&emsp;根据 7.1 的实例，能够通过Ymodem协议进行IAP升级；Xmodem 和 Ymodem 极其相似，直接切换成 Xmodem协议 进行升级能不能成呢？</p>
+<p>当然是理所当然地报错了！那么极其相似，但到底差别在哪里？</p>
+<ul>
+<li>文件传输的第一个数据包<ul>
+<li>Ymodem支持文件传输，体现在了传输文件第一个包，会先发 文件名 &amp; 文件大小；</li>
+<li>而Xmodem是直接传输数据的</li>
+</ul>
+</li>
+<li>数据包报文中的 Byte2 和 Byte3，一个是数据包数，一个是数据包数补码<ul>
+<li>Ymodem协议，他的数据包数是0x00开始(因为要多接一个文件信息)</li>
+<li>Xmodem协议，它的数据包数是0x01开始的(= =|||)</li>
+</ul>
+</li>
+</ul>
+<p>&emsp;&emsp;通过上述的总结，因为Ymodem与Xmodem很相似，可以根据上面的不同点稍微改一下，就能得到 基于Xmodem协议的IAP升级 代码： <a href>基于Xmodem协议的IAP升级</a>。(可能残留一些Ymodem的代码)</p>
+<ul>
+<li>两者带来的差别：Flash的擦除<ul>
+<li>Ymodem协议，第一包数据可以知道文件名、文件大小；如果不匹配可以不擦除旧APP的Flash，与超级终端连上后，不升级，设备是不会变成砖的</li>
+<li>Xmodem协议，不清楚文件，故它一定会擦除旧APP存储的Flash；如果擦除程序在升级前做，那么如果连上后放弃升级，该设备自然就会变成砖(就我现在写的那个)；当然也可以改写成在确实收到(识别)第一包数据包后，再擦除Flash就能实现类似Ymodem的效果</li>
+</ul>
+</li>
+</ul>
+<h2 id="7-3-文件加密-小技巧"><a href="#7-3-文件加密-小技巧" class="headerlink" title="7.3 文件加密(小技巧)"></a>7.3 文件加密(小技巧)</h2><p>&emsp;&emsp;通过上述的Xmodem、Ymodem进行文件传输时，有时候需要文件加密安全一点。我举一个自己在用的例子：</p>
+<ol>
+<li>做一个简易的上位机，把bin文件拖进去；由于bin文件就是二进制文件，可以将其 异或 某条字符串，不断循环直至 整个文件异或成 新的文件</li>
+<li>通过协议传输后，把获取到的数据，又重新异或一遍，这样的话，数据就会解密(数据异或两次就会变回原来的数据)，再写入Flash</li>
+<li>上位机的字符串加密要可改写非固定，这样就能实现简单文件加密传输拉！</li>
+</ol>
+<p><strong>Ps：</strong> 上面我的代码例程就有夹杂解密的，可以去掉；不过我的代码里面没有做CRC校验，因为我看到官方Ymodem自己就没加CRC校验；我的Xmodem例程就顺带加了</p>
+
+      
+    </div>
+    
+    
+    
+
+	<div>
+	  
+		<div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+	  
+	</div>
+
+    
+	
+
+	
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/IAP/" <i class="fa fa-tag"> IAP</a>
+          
+            <a href="/tags/串口协议/" <i class="fa fa-tag"> 串口协议</a>
+          
+            <a href="/tags/文件传输/" <i class="fa fa-tag"> 文件传输</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/08/12/stm32内部Flash基础知识/" rel="next" title="stm32内部Flash基础知识">
+                <i class="fa fa-chevron-left"></i> stm32内部Flash基础知识
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/08/12/IAP升级-Bootloader制作/" rel="prev" title="IAP升级 & Bootloader制作">
+                IAP升级 & Bootloader制作 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC80NjcwNy8yMzIxNw=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/header.jpg" alt="Shatang">
+            
+              <p class="site-author-name" itemprop="name">Shatang</p>
+              <p class="site-description motion-element" itemprop="description">身体和灵魂总要有一个在路上</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">51</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">55</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/ShaTang" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.bilibili.com/video/av42311652" title="火影.青春.梦想" target="_blank">火影.青春.梦想</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.bilibili.com/video/av45828728" title="FATE.士郎" target="_blank">FATE.士郎</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://tieba.baidu.com/p/6185344159?see_lz=1&pn=1" title="Hide on bush" target="_blank">Hide on bush</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.zhihu.com/question/272137224/answer/821655151" title="声微饭否" target="_blank">声微饭否</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.bilibili.com/video/av43067703" title="生老病死" target="_blank">生老病死</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.bilibili.com/video/av82424567" title="眉山剑客" target="_blank">眉山剑客</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一、什么是Xmodem协议？"><span class="nav-text">一、什么是Xmodem协议？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二、Xmodem协议相关控制字符"><span class="nav-text">二、Xmodem协议相关控制字符</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三、Xmodem数据包格式"><span class="nav-text">三、Xmodem数据包格式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#四、校验方式和传输流程"><span class="nav-text">四、校验方式和传输流程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-校验方式说明"><span class="nav-text">4.1 校验方式说明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2-启动传输"><span class="nav-text">4.2 启动传输</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-3-传输过程"><span class="nav-text">4.3 传输过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-4-结束传输"><span class="nav-text">4.4 结束传输</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-5-特殊处理"><span class="nav-text">4.5 特殊处理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-6-数据包特殊说明"><span class="nav-text">4.6 数据包特殊说明</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#五、补充知识：128个字符的ASCII码表"><span class="nav-text">五、补充知识：128个字符的ASCII码表</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#六、补充知识：CRC16校验的实现"><span class="nav-text">六、补充知识：CRC16校验的实现</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#七、代码实例"><span class="nav-text">七、代码实例</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#7-1-Ymodem协议"><span class="nav-text">7.1 Ymodem协议</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-2-Xmodem-amp-Ymodem"><span class="nav-text">7.2 Xmodem &amp; Ymodem</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-3-文件加密-小技巧"><span class="nav-text">7.3 文件加密(小技巧)</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Shatang</span>
+
+   
+</div>
+
+
+
+
+
+
+
+
+
+
+
+<span id="timeDate" title="网站运行时间">载入天数...</span><span id="times" title="网站运行时间">载入时分秒...</span>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i> 有
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人看过我的博客啦
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i> 本站总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/three.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/canvas_lines.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":180,"height":360},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
+
+<!--浏览器搞笑标题-->
+<script type="text/javascript" src="/js/src/FunnyTitle.js"></script>
+<!-- 页面点击颜文字表情 -->
+<script type="text/javascript" src="/js/src/emoji.js"></script>
+<!--此处为建站时间 -->
+<script>
+  var now = new Date(); 
+  function createtime() { 
+      var grt= new Date("09/13/2019 12:00:00");
+      now.setTime(now.getTime()+250); 
+      days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+      hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+      if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+      mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+      seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+      snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+      document.getElementById("timeDate").innerHTML ="(ㆆᴗㆆ)本站建立了"+dnum+"&thinsp;天"; 
+      document.getElementById("times").innerHTML = hnum + "&thinsp;时" + mnum + "&thinsp;分" + snum + "&thinsp;秒"; 
+  } 
+setInterval("createtime()",250);
+</script>
+<!-- 代码块复制功能 -->
+<script type="text/javascript" src="/js/src/clipboard.min.js"></script>  
+<script type="text/javascript" src="/js/src/clipboard-use.js"></script>
+
+
+
+<!--  
+数字雨 
+<canvas id="canvas" width="1440" height="900" ></canvas>
+<script type="text/javascript" src="/js/src/DigitalRain.js"></script>
+-->

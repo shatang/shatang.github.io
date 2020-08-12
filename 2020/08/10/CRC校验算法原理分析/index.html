@@ -99,7 +99,7 @@
 <meta property="og:site_name" content="道简顿悟，法深渐修">
 <meta property="og:description" content="&amp;emsp;&amp;emsp;这里提一下各种通讯协议都经常使用的CRC校验，为后面的知识做铺垫。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-08-10T15:24:56.039Z">
+<meta property="og:updated_time" content="2020-08-12T13:51:16.820Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="CRC校验算法原理分析">
 <meta name="twitter:description" content="&amp;emsp;&amp;emsp;这里提一下各种通讯协议都经常使用的CRC校验，为后面的知识做铺垫。">
@@ -369,8 +369,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2020-08-10T23:24:56+08:00">
-                2020-08-10
+              <time title="更新于" itemprop="dateModified" datetime="2020-08-12T21:51:16+08:00">
+                2020-08-12
               </time>
             
           </span>
@@ -456,10 +456,7 @@
 <a id="more"></a>
 
 <h1 id="一、CRC分析"><a href="#一、CRC分析" class="headerlink" title="一、CRC分析"></a>一、CRC分析</h1><p>&emsp;&emsp;我只是把网上能搜到的资料根据自己的理解重新写了一遍，本文大部分内容都来自于下面的两位博主:</p>
-<ul>
-<li>wchonline  ， <a href="https://www.cnblogs.com/wchonline/p/11698677.html" target="_blank" rel="noopener">CRC校验算法详解</a></li>
-<li>偏执灬  ， <a href="https://blog.csdn.net/sinat_23338865/java/article/details/73549076" target="_blank" rel="noopener">CRC校验算法原理分析</a></li>
-</ul>
+<p>wchonline  ， <a href="https://www.cnblogs.com/wchonline/p/11698677.html" target="_blank" rel="noopener">CRC校验算法详解</a><br>偏执灬  ， <a href="https://blog.csdn.net/sinat_23338865/java/article/details/73549076" target="_blank" rel="noopener">CRC校验算法原理分析</a></p>
 <h2 id="1-1-数据校验"><a href="#1-1-数据校验" class="headerlink" title="1.1 数据校验"></a>1.1 数据校验</h2><p>&emsp;&emsp;数据在传输过程（比如通过网线在两台计算机间传文件）中，由于传输信道的原因，可能会有误码现象（比如说发送数字5但接收方收到的却是6），如何发现误码呢？方法是发送额外的数据让接收方校验是否正确，这就是数据校验。</p>
 <p>&emsp;&emsp;最容易想到的校验方法是和校验，就是将传送的数据(按字节方式)加起来计算出数据的总和，并将总和传给接收方，接收方收到数据后也计算总和，并与收到的总和比较看是否相同。如果传输中出现误码，那么总和一般不会相同，从而知道有误码产生，可以让发送方再发送一遍数据。</p>
 <h2 id="1-2-CRC校验原理"><a href="#1-2-CRC校验原理" class="headerlink" title="1.2 CRC校验原理"></a>1.2 CRC校验原理</h2><p>&emsp;&emsp;CRC(Cyclic Redundancy Check)循环冗余校验是常用的数据校验方法。CRC校验码的基本思想是利用线性编码理论， 在发送端根据要传送的k位二进制码序列，以一定的规则产生一个校验用的监督码（既CRC码）r位，并附在信息后边，构成一个新的二进制码序列数共(k+r)位，最后发送出去。在接收端，则根据信息码和CRC码之间所遵循的规则进行检验，以确定传送中是否出错，在数据存储和数据通讯领域常用。</p>
@@ -576,6 +573,10 @@
 
           <div class="post-nav-prev post-nav-item">
             
+              <a href="/2020/08/12/stm32内部Flash基础知识/" rel="prev" title="stm32内部Flash基础知识">
+                stm32内部Flash基础知识 <i class="fa fa-chevron-right"></i>
+              </a>
+            
           </div>
         </div>
       
@@ -658,7 +659,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">48</span>
+                  <span class="site-state-item-count">51</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -680,7 +681,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">49</span>
+                  <span class="site-state-item-count">55</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
