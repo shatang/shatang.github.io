@@ -78,7 +78,7 @@
 
 
 
-  <meta name="keywords" content="Modbus,">
+  <meta name="keywords" content="bootloader,编译工具链,Stm32,">
 
 
 
@@ -91,21 +91,18 @@
 
 
 
-<meta name="description" content="&amp;emsp;&amp;emsp;这里分享一下在嵌入式设备与PLC通讯中的一种很常见的通讯协议：Modbus通讯">
-<meta name="keywords" content="Modbus">
+<meta name="description" content="&amp;emsp;&amp;emsp;本篇主要讲基于Stm32F030的IAP升级(即Bootloader升级)中特殊操作、怎么算偏移量等；还有一些冷知识，如编译工具链。">
+<meta name="keywords" content="bootloader,编译工具链,Stm32">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Modbus协议_概念讲解">
-<meta property="og:url" content="http://shatang.github.io/2020/05/30/Modbus协议-概念讲解/index.html">
+<meta property="og:title" content="M0的中断向量表重映射">
+<meta property="og:url" content="http://shatang.github.io/2020/08/12/M0的中断向量表重映射/index.html">
 <meta property="og:site_name" content="道简顿悟，法深渐修">
-<meta property="og:description" content="&amp;emsp;&amp;emsp;这里分享一下在嵌入式设备与PLC通讯中的一种很常见的通讯协议：Modbus通讯">
+<meta property="og:description" content="&amp;emsp;&amp;emsp;本篇主要讲基于Stm32F030的IAP升级(即Bootloader升级)中特殊操作、怎么算偏移量等；还有一些冷知识，如编译工具链。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://shatang.github.io/2020/05/30/Modbus协议-概念讲解/0.jpg">
-<meta property="og:image" content="http://shatang.github.io/2020/05/30/Modbus协议-概念讲解/1.png">
-<meta property="og:updated_time" content="2020-05-30T02:50:53.186Z">
+<meta property="og:updated_time" content="2020-08-12T14:42:20.619Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Modbus协议_概念讲解">
-<meta name="twitter:description" content="&amp;emsp;&amp;emsp;这里分享一下在嵌入式设备与PLC通讯中的一种很常见的通讯协议：Modbus通讯">
-<meta name="twitter:image" content="http://shatang.github.io/2020/05/30/Modbus协议-概念讲解/0.jpg">
+<meta name="twitter:title" content="M0的中断向量表重映射">
+<meta name="twitter:description" content="&amp;emsp;&amp;emsp;本篇主要讲基于Stm32F030的IAP升级(即Bootloader升级)中特殊操作、怎么算偏移量等；还有一些冷知识，如编译工具链。">
 
 
 
@@ -146,13 +143,13 @@
 
 
 
-  <link rel="canonical" href="http://shatang.github.io/2020/05/30/Modbus协议-概念讲解/">
+  <link rel="canonical" href="http://shatang.github.io/2020/08/12/M0的中断向量表重映射/">
 
 
 
 
 
-  <title>Modbus协议_概念讲解 | 道简顿悟，法深渐修</title>
+  <title>M0的中断向量表重映射 | 道简顿悟，法深渐修</title>
   
 
 
@@ -327,7 +324,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://shatang.github.io/2020/05/30/Modbus协议-概念讲解/">
+    <link itemprop="mainEntityOfPage" href="http://shatang.github.io/2020/08/12/M0的中断向量表重映射/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Shatang">
@@ -344,7 +341,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Modbus协议_概念讲解</h1>
+          <h1 class="post-title" itemprop="name headline">M0的中断向量表重映射</h1>
         
 
         <div class="post-meta">
@@ -356,8 +353,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-30T10:50:13+08:00">
-                2020-05-30
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-08-12T22:37:58+08:00">
+                2020-08-12
               </time>
             
 
@@ -372,8 +369,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2020-05-30T10:50:53+08:00">
-                2020-05-30
+              <time title="更新于" itemprop="dateModified" datetime="2020-08-12T22:42:20+08:00">
+                2020-08-12
               </time>
             
           </span>
@@ -430,7 +427,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  3.1k
+                  1.3k
                 </span>
               
 
@@ -455,294 +452,66 @@
       
 
       
-        <p>&emsp;&emsp;这里分享一下在嵌入式设备与PLC通讯中的一种很常见的通讯协议：Modbus通讯</p>
+        <p>&emsp;&emsp;本篇主要讲基于Stm32F030的IAP升级(即Bootloader升级)中特殊操作、怎么算偏移量等；还有一些冷知识，如编译工具链。</p>
 <a id="more"></a>
-<h1 id="一、基本概念"><a href="#一、基本概念" class="headerlink" title="一、基本概念"></a>一、基本概念</h1><p>&emsp;&emsp;Modbus协议 是一个请求/应答协议，发起请求的为Master（client），响应请求的为Slave（server）;Modbus协议包括ASCII、RTU、TCP三种报文类型，并没有规定物理层。</p>
-<p>&emsp;&emsp;标准的Modbus协议物理层接口有RS232、RS422、RS485和以太网接口，采用master/slave方式通信。</p>
+
+<h1 id="一、M0的中断向量表重映射"><a href="#一、M0的中断向量表重映射" class="headerlink" title="一、M0的中断向量表重映射"></a>一、M0的中断向量表重映射</h1><p>&emsp;&emsp;在STM32F103等cortex-m3/m4内核的单片机上可以通过设置中断向量表的偏移量，完成重映射中断向量表。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SCB-&gt;VTOR = FLASH_BASE | VECT_TAB_OFFSET;</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;Stm32f0系列MCU中断矢量表的定位跟STM32其它系列相比有点差异，即M0系列没有像其它M3/M4/M0+系列所具备的中断矢量表重定位寄存器，其中断矢量表不能借助矢量重定位寄存器简单修改实现。所以Stm32f0x IAP的过程会跟其它系列的STM32芯片的IAP动作有所不同。</p>
 <hr>
-<ul>
-<li><strong>Master端发出读数据请求消息，Slave端接收到正确消息后，就发送对应数据到Master端以响应请求；</strong></li>
-<li><strong>Master端发出写数据请求消息，Slave端接收到正确消息后，就修改Slave端的数据；</strong></li>
-</ul>
-<p>先发请求，再接收响应，从而实现 主机 对 从机 读/写操作。</p>
-<h1 id="二、报文格式-通用部分"><a href="#二、报文格式-通用部分" class="headerlink" title="二、报文格式_通用部分"></a>二、报文格式_通用部分</h1><ul>
-<li>(<strong>ADU</strong>)报文，指的是一串完整的指令数据；一个报文就是一帧数据，一个数据帧就一个报文</li>
-<li>(<strong>MBAP</strong>)报文头，即报文的一部分，用于识别。当然也有些是部分数据在报文尾部，例如CRC数据校验。</li>
-<li>(<strong>PDU</strong>)协议数据单元，这部分就是通信中的数据部分了。</li>
-</ul>
-<p>举例如下：</p>
-<img src="/2020/05/30/Modbus协议-概念讲解/0.jpg" title="Modbus RTU报文模型">
+<p>M0的中断向量表如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">__Vectors       DCD     __initial_sp                   ; Top of Stack</span><br><span class="line">                DCD     Reset_Handler                  ; Reset Handler</span><br><span class="line">                DCD     NMI_Handler                    ; NMI Handler</span><br><span class="line">                DCD     HardFault_Handler              ; Hard Fault Handler</span><br><span class="line">                DCD     0                              ; Reserved</span><br><span class="line">                DCD     0                              ; Reserved</span><br><span class="line">                DCD     0                              ; Reserved</span><br><span class="line">                DCD     0                              ; Reserved</span><br><span class="line">                DCD     0                              ; Reserved</span><br><span class="line">                DCD     0                              ; Reserved</span><br><span class="line">                DCD     0                              ; Reserved</span><br><span class="line">                DCD     SVC_Handler                    ; SVCall Handler</span><br><span class="line">                DCD     0                              ; Reserved</span><br><span class="line">                DCD     0                              ; Reserved</span><br><span class="line">                DCD     PendSV_Handler                 ; PendSV Handler</span><br><span class="line">                DCD     SysTick_Handler                ; SysTick Handler</span><br><span class="line"></span><br><span class="line">                ; External Interrupts</span><br><span class="line">                DCD     WWDG_IRQHandler                ; Window Watchdog</span><br><span class="line">                DCD     PVD_IRQHandler                 ; PVD through EXTI Line detect</span><br><span class="line">                DCD     RTC_IRQHandler                 ; RTC through EXTI Line</span><br><span class="line">                DCD     FLASH_IRQHandler               ; FLASH</span><br><span class="line">                DCD     RCC_IRQHandler                 ; RCC</span><br><span class="line">                DCD     EXTI0_1_IRQHandler             ; EXTI Line 0 and 1</span><br><span class="line">                DCD     EXTI2_3_IRQHandler             ; EXTI Line 2 and 3</span><br><span class="line">                DCD     EXTI4_15_IRQHandler            ; EXTI Line 4 to 15</span><br><span class="line">                DCD     TS_IRQHandler                  ; TS</span><br><span class="line">                DCD     DMA1_Channel1_IRQHandler       ; DMA1 Channel 1</span><br><span class="line">                DCD     DMA1_Channel2_3_IRQHandler     ; DMA1 Channel 2 and Channel 3</span><br><span class="line">                DCD     DMA1_Channel4_5_IRQHandler     ; DMA1 Channel 4 and Channel 5</span><br><span class="line">                DCD     ADC1_COMP_IRQHandler           ; ADC1, COMP1 and COMP2 </span><br><span class="line">                DCD     TIM1_BRK_UP_TRG_COM_IRQHandler ; TIM1 Break, Update, Trigger and Commutation</span><br><span class="line">                DCD     TIM1_CC_IRQHandler             ; TIM1 Capture Compare</span><br><span class="line">                DCD     TIM2_IRQHandler                ; TIM2</span><br><span class="line">                DCD     TIM3_IRQHandler                ; TIM3</span><br><span class="line">                DCD     TIM6_DAC_IRQHandler            ; TIM6 and DAC</span><br><span class="line">                DCD     0                              ; Reserved</span><br><span class="line">                DCD     TIM14_IRQHandler               ; TIM14</span><br><span class="line">                DCD     TIM15_IRQHandler               ; TIM15</span><br><span class="line">                DCD     TIM16_IRQHandler               ; TIM16</span><br><span class="line">                DCD     TIM17_IRQHandler               ; TIM17</span><br><span class="line">                DCD     I2C1_IRQHandler                ; I2C1</span><br><span class="line">                DCD     I2C2_IRQHandler                ; I2C2</span><br><span class="line">                DCD     SPI1_IRQHandler                ; SPI1</span><br><span class="line">                DCD     SPI2_IRQHandler                ; SPI2</span><br><span class="line">                DCD     USART1_IRQHandler              ; USART1</span><br><span class="line">                DCD     USART2_IRQHandler              ; USART2</span><br><span class="line">                DCD     0                              ; Reserved</span><br><span class="line">                DCD     CEC_IRQHandler                 ; CEC</span><br><span class="line">                DCD     0                              ; Reserved</span><br></pre></td></tr></table></figure>
 
+<ol>
+<li>将APP的中断向量表拷贝到SRAM里面去。M0的中断向量表由48个有序字(32bit)组成，把它们从flash区0x08004000开始的中断向量表拷贝到0x2000 0000的SRAM区。</li>
+<li>做存储地址的映射，即把SRAM映射到代码执行区的地址0X00处。</li>
+</ol>
+<p>&emsp;&emsp;具体代码实现如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> FLASH_BOOTLOADER_SIZE       (uint32_t)(0x4000)  </span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> APPLICATION_ADDRESS         (uint32_t)(0x08000000+FLASH_BOOTLOADER_SIZE)  </span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">if</span>   (defined ( __CC_ARM ))</span></span><br><span class="line">    __IO <span class="keyword">uint32_t</span> VectorTable[<span class="number">48</span>] __attribute__((at(<span class="number">0x20000000</span>)));</span><br><span class="line"><span class="meta">#<span class="meta-keyword">elif</span> (defined (__ICCARM__))</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> location = 0x20000000</span></span><br><span class="line">    __no_init __IO <span class="keyword">uint32_t</span> VectorTable[<span class="number">48</span>];</span><br><span class="line"><span class="meta">#<span class="meta-keyword">elif</span> defined   (  __GNUC__  )</span></span><br><span class="line">    __IO <span class="keyword">uint32_t</span> VectorTable[<span class="number">48</span>] __attribute__((section(<span class="string">".RAMVectorTable"</span>)));</span><br><span class="line"><span class="meta">#<span class="meta-keyword">elif</span> defined ( __TASKING__ )</span></span><br><span class="line">    __IO <span class="keyword">uint32_t</span> VectorTable[<span class="number">48</span>] __at(<span class="number">0x20000000</span>);</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span>  </span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">VectorRemap</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">uint8_t</span> i = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//拷贝中断向量表  </span></span><br><span class="line">    <span class="keyword">for</span>(i = <span class="number">0</span>; i &lt; <span class="number">48</span>; i++)</span><br><span class="line">    &#123;  </span><br><span class="line">       VectorTable[i] = *(__IO <span class="keyword">uint32_t</span>*)(APPLICATION_ADDRESS + (i&lt;&lt;<span class="number">2</span>));</span><br><span class="line">    &#125;  </span><br><span class="line"></span><br><span class="line">    <span class="comment">/* Enable the SYSCFG peripheral clock*/</span>  </span><br><span class="line">    RCC_APB2PeriphResetCmd(RCC_APB2Periph_SYSCFG, ENABLE);   </span><br><span class="line">    <span class="comment">/* Remap SRAM at 0x00000000 */</span>  </span><br><span class="line">    SYSCFG_MemoryRemapConfig(SYSCFG_MemoryRemap_SRAM);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-
-<p>&emsp;&emsp;由于报文类型的不同，报文之间也存在一些差异。先讲解通用的 功能码 &amp; 错误代码 部分。</p>
-<h2 id="2-1-Modbus部分功能码"><a href="#2-1-Modbus部分功能码" class="headerlink" title="2.1 Modbus部分功能码"></a>2.1 Modbus部分功能码</h2><table>
-<thead>
-<tr>
-<th>功能码（十六进制）</th>
-<th>中文名称</th>
-<th>位操作/字节操作</th>
-<th>操作数量</th>
-<th>错误功能码(&amp;0x80)</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>01</td>
-<td>读线圈状态</td>
-<td>位操作</td>
-<td>单个或多个</td>
-<td>0x81</td>
-</tr>
-<tr>
-<td>02</td>
-<td>读离散状态</td>
-<td>位操作</td>
-<td>单个或多个</td>
-<td>0x82</td>
-</tr>
-<tr>
-<td>03</td>
-<td>读保持寄存器</td>
-<td>字节操作</td>
-<td>单个或多个</td>
-<td>0x83</td>
-</tr>
-<tr>
-<td>04</td>
-<td>读输入寄存器</td>
-<td>字节操作</td>
-<td>单个或多个</td>
-<td>0x84</td>
-</tr>
-<tr>
-<td>05</td>
-<td>写单个线圈</td>
-<td>位操作</td>
-<td>单个</td>
-<td>0x85</td>
-</tr>
-<tr>
-<td>06</td>
-<td>写单个保持寄存器</td>
-<td>字节操作</td>
-<td>单个</td>
-<td>0x86</td>
-</tr>
-<tr>
-<td>0F</td>
-<td>写多个线圈</td>
-<td>位操作</td>
-<td>多个</td>
-<td>0x8F</td>
-</tr>
-<tr>
-<td>10</td>
-<td>写多个保持寄存器</td>
-<td>字节操作</td>
-<td>多个</td>
-<td>0x90</td>
-</tr>
-</tbody></table>
-<p>&emsp;&emsp;Modbus协议规定，从机当执行对应功能码处理时发生错误，响应主机时需要将 <code>功能码 & 0x80</code> 将其返回。</p>
-<h2 id="2-2-错误代码表"><a href="#2-2-错误代码表" class="headerlink" title="2.2 错误代码表"></a>2.2 错误代码表</h2><table>
-<thead>
-<tr>
-<th>代码</th>
-<th>名称</th>
-<th>含义</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>01</td>
-<td>非法功能</td>
-<td>对于服务器（或从站）来说，询问中接收到的功能码是不可允许的操作，可能是因为功能码仅适用于新设备而被选单元中不可实现同时，还指出服务器（或从站）在错误状态中处理这种请求，例如：它是未配置的，且要求返回寄存器值。</td>
-</tr>
-<tr>
-<td>02</td>
-<td>非法数据地址</td>
-<td>对于服务器（或从站）来说，询问中接收的数据地址是不可允许的地址，特别是参考号和传输长度的组合是无效的。对于带有100个寄存器的控制器来说，偏移量96和长度4的请求会成功，而偏移量96和长度5的请求将产生异常码02。</td>
-</tr>
-<tr>
-<td>03</td>
-<td>非法数据值</td>
-<td>对于服务器（或从站）来说，询问中包括的值是不可允许的值。该值指示了组合请求剩余结构中的故障。例如：隐含长度是不正确的。modbus协议不知道任何特殊寄存器的任何特殊值的重要意义，寄存器中被提交存储的数据项有一个应用程序期望之外的值。</td>
-</tr>
-<tr>
-<td>04</td>
-<td>从站设备故障</td>
-<td>当服务器（或从站）正在设法执行请求的操作时，产生不可重新获得的差错。</td>
-</tr>
-<tr>
-<td>05</td>
-<td>确认</td>
-<td>与编程命令一起使用，服务器（或从站）已经接受请求，并且正在处理这个请求，但是需要长持续时间进行这些操作，返回这个响应防止在客户机（或主站）中发生超时错误，客户机（或主机）可以继续发送轮询程序完成报文来确认是否完成处理。</td>
-</tr>
-<tr>
-<td>07</td>
-<td>从属设备忙</td>
-<td>与编程命令一起使用，服务器（或从站）正在处理长持续时间的程序命令，当服务器（或从站）空闲时，客户机（或主站）应该稍后重新传输报文。</td>
-</tr>
-<tr>
-<td>08</td>
-<td>存储奇偶性差错</td>
-<td>与功能码20和21以及参考类型6一起使用，指示扩展文件区不能通过一致性校验。服务器（或从站）设备读取记录文件，但在存储器中发现一个奇偶校验错误。客户机（或主机）可重新发送请求，但可以在服务器（或从站）设备上要求服务。</td>
-</tr>
-<tr>
-<td>0A</td>
-<td>不可用网关路径</td>
-<td>与网关一起使用，指示网关不能为处理请求分配输入端口值输出端口的内部通信路径，通常意味着网关是错误配置的或过载的。</td>
-</tr>
-<tr>
-<td>0B</td>
-<td>网关目标设备响应失败</td>
-<td>与网关一起使用，指示没有从目标设备中获得响应，通常意味着设备未在网络中。</td>
-</tr>
-<tr>
-<td>## 2.3 Modbus 寄存器地址分配</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>寄存器信息地址(PLC 地址)</td>
-<td>适用功能码（十六进制）</td>
-<td>寄存器种类</td>
-</tr>
-<tr>
-<td>—-</td>
-<td>—</td>
-<td>—-</td>
-</tr>
-<tr>
-<td>00001-09999</td>
-<td>01 05 15</td>
-<td>线圈状态</td>
-</tr>
-<tr>
-<td>10001-19999</td>
-<td>02</td>
-<td>(开关)输入状态</td>
-</tr>
-<tr>
-<td>30001-39999</td>
-<td>04</td>
-<td>输入寄存器</td>
-</tr>
-<tr>
-<td>40001-49999</td>
-<td>03 06 16</td>
-<td>保持寄存器</td>
-</tr>
-<tr>
-<td>## 2.4 小总结(心得)</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>&emsp;&emsp;一般情况下，只需要看一下返回的功能码就行了，错误代码可以不用看。Modbus通讯发生错误，往往出现的情况如下:</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>1. Modbus主机(PLC)读取有问题，例如读的地址写错，读的数据长度写错</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>2. Modbus从机压根就没写该 功能码 0r 地址 对应的处理，当主机对其操作自然报错。</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>3. 并不是符合Modbus协议规范的报文就一定通信正确，只能说是通讯成功，因为它返回给你一条报错指令。通讯无响应，说明是主机本身发的数据就有问题；通信有响应(可能返回错误报文)，说明该地址不可用，主机读歪了或者从机压根没写该功能处理。</td>
-<td></td>
-<td></td>
-</tr>
-</tbody></table>
-<h1 id="三、各报文格式-详细解析"><a href="#三、各报文格式-详细解析" class="headerlink" title="三、各报文格式_详细解析"></a>三、各报文格式_详细解析</h1><p>&emsp;&emsp;每个报文都与其他报文格式有一定区分。<strong>在Modbus从机的角度看</strong>，讲解一下他们之间的类似之处。</p>
+<p>&emsp;&emsp;经过上述操作步骤后，当APP里发生中断时，内核就从地址0x00处的向量表取相应中断的入口地址，即相当于从0x2000 0000处的向量表取中断入口地址，当然也相当于从0x08003000处的向量表取中断入口地址，然后去执行相应中断程序。</p>
+<h1 id="二、编译工具链讲解"><a href="#二、编译工具链讲解" class="headerlink" title="二、编译工具链讲解"></a>二、编译工具链讲解</h1><p>&emsp;&emsp;STM32中ARM系列编译工具链的编译宏选择（__CC_ARM、__ICCARM__、__GNUC__、__TASKING__）。这里简单介绍一下。</p>
+<ol>
+<li><p>在 core_cm3.h 文件中，有如下代码：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">if</span> defined ( __CC_ARM   )</span></span><br><span class="line">  <span class="meta">#<span class="meta-keyword">define</span> __ASM            __asm        <span class="comment">/*!&lt; asm keyword for ARM Compiler        */</span></span></span><br><span class="line">  <span class="meta">#<span class="meta-keyword">define</span> __INLINE         __inline     <span class="comment">/*!&lt; inline keyword for ARM Compiler     */</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">elif</span> defined ( __ICCARM__ )</span></span><br><span class="line">  <span class="meta">#<span class="meta-keyword">define</span> __ASM           __asm         <span class="comment">/*!&lt; asm keyword for IAR Compiler        */</span></span></span><br><span class="line">  <span class="meta">#<span class="meta-keyword">define</span> __INLINE        inline        <span class="comment">/*!&lt; inline keyword for IAR Compiler. Only avaiable in High optimization mode! */</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">elif</span> defined   (  __GNUC__  )</span></span><br><span class="line">  <span class="meta">#<span class="meta-keyword">define</span> __ASM            __asm        <span class="comment">/*!&lt; asm keyword for GNU Compiler        */</span></span></span><br><span class="line">  <span class="meta">#<span class="meta-keyword">define</span> __INLINE         inline       <span class="comment">/*!&lt; inline keyword for GNU Compiler     */</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">elif</span> defined   (  __TASKING__  )</span></span><br><span class="line">  <span class="meta">#<span class="meta-keyword">define</span> __ASM            __asm        <span class="comment">/*!&lt; asm keyword for TASKING Compiler    */</span></span></span><br><span class="line">  <span class="meta">#<span class="meta-keyword">define</span> __INLINE         inline       <span class="comment">/*!&lt; inline keyword for TASKING Compiler */</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>这几个宏都是什么含义呢？分别对应什么平台呢？</p>
+</li>
+</ol>
 <ul>
-<li>三者功能码是通用的</li>
-<li>RTU 和 TCP的报文十分类似。TCP由于是可靠的协议，且通过IP连接，相比RTU就少了 设备ID &amp; CRC数据校验。<strong>数据单元部分</strong>是完全一样的。</li>
-<li>RTU &amp; ASCII 都是通过串口通讯的，因此都是需要 定时器。但是定时器具体用法不相同。</li>
-</ul>
-<p><strong>Ps：</strong><br>ASCII模式，国内基本没用到。常用的是 RTU &amp; TCP 模式。</p>
-<h2 id="3-1-RTU模式"><a href="#3-1-RTU模式" class="headerlink" title="3.1 RTU模式"></a>3.1 RTU模式</h2><p>&emsp;&emsp;Modbus RTU协议中没有明显的开始符和结束符，而是通过帧与帧之间的间隔时间来判断的。如果在指定的时间内，没有接收到新的字符数据，那么就认为新的帧接收完毕。接下来就是处理数据。Modbus通过时间来判断帧接收完成，自然需要 MCU 的定时器配合(3.5T)。<br>| 设备地址 | 功能代码 | 数据 | CRC校验 | 结束符(实际报文可没有这个！)<br>| — | —- | — | —- | —<br>| 1个字节 | 1个字节 | n个字节 | 2个字节 | T1-T2-T3-T4</p>
-<ul>
-<li><strong>地址码</strong>：每个从机都必须有唯一的地址码ID（从1到247，0是广播地址），并且只有符合地址码的从机才能响应回送。当从机回送信息时，相应的地址码表明该信息来自于何处。</li>
-<li><strong>功能码</strong>：主机发送的功能码告诉从机执行什么任务。ModBus通讯规约定义功能号为1到127。表2-1列出部分常用功能码，以备查询。</li>
-<li><strong>数据区</strong>：数据区包含需要从机执行什么动作或由从机采集的返送信息。应答包中，数据包括了数据字节长度+数据值，请求包中数据只包含数据值。</li>
-<li><strong>校验码</strong>：主机或从机可用校验码进行判别接收信息是否出错。</li>
-</ul>
-<hr>
-<ul>
-<li>从Modbus主机角度上看<ul>
-<li>使用RTU模式，<strong>消息发送至少要以3.5个字符时间的停顿间隔开始</strong>（如上图的T1-T2-T3-T4所示）。传输的第一个域是设备地址。可以使用的传输字符是十六进制的0…9,A…F。网络设备不断侦测网络总线，包括停顿间隔时间内。当第一个域（地址域）接收到，每个设备都进行解码以判断是否发往自己的。在最后一个传输字符之后，一个至少3.5个字符时间的停顿标定了消息的结束。一个新的消息可在此停顿后开始。</li>
-<li>一旦连续发送间隔 小于3.5T，就会对从机数据接收造成 <strong>数据黏合</strong>。</li>
+<li>__CC_ARM对应的平台是：ARM RealView：<ul>
+<li>RealView，是一套包含编译、调试和模拟的开发工具，需结合开发环境如uvision、eclipse或者CodeWarrior，形成集成开发环境来使用。</li>
 </ul>
 </li>
-<li>从Modbus从机角度上看<ul>
-<li><strong>整个消息帧必须作为一连续的流传输，如果在帧完成之前有超过1.5个字符时间的停顿时间则为非法帧；</strong>如果一个新消息在小于3.5个字符时间内接着前个消息开始，接收的设备将认为它是前一消息的延续，这将导致一个错误，因为在最后的CRC域的值不可能是正确的。即<strong>帧之间的间隔必须大于3.5T，帧内字符的间隔必须小于1.5T</strong>。实际应用中1.5T一般不处理，只采用3.5T进行处理（FreeModBus开源代码就是这样)。</li>
-<li>FreeModbus库，采用的是3.5T作为判断。只要是超过3.5T，就视为两个数据帧处理。当然，如果主机发送数据异常，让 某条报文中间字符发送相隔时间超过3.5T，那么就会造成 1条正确报文被分割成2条报文，造成 数据裂开。</li>
-<li>数据裂开一般不会出现。采用FreeModbus库时，正常情况下，高波特率会对3.5T的值进行限制。如果解开该限制，导致3.5T实际值太小(高波特率转换计算出来)，这时候主机的字符发送间隔慢一点，从机将无法识别到正确的报文(数据被分裂)。</li>
+<li>__ICCARM__对应的平台是：IAR EWARM：<ul>
+<li>Embedded Workbench for ARM 是IARSystems 公司为ARM 微处理器开发的一个集成开发环境(下面简称IAR EWARM)。比较其他的ARM 开发环境，IAR EWARM 具有入门容易、使用方便和代码紧凑等特点</li>
+</ul>
+</li>
+<li>__GNUC__对应的平台是：GNU Compiler Collection:<ul>
+<li>GCC的初衷是为GNU操作系统专门编写的一款编译器。GNU系统是彻底的自由软件。</li>
+</ul>
+</li>
+<li>__TASKING__对应的平台是：Altinum Designer;<ul>
+<li>Altium Designer 是原Protel软件开发商Altium公司推出的一体化的电子产品开发系统，主要运行在Windows操作系统。这套软件通过把原理图设计、电路仿真、PCB绘制编辑、拓扑逻辑自动布线、信号完整性分析和设计输出等技术的完美融合，为设计者提供了全新的设计解决方案，使设计者可以轻松进行设计，熟练使用这一软件使电路设计的质量和效率大大提高。  </li>
 </ul>
 </li>
 </ul>
-<h2 id="3-2-ASCII模式"><a href="#3-2-ASCII模式" class="headerlink" title="3.2 ASCII模式"></a>3.2 ASCII模式</h2><p>&emsp;&emsp;除了数据域为ASCII码，其它域可以使用的传输字符是十六进制的0…9,A…F。网络上的设备不断侦测“:”字符，当有一个冒号接收到时，每个设备都解码下个域（地址域）来判断是否发给自己的。消息中字符间发送的时间间隔(MCU 的定时器)最长不能超过1秒，否则接收的设备将认为传输错误。</p>
-<table>
-<thead>
-<tr>
-<th>起始位</th>
-<th>设备地址</th>
-<th>功能代码</th>
-<th>数据</th>
-<th>LRC校验</th>
-<th>结束符</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>：</td>
-<td>2个字符</td>
-<td>2个字符</td>
-<td>n个字符</td>
-<td>2个字符</td>
-<td>2个字符</td>
-</tr>
-</tbody></table>
-<p>&emsp;&emsp;<strong>使用ASCII模式，消息以冒号（:）字符（ASCII码 3AH）开始，以回车换行符结束（ASCII码 0DH,0AH）</strong></p>
-<h2 id="3-3-TCP-IP模式"><a href="#3-3-TCP-IP模式" class="headerlink" title="3.3 TCP/IP模式"></a>3.3 TCP/IP模式</h2><p>&emsp;&emsp;与MODBUS RTU相比，少了校验域和地址码，其中地址码被放到MBAP报文头里面了(即 00 00)，没有校验域是因为TCP本身就有校验所以省略了。</p>
-<img src="/2020/05/30/Modbus协议-概念讲解/1.png" title="Modbus TCP报文">
+<h1 id="三、Stm32F0的App更改"><a href="#三、Stm32F0的App更改" class="headerlink" title="三、Stm32F0的App更改"></a>三、Stm32F0的App更改</h1><p>关于Stm32F0的APP，只需要更改工程配置的 IROM 和 IRAM 就行了。<br>==图片==</p>
+<p>IRAM存放着重映射的中断向量表。1个地址存储1个byte(falsh 和 ram 都一样)，中断向量都是uint32_t；所以 48 * (32/8) = 0xC0 。</p>
+<p>Ps：后面的IRAM：0xc4 开头，隔开4个字节只是保险，防止意外发生用的。</p>
+<p>&emsp;&emsp;用户APP代码如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    VectorRemap();</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//按照平常程序运行</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>报文头MBAP，长度为7字节，组成如下：</p>
-<ul>
-<li>事务处理标识    ：可以理解为报文的序列号，一般每次通信之后就要加1以区别不同的通信数据报文(主机要注意的点，从机不对该数据进行识别处理)。</li>
-<li>协议标识符    ：00 00表示ModbusTCP协议。</li>
-<li>长度    ：表示接下来的数据长度，单位为字节。</li>
-<li>单元标识符    ：可以理解为设备地址。</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th>事务处理标识</th>
-<th>协议标识</th>
-<th>长度</th>
-<th>单元标识符</th>
-<th>功能代码</th>
-<th>数据</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>2字节</td>
-<td>2字节</td>
-<td>2字节</td>
-<td>1字节</td>
-<td>1字节</td>
-<td>n字节</td>
-</tr>
-</tbody></table>
-<h1 id="四、调试工具"><a href="#四、调试工具" class="headerlink" title="四、调试工具"></a>四、调试工具</h1><ul>
-<li>如果你做的是Modbus Master，可以使用modbus slave工具模拟从设备来调试，该工具下载地址：<a href="http://www.cr173.com/soft/21410.html" target="_blank" rel="noopener">Modbus Slave</a></li>
-<li>如果你做的是Modbus Slave，可以使用modbus poll工具模拟主设备来调试，该工具下载地址：<a href="http://www.cr173.com/soft/21405.html" target="_blank" rel="noopener">Modbus Poll</a></li>
-</ul>
-<p>以上两个工具的使用方法，可以参考此博客：<a href="https://blog.csdn.net/byxdaz/article/details/77979114" target="_blank" rel="noopener">Modbus测试工具ModbusPoll与Modbus Slave使用方法</a></p>
+<hr>
+<p>关于Stm32F0的IAP，ST官方有套参考代码；基于串口Y-modem协议的，即 <a href="https://pan.baidu.com/s/1-jREbLowNT3TbI_50aAgBg" target="_blank" rel="noopener">ST官方的IAP + Ymodem代码</a>；提取码为：aan9</p>
+<hr>
+<blockquote>
+<p>拓展链接</p>
+</blockquote>
+<p>科普小知识</p>
+<p>Ps：这里也有一个产生一个问题；如果要达成重映射</p>
+<p>或者可以直接写IRAM</p>
 
       
     </div>
@@ -772,7 +541,11 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Modbus/" <i class="fa fa-tag"> Modbus</a>
+            <a href="/tags/bootloader/" <i class="fa fa-tag"> bootloader</a>
+          
+            <a href="/tags/编译工具链/" <i class="fa fa-tag"> 编译工具链</a>
+          
+            <a href="/tags/Stm32/" <i class="fa fa-tag"> Stm32</a>
           
         </div>
       
@@ -785,8 +558,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/05/30/这段时间的总结/" rel="next" title="这段时间的总结">
-                <i class="fa fa-chevron-left"></i> 这段时间的总结
+              <a href="/2020/08/12/IAP升级-Bootloader制作/" rel="next" title="IAP升级 & Bootloader制作">
+                <i class="fa fa-chevron-left"></i> IAP升级 & Bootloader制作
               </a>
             
           </div>
@@ -794,10 +567,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2020/05/30/Modbus协议-具体实现/" rel="prev" title="Modbus协议_具体实现">
-                Modbus协议_具体实现 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -987,7 +756,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一、基本概念"><span class="nav-text">一、基本概念</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二、报文格式-通用部分"><span class="nav-text">二、报文格式_通用部分</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-Modbus部分功能码"><span class="nav-text">2.1 Modbus部分功能码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-错误代码表"><span class="nav-text">2.2 错误代码表</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三、各报文格式-详细解析"><span class="nav-text">三、各报文格式_详细解析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-RTU模式"><span class="nav-text">3.1 RTU模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-ASCII模式"><span class="nav-text">3.2 ASCII模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-TCP-IP模式"><span class="nav-text">3.3 TCP/IP模式</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#四、调试工具"><span class="nav-text">四、调试工具</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一、M0的中断向量表重映射"><span class="nav-text">一、M0的中断向量表重映射</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二、编译工具链讲解"><span class="nav-text">二、编译工具链讲解</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三、Stm32F0的App更改"><span class="nav-text">三、Stm32F0的App更改</span></a></li></ol></div>
             
 
           </div>

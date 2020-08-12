@@ -99,7 +99,7 @@
 <meta property="og:site_name" content="道简顿悟，法深渐修">
 <meta property="og:description" content="&amp;emsp;&amp;emsp;本篇主要讲基于Stm32的IAP升级(即Bootloader升级)。主要是讲解Bootloader制作思路(该思路不只是用于该系列的芯片)。此篇文章内容较多，需要慢慢消化，部分内容可以先跳着看。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-08-12T14:32:53.692Z">
+<meta property="og:updated_time" content="2020-08-12T14:36:41.955Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="IAP升级 &amp; Bootloader制作">
 <meta name="twitter:description" content="&amp;emsp;&amp;emsp;本篇主要讲基于Stm32的IAP升级(即Bootloader升级)。主要是讲解Bootloader制作思路(该思路不只是用于该系列的芯片)。此篇文章内容较多，需要慢慢消化，部分内容可以先跳着看。">
@@ -369,7 +369,7 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2020-08-12T22:32:53+08:00">
+              <time title="更新于" itemprop="dateModified" datetime="2020-08-12T22:36:41+08:00">
                 2020-08-12
               </time>
             
@@ -579,8 +579,7 @@
 <li>通过工程的 .map文件，大致规划好Bootloader和APP的Flash储存块地址(这肯定不能重叠了)</li>
 <li>Bootloader执行程序能跳转到APP去</li>
 </ol>
-<p>&emsp;&emsp;对X-modem协议进一步了解的，可以看这篇博文： ==1==<a href></a></p>
-<p>&emsp;&emsp;对Stm32的flash如何写数据，可以看这篇博文： ==1==<a href></a></p>
+<p>&emsp;&emsp;对X-modem协议进一步了解的，可以看这篇博文： <a href="https://shatang.github.io/2020/08/12/Xmodem%E5%8D%8F%E8%AE%AE/#more">Xmodem协议</a><br>&emsp;&emsp;对Stm32的flash如何写数据，可以看这篇博文： <a href="https://shatang.github.io/2020/08/12/stm32%E5%86%85%E9%83%A8Flash%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/#more">stm32内部flash基础知识</a></p>
 <p>&emsp;&emsp;放出源码：<a href></a></p>
 <p>注意看完 .map文件后，在编译器限制一下Bootloader程序的大小。</p>
 <h2 id="3-2-APP程序编写要求须知"><a href="#3-2-APP程序编写要求须知" class="headerlink" title="3.2 APP程序编写要求须知"></a>3.2 APP程序编写要求须知</h2><h3 id="3-2-1-编译工具链"><a href="#3-2-1-编译工具链" class="headerlink" title="3.2.1 编译工具链"></a>3.2.1 编译工具链</h3><p>&emsp;&emsp;STM32中ARM系列编译工具链的编译宏选择（__CC_ARM、__ICCARM__、__GNUC__、__TASKING__）。这里简单介绍一下。</p>
@@ -712,6 +711,10 @@
 
           <div class="post-nav-prev post-nav-item">
             
+              <a href="/2020/08/12/M0的中断向量表重映射/" rel="prev" title="M0的中断向量表重映射">
+                M0的中断向量表重映射 <i class="fa fa-chevron-right"></i>
+              </a>
+            
           </div>
         </div>
       
@@ -794,7 +797,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">51</span>
+                  <span class="site-state-item-count">52</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -816,7 +819,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">55</span>
+                  <span class="site-state-item-count">57</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
