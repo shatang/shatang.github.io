@@ -91,18 +91,23 @@
 
 
 
-<meta name="description" content="&amp;emsp;&amp;emsp;本篇主要讲基于Stm32F030的IAP升级(即Bootloader升级)中特殊操作、怎么算偏移量等；还有一些冷知识，如编译工具链。">
+<meta name="description" content="&amp;emsp;&amp;emsp;Stm32F030的Bootloader制作与其他ST芯片一致；但是Stm32F030的APP程序就有特殊变动：因为M0是不能设置重量向量表偏移量；本篇就讲M0的APP程序的中断向量表重映射，和还有一些会用到的冷知识，如编译工具链等。">
 <meta name="keywords" content="bootloader,编译工具链,Stm32">
 <meta property="og:type" content="article">
 <meta property="og:title" content="M0的中断向量表重映射">
 <meta property="og:url" content="http://shatang.github.io/2020/08/12/M0的中断向量表重映射/index.html">
 <meta property="og:site_name" content="道简顿悟，法深渐修">
-<meta property="og:description" content="&amp;emsp;&amp;emsp;本篇主要讲基于Stm32F030的IAP升级(即Bootloader升级)中特殊操作、怎么算偏移量等；还有一些冷知识，如编译工具链。">
+<meta property="og:description" content="&amp;emsp;&amp;emsp;Stm32F030的Bootloader制作与其他ST芯片一致；但是Stm32F030的APP程序就有特殊变动：因为M0是不能设置重量向量表偏移量；本篇就讲M0的APP程序的中断向量表重映射，和还有一些会用到的冷知识，如编译工具链等。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-08-12T14:42:20.619Z">
+<meta property="og:image" content="http://shatang.github.io/2020/08/12/M0的中断向量表重映射/1.png">
+<meta property="og:image" content="http://shatang.github.io/2020/08/12/M0的中断向量表重映射/2.png">
+<meta property="og:image" content="http://shatang.github.io/2020/08/12/M0的中断向量表重映射/2.png">
+<meta property="og:image" content="http://shatang.github.io/2020/08/12/M0的中断向量表重映射/4.png">
+<meta property="og:updated_time" content="2020-08-22T01:25:57.689Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="M0的中断向量表重映射">
-<meta name="twitter:description" content="&amp;emsp;&amp;emsp;本篇主要讲基于Stm32F030的IAP升级(即Bootloader升级)中特殊操作、怎么算偏移量等；还有一些冷知识，如编译工具链。">
+<meta name="twitter:description" content="&amp;emsp;&amp;emsp;Stm32F030的Bootloader制作与其他ST芯片一致；但是Stm32F030的APP程序就有特殊变动：因为M0是不能设置重量向量表偏移量；本篇就讲M0的APP程序的中断向量表重映射，和还有一些会用到的冷知识，如编译工具链等。">
+<meta name="twitter:image" content="http://shatang.github.io/2020/08/12/M0的中断向量表重映射/1.png">
 
 
 
@@ -369,8 +374,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2020-08-12T22:42:20+08:00">
-                2020-08-12
+              <time title="更新于" itemprop="dateModified" datetime="2020-08-22T09:25:57+08:00">
+                2020-08-22
               </time>
             
           </span>
@@ -427,7 +432,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1.3k
+                  2.7k
                 </span>
               
 
@@ -452,7 +457,7 @@
       
 
       
-        <p>&emsp;&emsp;本篇主要讲基于Stm32F030的IAP升级(即Bootloader升级)中特殊操作、怎么算偏移量等；还有一些冷知识，如编译工具链。</p>
+        <p>&emsp;&emsp;Stm32F030的Bootloader制作与其他ST芯片一致；但是Stm32F030的APP程序就有特殊变动：因为M0是不能设置重量向量表偏移量；本篇就讲M0的APP程序的中断向量表重映射，和还有一些会用到的冷知识，如编译工具链等。</p>
 <a id="more"></a>
 
 <h1 id="一、M0的中断向量表重映射"><a href="#一、M0的中断向量表重映射" class="headerlink" title="一、M0的中断向量表重映射"></a>一、M0的中断向量表重映射</h1><p>&emsp;&emsp;在STM32F103等cortex-m3/m4内核的单片机上可以通过设置中断向量表的偏移量，完成重映射中断向量表。</p>
@@ -463,15 +468,15 @@
 <p>M0的中断向量表如下：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">__Vectors       DCD     __initial_sp                   ; Top of Stack</span><br><span class="line">                DCD     Reset_Handler                  ; Reset Handler</span><br><span class="line">                DCD     NMI_Handler                    ; NMI Handler</span><br><span class="line">                DCD     HardFault_Handler              ; Hard Fault Handler</span><br><span class="line">                DCD     0                              ; Reserved</span><br><span class="line">                DCD     0                              ; Reserved</span><br><span class="line">                DCD     0                              ; Reserved</span><br><span class="line">                DCD     0                              ; Reserved</span><br><span class="line">                DCD     0                              ; Reserved</span><br><span class="line">                DCD     0                              ; Reserved</span><br><span class="line">                DCD     0                              ; Reserved</span><br><span class="line">                DCD     SVC_Handler                    ; SVCall Handler</span><br><span class="line">                DCD     0                              ; Reserved</span><br><span class="line">                DCD     0                              ; Reserved</span><br><span class="line">                DCD     PendSV_Handler                 ; PendSV Handler</span><br><span class="line">                DCD     SysTick_Handler                ; SysTick Handler</span><br><span class="line"></span><br><span class="line">                ; External Interrupts</span><br><span class="line">                DCD     WWDG_IRQHandler                ; Window Watchdog</span><br><span class="line">                DCD     PVD_IRQHandler                 ; PVD through EXTI Line detect</span><br><span class="line">                DCD     RTC_IRQHandler                 ; RTC through EXTI Line</span><br><span class="line">                DCD     FLASH_IRQHandler               ; FLASH</span><br><span class="line">                DCD     RCC_IRQHandler                 ; RCC</span><br><span class="line">                DCD     EXTI0_1_IRQHandler             ; EXTI Line 0 and 1</span><br><span class="line">                DCD     EXTI2_3_IRQHandler             ; EXTI Line 2 and 3</span><br><span class="line">                DCD     EXTI4_15_IRQHandler            ; EXTI Line 4 to 15</span><br><span class="line">                DCD     TS_IRQHandler                  ; TS</span><br><span class="line">                DCD     DMA1_Channel1_IRQHandler       ; DMA1 Channel 1</span><br><span class="line">                DCD     DMA1_Channel2_3_IRQHandler     ; DMA1 Channel 2 and Channel 3</span><br><span class="line">                DCD     DMA1_Channel4_5_IRQHandler     ; DMA1 Channel 4 and Channel 5</span><br><span class="line">                DCD     ADC1_COMP_IRQHandler           ; ADC1, COMP1 and COMP2 </span><br><span class="line">                DCD     TIM1_BRK_UP_TRG_COM_IRQHandler ; TIM1 Break, Update, Trigger and Commutation</span><br><span class="line">                DCD     TIM1_CC_IRQHandler             ; TIM1 Capture Compare</span><br><span class="line">                DCD     TIM2_IRQHandler                ; TIM2</span><br><span class="line">                DCD     TIM3_IRQHandler                ; TIM3</span><br><span class="line">                DCD     TIM6_DAC_IRQHandler            ; TIM6 and DAC</span><br><span class="line">                DCD     0                              ; Reserved</span><br><span class="line">                DCD     TIM14_IRQHandler               ; TIM14</span><br><span class="line">                DCD     TIM15_IRQHandler               ; TIM15</span><br><span class="line">                DCD     TIM16_IRQHandler               ; TIM16</span><br><span class="line">                DCD     TIM17_IRQHandler               ; TIM17</span><br><span class="line">                DCD     I2C1_IRQHandler                ; I2C1</span><br><span class="line">                DCD     I2C2_IRQHandler                ; I2C2</span><br><span class="line">                DCD     SPI1_IRQHandler                ; SPI1</span><br><span class="line">                DCD     SPI2_IRQHandler                ; SPI2</span><br><span class="line">                DCD     USART1_IRQHandler              ; USART1</span><br><span class="line">                DCD     USART2_IRQHandler              ; USART2</span><br><span class="line">                DCD     0                              ; Reserved</span><br><span class="line">                DCD     CEC_IRQHandler                 ; CEC</span><br><span class="line">                DCD     0                              ; Reserved</span><br></pre></td></tr></table></figure>
 
+<p>M0的中断向量表重映射方法如下：</p>
 <ol>
 <li>将APP的中断向量表拷贝到SRAM里面去。M0的中断向量表由48个有序字(32bit)组成，把它们从flash区0x08004000开始的中断向量表拷贝到0x2000 0000的SRAM区。</li>
 <li>做存储地址的映射，即把SRAM映射到代码执行区的地址0X00处。</li>
 </ol>
-<p>&emsp;&emsp;具体代码实现如下：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> FLASH_BOOTLOADER_SIZE       (uint32_t)(0x4000)  </span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> APPLICATION_ADDRESS         (uint32_t)(0x08000000+FLASH_BOOTLOADER_SIZE)  </span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">if</span>   (defined ( __CC_ARM ))</span></span><br><span class="line">    __IO <span class="keyword">uint32_t</span> VectorTable[<span class="number">48</span>] __attribute__((at(<span class="number">0x20000000</span>)));</span><br><span class="line"><span class="meta">#<span class="meta-keyword">elif</span> (defined (__ICCARM__))</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> location = 0x20000000</span></span><br><span class="line">    __no_init __IO <span class="keyword">uint32_t</span> VectorTable[<span class="number">48</span>];</span><br><span class="line"><span class="meta">#<span class="meta-keyword">elif</span> defined   (  __GNUC__  )</span></span><br><span class="line">    __IO <span class="keyword">uint32_t</span> VectorTable[<span class="number">48</span>] __attribute__((section(<span class="string">".RAMVectorTable"</span>)));</span><br><span class="line"><span class="meta">#<span class="meta-keyword">elif</span> defined ( __TASKING__ )</span></span><br><span class="line">    __IO <span class="keyword">uint32_t</span> VectorTable[<span class="number">48</span>] __at(<span class="number">0x20000000</span>);</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span>  </span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">VectorRemap</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">uint8_t</span> i = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//拷贝中断向量表  </span></span><br><span class="line">    <span class="keyword">for</span>(i = <span class="number">0</span>; i &lt; <span class="number">48</span>; i++)</span><br><span class="line">    &#123;  </span><br><span class="line">       VectorTable[i] = *(__IO <span class="keyword">uint32_t</span>*)(APPLICATION_ADDRESS + (i&lt;&lt;<span class="number">2</span>));</span><br><span class="line">    &#125;  </span><br><span class="line"></span><br><span class="line">    <span class="comment">/* Enable the SYSCFG peripheral clock*/</span>  </span><br><span class="line">    RCC_APB2PeriphResetCmd(RCC_APB2Periph_SYSCFG, ENABLE);   </span><br><span class="line">    <span class="comment">/* Remap SRAM at 0x00000000 */</span>  </span><br><span class="line">    SYSCFG_MemoryRemapConfig(SYSCFG_MemoryRemap_SRAM);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> FLASH_BOOTLOADER_SIZE       (uint32_t)(0x4000)  </span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> APPLICATION_ADDRESS         (uint32_t)(0x08000000+FLASH_BOOTLOADER_SIZE)  </span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">if</span>   (defined ( __CC_ARM ))</span></span><br><span class="line">    __IO <span class="keyword">uint32_t</span> VectorTable[<span class="number">48</span>] __attribute__((at(<span class="number">0x20000000</span>)));</span><br><span class="line"><span class="meta">#<span class="meta-keyword">elif</span> (defined (__ICCARM__))</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> location = 0x20000000</span></span><br><span class="line">    __no_init __IO <span class="keyword">uint32_t</span> VectorTable[<span class="number">48</span>];</span><br><span class="line"><span class="meta">#<span class="meta-keyword">elif</span> defined   (  __GNUC__  )</span></span><br><span class="line">    __IO <span class="keyword">uint32_t</span> VectorTable[<span class="number">48</span>] __attribute__((section(<span class="string">".RAMVectorTable"</span>)));</span><br><span class="line"><span class="meta">#<span class="meta-keyword">elif</span> defined ( __TASKING__ )</span></span><br><span class="line">    __IO <span class="keyword">uint32_t</span> VectorTable[<span class="number">48</span>] __at(<span class="number">0x20000000</span>);</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span>  </span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">VectorRemap</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">uint8_t</span> i = <span class="number">0</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//拷贝中断向量表</span></span><br><span class="line">    <span class="keyword">for</span>(i = <span class="number">0</span>; i &lt; <span class="number">48</span>; i++)</span><br><span class="line">    &#123;</span><br><span class="line">       VectorTable[i] = *(__IO <span class="keyword">uint32_t</span>*)(APPLICATION_ADDRESS + (i&lt;&lt;<span class="number">2</span>));</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/* Enable the SYSCFG peripheral clock*/</span></span><br><span class="line">    RCC_APB2PeriphResetCmd(RCC_APB2Periph_SYSCFG, ENABLE);</span><br><span class="line">    <span class="comment">/* Remap SRAM at 0x00000000 */</span></span><br><span class="line">    SYSCFG_MemoryRemapConfig(SYSCFG_MemoryRemap_SRAM);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//主函数</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    VectorRemap();</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//按照平常程序运行</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>&emsp;&emsp;经过上述操作步骤后，当APP里发生中断时，内核就从地址0x00处的向量表取相应中断的入口地址，即相当于从0x2000 0000处的向量表取中断入口地址，当然也相当于从0x08003000处的向量表取中断入口地址，然后去执行相应中断程序。</p>
-<h1 id="二、编译工具链讲解"><a href="#二、编译工具链讲解" class="headerlink" title="二、编译工具链讲解"></a>二、编译工具链讲解</h1><p>&emsp;&emsp;STM32中ARM系列编译工具链的编译宏选择（__CC_ARM、__ICCARM__、__GNUC__、__TASKING__）。这里简单介绍一下。</p>
+<h1 id="二、编译工具链"><a href="#二、编译工具链" class="headerlink" title="二、编译工具链"></a>二、编译工具链</h1><p>&emsp;&emsp;STM32中ARM系列编译工具链的编译宏选择（__CC_ARM、__ICCARM__、__GNUC__、__TASKING__）。这里简单介绍一下。</p>
 <ol>
 <li><p>在 core_cm3.h 文件中，有如下代码：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">if</span> defined ( __CC_ARM   )</span></span><br><span class="line">  <span class="meta">#<span class="meta-keyword">define</span> __ASM            __asm        <span class="comment">/*!&lt; asm keyword for ARM Compiler        */</span></span></span><br><span class="line">  <span class="meta">#<span class="meta-keyword">define</span> __INLINE         __inline     <span class="comment">/*!&lt; inline keyword for ARM Compiler     */</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">elif</span> defined ( __ICCARM__ )</span></span><br><span class="line">  <span class="meta">#<span class="meta-keyword">define</span> __ASM           __asm         <span class="comment">/*!&lt; asm keyword for IAR Compiler        */</span></span></span><br><span class="line">  <span class="meta">#<span class="meta-keyword">define</span> __INLINE        inline        <span class="comment">/*!&lt; inline keyword for IAR Compiler. Only avaiable in High optimization mode! */</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">elif</span> defined   (  __GNUC__  )</span></span><br><span class="line">  <span class="meta">#<span class="meta-keyword">define</span> __ASM            __asm        <span class="comment">/*!&lt; asm keyword for GNU Compiler        */</span></span></span><br><span class="line">  <span class="meta">#<span class="meta-keyword">define</span> __INLINE         inline       <span class="comment">/*!&lt; inline keyword for GNU Compiler     */</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">elif</span> defined   (  __TASKING__  )</span></span><br><span class="line">  <span class="meta">#<span class="meta-keyword">define</span> __ASM            __asm        <span class="comment">/*!&lt; asm keyword for TASKING Compiler    */</span></span></span><br><span class="line">  <span class="meta">#<span class="meta-keyword">define</span> __INLINE         inline       <span class="comment">/*!&lt; inline keyword for TASKING Compiler */</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br></pre></td></tr></table></figure>
@@ -480,38 +485,94 @@
 </li>
 </ol>
 <ul>
-<li>__CC_ARM对应的平台是：ARM RealView：<ul>
+<li>__CC_ARM对应的平台是：<strong><code><font color="red">ARM RealView</font></code></strong><ul>
 <li>RealView，是一套包含编译、调试和模拟的开发工具，需结合开发环境如uvision、eclipse或者CodeWarrior，形成集成开发环境来使用。</li>
 </ul>
 </li>
-<li>__ICCARM__对应的平台是：IAR EWARM：<ul>
+<li>__ICCARM__对应的平台是：<strong><code><font color="red">IAR EWARM</font></code></strong><ul>
 <li>Embedded Workbench for ARM 是IARSystems 公司为ARM 微处理器开发的一个集成开发环境(下面简称IAR EWARM)。比较其他的ARM 开发环境，IAR EWARM 具有入门容易、使用方便和代码紧凑等特点</li>
 </ul>
 </li>
-<li>__GNUC__对应的平台是：GNU Compiler Collection:<ul>
+<li>__GNUC__对应的平台是：<strong><code><font color="red">GNU Compiler Collection</font></code></strong><ul>
 <li>GCC的初衷是为GNU操作系统专门编写的一款编译器。GNU系统是彻底的自由软件。</li>
 </ul>
 </li>
-<li>__TASKING__对应的平台是：Altinum Designer;<ul>
+<li>__TASKING__对应的平台是：<strong><code><font color="red">Altinum Designer</font></code></strong><ul>
 <li>Altium Designer 是原Protel软件开发商Altium公司推出的一体化的电子产品开发系统，主要运行在Windows操作系统。这套软件通过把原理图设计、电路仿真、PCB绘制编辑、拓扑逻辑自动布线、信号完整性分析和设计输出等技术的完美融合，为设计者提供了全新的设计解决方案，使设计者可以轻松进行设计，熟练使用这一软件使电路设计的质量和效率大大提高。  </li>
 </ul>
 </li>
 </ul>
-<h1 id="三、Stm32F0的App更改"><a href="#三、Stm32F0的App更改" class="headerlink" title="三、Stm32F0的App更改"></a>三、Stm32F0的App更改</h1><p>关于Stm32F0的APP，只需要更改工程配置的 IROM 和 IRAM 就行了。<br>==图片==</p>
-<p>IRAM存放着重映射的中断向量表。1个地址存储1个byte(falsh 和 ram 都一样)，中断向量都是uint32_t；所以 48 * (32/8) = 0xC0 。</p>
-<p>Ps：后面的IRAM：0xc4 开头，隔开4个字节只是保险，防止意外发生用的。</p>
-<p>&emsp;&emsp;用户APP代码如下：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    VectorRemap();</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//按照平常程序运行</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="三、-attribute-at-绝对定位"><a href="#三、-attribute-at-绝对定位" class="headerlink" title="三、__attribute__ ((at()) 绝对定位"></a>三、<code>__attribute__ ((at())</code> 绝对定位</h1><ul>
+<li><code>__attribute__</code> ，这个是用来指定变量或结构位域的特殊属性,该关键字后的双括弧中的内容是属性说明。 </li>
+<li><code>at</code> ，该关键字可以用来设置变量的绝对地址,也就是你可以通过这个关键字,指定某个变量处于内存里面的某个给定的地址. </li>
+</ul>
+<hr>
+<p>&emsp;&emsp;<code>__attribute__( at(绝对地址) )</code>  的用法分两种，一个是绝对定位到Flash，另一种是绝对定位到RAM。</p>
+<ol>
+<li><p>定位到flash中，一般用于固化的信息，如出厂设置的参数，上位机配置的参数，ID卡的ID号，flash标记等等。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> u16 gFlashDefValue[<span class="number">512</span>] __attribute__((at(<span class="number">0x0800F000</span>))) = &#123;<span class="number">0x1111</span>,<span class="number">0x1111</span>,<span class="number">0x1111</span>,<span class="number">0x0111</span>,<span class="number">0x0111</span>,<span class="number">0x0111</span>&#125;;<span class="comment">//定位在flash中,其他flash补充为00</span></span><br><span class="line"><span class="function"><span class="keyword">const</span> u16 <span class="title">gflashdata__attribute__</span><span class="params">((at(<span class="number">0x0800F000</span>)))</span> </span>= <span class="number">0xFFFF</span>;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>定位到RAM中，一般用于数据量比较大的缓存，如串口的接收缓存，再就是某个位置的特定变量</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">u8 USART2_RX_BUF[USART2_REC_LEN] __attribute__ ((at(<span class="number">0X20001000</span>)));<span class="comment">//接收缓冲,最大USART_REC_LEN个字节,起始地址为0X20001000.</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<ul>
+<li><strong>绝对定位不能在函数中定义</strong>；局部变量是定义在栈区的，栈区由MDK自动分配、释放，不能定义为绝对地址，只能放在函数外定义。</li>
+<li>定义的长度不能超过栈或Flash的大小，否则，造成栈、Flash溢出。</li>
+</ul>
+<h1 id="四、重映射-amp-系统启动"><a href="#四、重映射-amp-系统启动" class="headerlink" title="四、重映射 &amp; 系统启动"></a>四、重映射 &amp; 系统启动</h1><h2 id="4-1-重映射"><a href="#4-1-重映射" class="headerlink" title="4.1 重映射"></a>4.1 重映射</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SYSCFG_MemoryRemapConfig(SYSCFG_MemoryRemap_SRAM);</span><br></pre></td></tr></table></figure>
 
-<hr>
-<p>关于Stm32F0的IAP，ST官方有套参考代码；基于串口Y-modem协议的，即 <a href="https://pan.baidu.com/s/1-jREbLowNT3TbI_50aAgBg" target="_blank" rel="noopener">ST官方的IAP + Ymodem代码</a>；提取码为：aan9</p>
-<hr>
-<blockquote>
-<p>拓展链接</p>
+<p>例如F072的参考文档张SYSCFG寄存器的介绍，如下图： </p>
+<img src="/2020/08/12/M0的中断向量表重映射/1.png" title="SYSCFG寄存器">
+<p>MEM_MODE的介绍如下：</p>
+<img src="/2020/08/12/M0的中断向量表重映射/2.png" title="MEM_MODE">
+
+<p>从以上内容我们可以得到以下信息： </p>
+<ol>
+<li>MEM_MODE的值在上电后由BOOT0，BOOT1的状态值决定。 </li>
+<li>MEM_MODE的值决定了哪个内存映射到地址0x0000 0000 ，也就是说: <ol>
+<li>当MEM_MODE =00/10时， Main Flash映射到地址0x0000 0000，即地址0x0800 0000映射到0x0000 0000。</li>
+<li>当MEM_MODE =01时， System Flash映射到地址0x0000 0000，也就是芯片自带的Bootloader代码部分会映射到地址0x0000 0000；例如，0x1FFF C800映射到地址0x0000 0000。</li>
+<li>当MEM_MODE =11时， Embeded SRAM映射到地址0x0000 0000，也就是内存地址0x2000 0000映射到地址0x0000 0000。 </li>
+</ol>
+</li>
+<li>经过映射后，系统访问地址0x0000 0000地址，就相当于直接访问映射的地址，如0x0800 0000。</li>
+<li>由BOOT0，BOOT1的状态决定MEM_MODE的值，进而决定哪个地址映射到地址0x0000 0000，这一过程我们称之为映射。默认映射是系统自动完成的，并由BOOT0，BOOT1的状态决定。 </li>
+<li>MEM_MODE位是RW的，也就是说可以修改的，如果修改其中，也就会相应的修改映射到0x0000 0000的地址，这一修改的过程，我们就叫其为重映射。重映射是通过用户代码通过修改MEM_MODE的值来完成的。</li>
+</ol>
+<h2 id="4-2-系统启动"><a href="#4-2-系统启动" class="headerlink" title="4.2 系统启动"></a>4.2 系统启动</h2><p>从STM32F072的参考手册的2.5章，我们可以看到如下内容： </p>
+<img src="/2020/08/12/M0的中断向量表重映射/2.png" title="STM32F072参考手册">
+
+<p>从以上内容我们可以得到以下有用信息: </p>
+<ol>
+<li>在复位启动后，系统在系统时钟的第4个上升沿根据BOOT0,BOOT1的配置获取其值，也就是存储到寄存器SYSCFG_CFGR1的MEM_MODE位上，根据前面3.1的信息可知，这里进一步确定了0x0000 0000的映射地址。这一过程是系统自动完成的。 </li>
+<li>在系统启动后，CPU从地址0x0000 0000获取栈顶地址，然后从0x0000 0004开始执行代码。换句话说，由于0x0000 0000被映射了其他地址，获取栈顶与执行实际上都是从映射的地址上实施的。也就是从映射的地址开始执行代码，比如从地址0x08000 0004开始执行代码(如Mian Flash映射)，比如0x1FFF C804(如System Flash映射，即BootLoader启动)。<br>于是，我们简单整理下系统的整个启动流程: </li>
+</ol>
+<ul>
+<li>-&gt; 系统复位 </li>
+<li>-&gt; CPU在系统时钟的第4个上升沿根据BOOT0，BOOT1的配置确定寄存器SYSCFG_CFGR1的MEM_MODE的值 </li>
+<li>-&gt; MEM_MODE进一步决定哪个地址(Main Flash,System Flash,SRAM)映射到地址0x0000 0000. </li>
+<li>-&gt; CPU从地址0x0000 0000获取栈顶，从0x0000 0004开始执行代码，也就是从映射地址获取栈顶，从映射地址+4的地方开始执行代码。 </li>
+<li><blockquote>
+<p>映射地址+4对于着复位中断例程(如0x08000 0004)，也就是系统一开始就执行Reset_Handler，进而运行SystemInit然后进入到main函数，就这样，整个代码启动完成。</p>
 </blockquote>
-<p>科普小知识</p>
-<p>Ps：这里也有一个产生一个问题；如果要达成重映射</p>
-<p>或者可以直接写IRAM</p>
+</li>
+</ul>
+<p>接下来就是中断产生于中断响应了。</p>
+<p>&emsp;&emsp;在Coretext-M3与Coretext-M4核中，在 <code>System Control Block</code> 中存在一个向量表偏移量寄存器 VTOR(0xE000ED08)，系统产生中断后，内核通过这个寄存器的值来找到中断向量表的地址，进而执行中断例程代码，当然，此寄存器的值是可以修改的，它的默认值为0。</p>
+<p>&emsp;&emsp;由于STM32F0XX采用的是M0核，它是没有这个VTOR寄存器的；将M0理解成M3/M4的特殊情况，M0假设也存在VTOR这么一个虚拟寄存器，只不过它的值不能修改,固定为0罢了，而M3/M4的这个VTOR寄存器一开始时它的值也是为默认值0，只不过在程序运行到SystemInit()函数后，在代码中明确对其进行了修改。</p>
+<p>重新整理下，STM32F0XX中断的调用过程: </p>
+<ul>
+<li>-&gt; 产生中断 </li>
+<li>-&gt; CPU固定到地址0x0000 0000上找中断入口函数；由于映射关系，实际上是在从映射地址上寻找。 </li>
+<li>-&gt; 找到并执行中断例程</li>
+</ul>
+<h1 id="五、Stm32F030的App工程配置"><a href="#五、Stm32F030的App工程配置" class="headerlink" title="五、Stm32F030的App工程配置"></a>五、Stm32F030的App工程配置</h1><p>&emsp;&emsp;关于Stm32F0的APP，只需要更改工程配置的 IROM 和 IRAM 就行了。</p>
+<img src="/2020/08/12/M0的中断向量表重映射/4.png" title="IROM&IRAM">
+
+<p>&emsp;&emsp;IRAM存放着重映射中断向量表。1个地址存储1个byte(Falsh 和 Ram 都一样)，中断向量都是uint32_t；所以 48 * (32/8) = 0xC0 。</p>
+<h1 id="六、友情连接"><a href="#六、友情连接" class="headerlink" title="六、友情连接"></a>六、友情连接</h1><p>&emsp;&emsp;关于Stm32F0的IAP，ST官方有套参考代码；<a href="https://pan.baidu.com/s/1-jREbLowNT3TbI_50aAgBg" target="_blank" rel="noopener">ST官方的IAP + Ymodem代码</a>；提取码为：aan9</p>
+<p>&emsp;&emsp;本篇文章部分内容来自于这位博主：<a href="https://blog.csdn.net/flydream0/article/details/52808191" target="_blank" rel="noopener">flydream0</a>，有些更细致的内容可以了解他写的链接文章。</p>
 
       
     </div>
@@ -567,6 +628,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/08/22/Stm32的内存管理-Code-RO-data-RW-data-ZI-data/" rel="prev" title="Stm32的内存管理(Code,RO-data,RW-data,ZI-data)">
+                Stm32的内存管理(Code,RO-data,RW-data,ZI-data) <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -650,7 +715,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">52</span>
+                  <span class="site-state-item-count">54</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -672,7 +737,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">57</span>
+                  <span class="site-state-item-count">62</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -756,7 +821,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一、M0的中断向量表重映射"><span class="nav-text">一、M0的中断向量表重映射</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二、编译工具链讲解"><span class="nav-text">二、编译工具链讲解</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三、Stm32F0的App更改"><span class="nav-text">三、Stm32F0的App更改</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一、M0的中断向量表重映射"><span class="nav-text">一、M0的中断向量表重映射</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二、编译工具链"><span class="nav-text">二、编译工具链</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三、-attribute-at-绝对定位"><span class="nav-text">三、__attribute__ ((at()) 绝对定位</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#四、重映射-amp-系统启动"><span class="nav-text">四、重映射 &amp; 系统启动</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-重映射"><span class="nav-text">4.1 重映射</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2-系统启动"><span class="nav-text">4.2 系统启动</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#五、Stm32F030的App工程配置"><span class="nav-text">五、Stm32F030的App工程配置</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#六、友情连接"><span class="nav-text">六、友情连接</span></a></li></ol></div>
             
 
           </div>

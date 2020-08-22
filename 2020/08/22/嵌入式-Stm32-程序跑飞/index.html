@@ -1,0 +1,1374 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-flash.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Stm32,程序跑飞,内存溢出,HardFault,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="道简顿悟，法深渐修" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="&amp;emsp;&amp;emsp;搞嵌入式开发，有时候总会因为自己的粗心，或者是硬件本身的缺陷导致的程序跑飞；要找到程序跑飞的原因，排查方法尤为重要，这里介绍一些经验。">
+<meta name="keywords" content="Stm32,程序跑飞,内存溢出,HardFault">
+<meta property="og:type" content="article">
+<meta property="og:title" content="嵌入式(Stm32)程序跑飞">
+<meta property="og:url" content="http://shatang.github.io/2020/08/22/嵌入式-Stm32-程序跑飞/index.html">
+<meta property="og:site_name" content="道简顿悟，法深渐修">
+<meta property="og:description" content="&amp;emsp;&amp;emsp;搞嵌入式开发，有时候总会因为自己的粗心，或者是硬件本身的缺陷导致的程序跑飞；要找到程序跑飞的原因，排查方法尤为重要，这里介绍一些经验。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://shatang.github.io/2020/08/22/嵌入式-Stm32-程序跑飞/1.jpg">
+<meta property="og:image" content="http://shatang.github.io/2020/08/22/嵌入式-Stm32-程序跑飞/2.jpg">
+<meta property="og:image" content="http://shatang.github.io/2020/08/22/嵌入式-Stm32-程序跑飞/3.jpg">
+<meta property="og:updated_time" content="2020-08-22T03:05:04.688Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="嵌入式(Stm32)程序跑飞">
+<meta name="twitter:description" content="&amp;emsp;&amp;emsp;搞嵌入式开发，有时候总会因为自己的粗心，或者是硬件本身的缺陷导致的程序跑飞；要找到程序跑飞的原因，排查方法尤为重要，这里介绍一些经验。">
+<meta name="twitter:image" content="http://shatang.github.io/2020/08/22/嵌入式-Stm32-程序跑飞/1.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+<script>
+    (function(){
+        if(''){
+            if (prompt('请输入文章密码') !== ''){
+                alert('密码错误！');
+                history.back();
+            }
+        }
+    })();
+</script>
+
+
+
+  <link rel="canonical" href="http://shatang.github.io/2020/08/22/嵌入式-Stm32-程序跑飞/">
+
+
+
+
+
+  <title>嵌入式(Stm32)程序跑飞 | 道简顿悟，法深渐修</title>
+  
+
+
+
+
+
+
+
+
+  
+  
+</head>
+
+
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">道简顿悟，法深渐修</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">It's not hard to give up, but it must be cool to stick to it.</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home                          //首页"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive          //归档"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th           //分类"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags                     //标签"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user                   //关于"></i> <br>
+            
+            关于我
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://shatang.github.io/2020/08/22/嵌入式-Stm32-程序跑飞/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Shatang">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/header.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="道简顿悟，法深渐修">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">嵌入式(Stm32)程序跑飞</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-08-22T10:44:33+08:00">
+                2020-08-22
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2020-08-22T11:05:04+08:00">
+                2020-08-22
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/驱动编写/" itemprop="url" rel="index">
+                    <span itemprop="name">驱动编写</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+		
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>次阅读
+            </span>
+          
+		  
+
+          
+            <div class="post-wordcount">
+              
+                
+                  <span class="post-meta-divider">|</span>
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  1.5k
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>&emsp;&emsp;搞嵌入式开发，有时候总会因为自己的粗心，或者是硬件本身的缺陷导致的程序跑飞；要找到程序跑飞的原因，排查方法尤为重要，这里介绍一些经验。</p>
+<a id="more"></a>
+
+<h1 id="一、常见的-程序跑飞"><a href="#一、常见的-程序跑飞" class="headerlink" title="一、常见的 程序跑飞"></a>一、常见的 程序跑飞</h1><p>&emsp;&emsp;分享常见的三种死机情况：</p>
+<ol>
+<li>无操作系统程序死机<ol>
+<li>常见的就是内存溢出(数组下标、申请内存的长度)</li>
+<li><strong>语法问题，导致死循环、或者条件异常直接跳转出去</strong>(常见低级错误)</li>
+</ol>
+</li>
+<li>带操作系统程序死机<ol>
+<li>临界区代码没有进行保护，导致堆栈溢出；常见于底层驱动中断</li>
+<li>任务的堆栈(内存)设置太小；出现程序死机时，<strong>可以尝试扩大任务的堆栈大小，若无死机情况了再从大往小了减。</strong></li>
+</ol>
+</li>
+<li>emwin的不当操作导致死机<ol>
+<li>emwin由于是不开源的，所以有时候不当的操作，比如没有创建窗口时就删除该窗口，就会导致死机。</li>
+<li>所以在运用emwin的时候一定要严格遵循他要求的顺序，如果可以的话多加一下判断再删除界面。</li>
+</ol>
+</li>
+</ol>
+<h1 id="二、进入HardFault-Handler"><a href="#二、进入HardFault-Handler" class="headerlink" title="二、进入HardFault_Handler"></a>二、进入HardFault_Handler</h1><p>&emsp;&emsp;STM32出现HardFault_Handler故障的根本原因有两个方面：</p>
+<ol>
+<li>内存溢出或者访问越界。</li>
+<li>堆栈溢出。(增加堆栈的大小，大多数是因为中断嵌套)</li>
+</ol>
+<p>&emsp;&emsp;但是能造成故障的方法有很多种：例如，数组越界操作、中断处理错误、中断嵌套过多等等。</p>
+<p>这里只介绍两种简单排查的方法。</p>
+<h2 id="2-1-方法1"><a href="#2-1-方法1" class="headerlink" title="2.1 方法1"></a>2.1 方法1</h2><p>&emsp;&emsp;默认的HardFault_Handler处理方法不是 <code>B .</code>(汇编) or <code>while(1)</code>(C语言) 这样的死循环么？楼主将它改成 <code>BX LR</code>直接返回的形式。</p>
+<p>&emsp;&emsp;然后在这条语句打个断点，一旦在断点中停下来，说明出错了，然后再<code>Step</code>两下，就可以返回到出错的位置的下一条语句那儿。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">__<span class="function"><span class="keyword">asm</span> <span class="keyword">void</span> <span class="title">wait</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;       </span><br><span class="line">    BX lr</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">HardFault_Handler</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;    </span><br><span class="line">    <span class="comment">/* Go to infinite loop when Hard Fault exception occurs */</span>   </span><br><span class="line">    wait();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<img src="/2020/08/22/嵌入式-Stm32-程序跑飞/1.jpg">
+
+<h2 id="2-2-方法2"><a href="#2-2-方法2" class="headerlink" title="2.2 方法2"></a>2.2 方法2</h2><p>&emsp;&emsp;在硬件中断函数HardFault_Handler里的while(1)处打调试断点，<strong><font color="red">程序执行到断点处时点击“STOP”停止仿真</font></strong>。</p>
+<img src="/2020/08/22/嵌入式-Stm32-程序跑飞/2.jpg">
+
+<p>&emsp;&emsp;在Keil菜单栏点击“View”——“Call Stack Window”弹出“Call Stack + Locals”对话框。然后在对话框中右键选择“Show Caller Code”，就会跳转到出错之前的函数处；仔细查看这部分函数被调用或者数组内存使用情况。</p>
+<img src="/2020/08/22/嵌入式-Stm32-程序跑飞/3.jpg">
+
+<h1 id="三、上操作系统-ucOS-程序跑飞"><a href="#三、上操作系统-ucOS-程序跑飞" class="headerlink" title="三、上操作系统(ucOS)程序跑飞"></a>三、上操作系统(ucOS)程序跑飞</h1><p>&emsp;&emsp;频繁操作文件，容易出现死机，操作文件时，最好关闭任务；操作完成后，再打开任务； <strong>uC/OS-II的OSSchedLock()和OSSchedUnlock()函数应成对出现</strong>，允许应用程序锁定当前任务不被其它任务抢占。使用时应当注意的是：当你调用了OSSchedLock()之后，而在调用OSSchedUnlock()之前，千万不要再调用诸如OSFlagPend()、OSMboxPend()、OSMutexPend()、OSQPend()、OSSemPend()之类的事件等待函数！而且应当确保OSSchedLock()和OSSchedUnlock()函数成对出现，特别是在有些分支条件语句中，要考虑各种分支情况，不要有遗漏！</p>
+<hr>
+<p>&emsp;&emsp;<strong>任务优先级</strong>。每个任务都必须符合事件驱动的编程模型，即uC/OS-II的应用程序都必须是“事件驱动的编程模型”。一个任务首先等待一个事件的发生，事件可以是系统中断发出的，也可以是其它任务发出的，又可以是任务自身等待的时间片。当一个事件发生了，任务再作相应处理，处理结束后又开始等待下一个事件的发生。如此周而复始的任务处理模型就是“事件驱动的编程模型”。事件驱动模型也涵盖了中断驱动模型，uC/OS-II事件归根结底来自三个方面：</p>
+<ul>
+<li>中断服务函数发送的事件</li>
+<li>系统延时时间到所引起的</li>
+<li>其它任务发送的事件。<ul>
+<li>其中“中断服务函数发送的事件”就是指每当有硬件中断发生，那么中断服务程序就会以事件的形式告诉任务，而等待该事件的最高优先级任务就会马上得以运行；“系统延时时间到所引起的”事件其实也是硬件中断导致的，那就是系统定时器中断。而“其它任务发送的事件”则是由任务代码自身决定的，这是完全的“软事件”。不管“软事件”还是“硬事件”，反正引起uC/OS-II任务切换的原因就是“事件”，所以用户编写应用代码的时候一定要体现出“事件驱动的编程模型”。任务的优先级也一定要分配得当；</li>
+</ul>
+</li>
+<li>查看堆栈是否满；</li>
+</ul>
+<hr>
+<p>&emsp;&emsp;<strong>不可重入函数</strong>。一些C语言函数，用到uCOS-II操作系统中，有时也可能出现问题，例如：gotoxy（）；printf（）。</p>
+<hr>
+<p>&emsp;&emsp;OS_ENTER_CRITICAL()和OS_EXIT_CRITICAL()也可以用来保护应用程序中的临界代码；然而要特别小心，如果再调用一些如 OSTimeDel() 之类的功能函数之前关中断，应用程序将会死机；原因是任务被挂起一段时间，直到挂起时间到，但由于中断关掉了，时钟节拍中断一直得不到服务，显然所有的挂起类调用都有这样的问题，所以要特别小心。</p>
+<p>&emsp;&emsp;需要一并提醒的是：当调用开关中断函数 OS_ENTER_CRITICAL() 和 OS_EXIT_CRITICAL() 时也要确保成对出现，否则系统将可能崩溃！不过，在 OS_ENTER_CRITICAL() 和 OS_EXIT_CRITICAL() 函数之间调用 OSFlagPend()、 OSMboxPend()、 OSMutexPend()、 OSQPend()、 OSSemPend()之类的事件等待函数是允许的。</p>
+<hr>
+<p>&emsp;&emsp;官方ucOS-III 不支持stm32f4x系列的FPU功能(ucOS-III代码没考虑到该功能)；一旦使能FPU，程序会进入到HardFault_Handler，或者出现打印浮点数异常(打印就死机)的现象。修改进行对源码的一些修改才能使用！</p>
+
+      
+    </div>
+    
+    
+    
+
+	<div>
+	  
+		<div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+	  
+	</div>
+
+    
+	
+
+	
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Stm32/" <i class="fa fa-tag"> Stm32</a>
+          
+            <a href="/tags/程序跑飞/" <i class="fa fa-tag"> 程序跑飞</a>
+          
+            <a href="/tags/内存溢出/" <i class="fa fa-tag"> 内存溢出</a>
+          
+            <a href="/tags/HardFault/" <i class="fa fa-tag"> HardFault</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/08/22/Stm32的内存管理-Code-RO-data-RW-data-ZI-data/" rel="next" title="Stm32的内存管理(Code,RO-data,RW-data,ZI-data)">
+                <i class="fa fa-chevron-left"></i> Stm32的内存管理(Code,RO-data,RW-data,ZI-data)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC80NjcwNy8yMzIxNw=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/header.jpg" alt="Shatang">
+            
+              <p class="site-author-name" itemprop="name">Shatang</p>
+              <p class="site-description motion-element" itemprop="description">身体和灵魂总要有一个在路上</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">54</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">62</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/ShaTang" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.bilibili.com/video/av42311652" title="火影.青春.梦想" target="_blank">火影.青春.梦想</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.bilibili.com/video/av45828728" title="FATE.士郎" target="_blank">FATE.士郎</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://tieba.baidu.com/p/6185344159?see_lz=1&pn=1" title="Hide on bush" target="_blank">Hide on bush</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.zhihu.com/question/272137224/answer/821655151" title="声微饭否" target="_blank">声微饭否</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.bilibili.com/video/av43067703" title="生老病死" target="_blank">生老病死</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.bilibili.com/video/av82424567" title="眉山剑客" target="_blank">眉山剑客</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一、常见的-程序跑飞"><span class="nav-text">一、常见的 程序跑飞</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二、进入HardFault-Handler"><span class="nav-text">二、进入HardFault_Handler</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-方法1"><span class="nav-text">2.1 方法1</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-方法2"><span class="nav-text">2.2 方法2</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三、上操作系统-ucOS-程序跑飞"><span class="nav-text">三、上操作系统(ucOS)程序跑飞</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Shatang</span>
+
+   
+</div>
+
+
+
+
+
+
+
+
+
+
+
+<span id="timeDate" title="网站运行时间">载入天数...</span><span id="times" title="网站运行时间">载入时分秒...</span>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i> 有
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人看过我的博客啦
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i> 本站总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/three.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/canvas_lines.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":180,"height":360},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
+
+<!--浏览器搞笑标题-->
+<script type="text/javascript" src="/js/src/FunnyTitle.js"></script>
+<!-- 页面点击颜文字表情 -->
+<script type="text/javascript" src="/js/src/emoji.js"></script>
+<!--此处为建站时间 -->
+<script>
+  var now = new Date(); 
+  function createtime() { 
+      var grt= new Date("09/13/2019 12:00:00");
+      now.setTime(now.getTime()+250); 
+      days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+      hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+      if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+      mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+      seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+      snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+      document.getElementById("timeDate").innerHTML ="(ㆆᴗㆆ)本站建立了"+dnum+"&thinsp;天"; 
+      document.getElementById("times").innerHTML = hnum + "&thinsp;时" + mnum + "&thinsp;分" + snum + "&thinsp;秒"; 
+  } 
+setInterval("createtime()",250);
+</script>
+<!-- 代码块复制功能 -->
+<script type="text/javascript" src="/js/src/clipboard.min.js"></script>  
+<script type="text/javascript" src="/js/src/clipboard-use.js"></script>
+
+
+
+<!--  
+数字雨 
+<canvas id="canvas" width="1440" height="900" ></canvas>
+<script type="text/javascript" src="/js/src/DigitalRain.js"></script>
+-->

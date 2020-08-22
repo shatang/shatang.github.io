@@ -1,0 +1,1424 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-flash.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Stm32,内存管理,分散文件加载,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="道简顿悟，法深渐修" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="&amp;emsp;&amp;emsp;单纯从C语言角度来讲内存管理，有点宏观；这里介绍具体嵌入式的内存分配管理。">
+<meta name="keywords" content="Stm32,内存管理,分散文件加载">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Stm32的内存管理(Code,RO-data,RW-data,ZI-data)">
+<meta property="og:url" content="http://shatang.github.io/2020/08/22/Stm32的内存管理-Code-RO-data-RW-data-ZI-data/index.html">
+<meta property="og:site_name" content="道简顿悟，法深渐修">
+<meta property="og:description" content="&amp;emsp;&amp;emsp;单纯从C语言角度来讲内存管理，有点宏观；这里介绍具体嵌入式的内存分配管理。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://shatang.github.io/2020/08/22/Stm32的内存管理-Code-RO-data-RW-data-ZI-data/1.png">
+<meta property="og:image" content="http://shatang.github.io/2020/08/22/Stm32的内存管理-Code-RO-data-RW-data-ZI-data/2.png">
+<meta property="og:image" content="http://shatang.github.io/2020/08/22/Stm32的内存管理-Code-RO-data-RW-data-ZI-data/3.png">
+<meta property="og:updated_time" content="2020-08-22T01:43:34.630Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Stm32的内存管理(Code,RO-data,RW-data,ZI-data)">
+<meta name="twitter:description" content="&amp;emsp;&amp;emsp;单纯从C语言角度来讲内存管理，有点宏观；这里介绍具体嵌入式的内存分配管理。">
+<meta name="twitter:image" content="http://shatang.github.io/2020/08/22/Stm32的内存管理-Code-RO-data-RW-data-ZI-data/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+<script>
+    (function(){
+        if(''){
+            if (prompt('请输入文章密码') !== ''){
+                alert('密码错误！');
+                history.back();
+            }
+        }
+    })();
+</script>
+
+
+
+  <link rel="canonical" href="http://shatang.github.io/2020/08/22/Stm32的内存管理-Code-RO-data-RW-data-ZI-data/">
+
+
+
+
+
+  <title>Stm32的内存管理(Code,RO-data,RW-data,ZI-data) | 道简顿悟，法深渐修</title>
+  
+
+
+
+
+
+
+
+
+  
+  
+</head>
+
+
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">道简顿悟，法深渐修</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">It's not hard to give up, but it must be cool to stick to it.</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home                          //首页"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive          //归档"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th           //分类"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags                     //标签"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user                   //关于"></i> <br>
+            
+            关于我
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://shatang.github.io/2020/08/22/Stm32的内存管理-Code-RO-data-RW-data-ZI-data/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Shatang">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/header.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="道简顿悟，法深渐修">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Stm32的内存管理(Code,RO-data,RW-data,ZI-data)</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-08-22T09:35:33+08:00">
+                2020-08-22
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2020-08-22T09:43:34+08:00">
+                2020-08-22
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/驱动编写/" itemprop="url" rel="index">
+                    <span itemprop="name">驱动编写</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+		
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>次阅读
+            </span>
+          
+		  
+
+          
+            <div class="post-wordcount">
+              
+                
+                  <span class="post-meta-divider">|</span>
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  3.3k
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>&emsp;&emsp;单纯从C语言角度来讲内存管理，有点宏观；这里介绍具体嵌入式的内存分配管理。</p>
+<a id="more"></a>
+<h1 id="一、内存分配"><a href="#一、内存分配" class="headerlink" title="一、内存分配"></a>一、内存分配</h1><p>&emsp;&emsp;对于一个C语言程序而言，内存空间主要由五个部分组成：代码段(.text)、数据段(.data)、静态区(.BSS)、堆和栈组成。</p>
+<ul>
+<li>BSS段：BSS段（bss segment）通常是指用来存放程序中未初始化的全局变量和静态变量（这里注意一个问题：一般的书上都会说全局变量和静态变量是会自动初始化的，那么哪来的未初始化的变量呢？变量的初始化可以分为显示初始化和隐式初始化，全局变量和静态变量如果程序员自己不初始化的话的确也会被初始化，那就是不管什么类型都初始化为0，这种没有显示初始化的就是我们这里所说的未初始化。既然都是0那么就没必要把每个0都存储起来，从而节省磁盘空间，这是BSS的主要作用）的一块内存区域。BSS是英文Block Started by Symbol的简称。BSS段属于静态内存分配。 BSS节不包含任何数据，只是简单的维护开始和结束的地址，即总大小，以便内存区能在运行时分配并被有效地清零。BSS节在应用程序的二进制映象文件中并不存在，即不占用磁盘空间而只在运行的时候占用内存空间，所以如果全局变量和静态变量未初始化那么其可执行文件要小很多。</li>
+<li>数据段：数据段（data segment）通常是指用来存放程序中已初始化的全局变量和静态变量的一块内存区域。数据段属于静态内存分配，可以分为只读数据段和读写数据段。字符串常量等，但一般都是放在只读数据段中。</li>
+<li>代码段：代码段（code segment/text segment）通常是指用来存放程序执行代码的一块内存区域。这部分区域的大小在程序运行前就已经确定，并且内存区域通常属于只读, 某些架构也允许代码段为可写，即允许修改程序。在代码段中，也有可能包含一些只读的常数变量，例如字符串常量等，但一般都是放在只读数据段中。</li>
+<li>栈区：由系统自动分配，栈区的分配运算内置于处理器的指令集，当函数执行结束时由系统自动释放。存放局部变量。栈的缺点是：容量有限，当相应的区间被释放时，局部变量不可再使用。查询栈容量的命令：ulimits -s。栈是一块连续的区域，向高地址扩展，栈顶和容量是事先约定好的。</li>
+<li>堆区：在程序的执行过程中才能分配，由程序员决定，编译器在编译时无法为他们分配空间，只有在程序运行时分配，所以被称为动态分配。堆是不连续的区域，向高地址扩展。由于系统用链表来描述空闲的地址空间，链表的遍历是由地地址向高地址的，故堆区是不连续的动态的存储空间。</li>
+</ul>
+<hr>
+<p>&emsp;&emsp;更多具体的C语言基础内存分配知识，可以看这篇博文：<a href="https://shatang.github.io/2020/03/15/%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D%E6%96%B9%E5%BC%8F/">内存分配方式</a> 。</p>
+<h1 id="二、Stm32的内存管理"><a href="#二、Stm32的内存管理" class="headerlink" title="二、Stm32的内存管理"></a>二、Stm32的内存管理</h1><p>编写一个空工程，BUILD后，</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Program Size: Code=<span class="number">340</span> RO-data=<span class="number">252</span> RW-data=<span class="number">0</span> ZI-data=<span class="number">1632</span></span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;程序已用了1600多的RAM，要是在51单片机上，会心疼死了，这1600多的RAM跑哪儿去了？？？</p>
+<p>分析完map，你会发现是堆和栈占用的。在<code>startup_stm32f10x_md.s</code>文件中，它的前面几行就有以下定义，这下该明白了吧。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Stack_Size  EQU     <span class="number">0x00000400</span></span><br><span class="line">Heap_Size   EQU     <span class="number">0x00000200</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>&emsp;&emsp;一般 MCU 包含的存储空间有：片内 Flash 与片内 RAM，RAM 相当于内存，Flash 相当于硬盘。</p>
+<p>编译器会将一个程序分为好几个部分，分别存储在 MCU 不同的存储区。Keil 工程在编译完之后，会有相应的程序所占用的空间提示信息，如下所示：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Program Size: Code=<span class="number">12266</span> RO-data=<span class="number">790</span> RW-data=<span class="number">232</span> ZI-data=<span class="number">8096</span></span><br></pre></td></tr></table></figure>
+
+<p>上面提到的 Program Size 包含以下几个部分：</p>
+<ul>
+<li>Code：代码段，存放程序的代码部分；</li>
+<li>RO-data：只读数据段，存放程序中定义的常量；</li>
+<li>RW-data：读写数据段，存放初始化为非 0 值的全局变量；</li>
+<li>ZI-data：0 数据段，存放未初始化的全局变量及初始化为 0 的全局变量；</li>
+</ul>
+<p>编译完工程会生成一个. map 的文件，该文件说明了各个函数占用的尺寸和地址，在文件的最后几行也说明了上面几个字段的关系：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Total RO <span class="title">Size</span> <span class="params">(Code + RO Data)</span> 13056 <span class="params">( <span class="number">12.75</span>kB)</span></span></span><br><span class="line"><span class="function">Total RW <span class="title">Size</span> <span class="params">(RW Data + ZI Data)</span> 8328 <span class="params">( <span class="number">8.13</span>kB)</span></span></span><br><span class="line"><span class="function">Total ROM <span class="title">Size</span> <span class="params">(Code + RO Data + RW Data)</span> 13288 <span class="params">( <span class="number">12.98</span>kB)</span></span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>RO Size = (Code + RO-data)：表示程序占用 Flash 空间的大小；</li>
+<li>RW Size = (RW-data + ZI-data)：表示运行时占用的 RAM 的大小；</li>
+<li>ROM Size = (Code + RO Data + RW Data)：表示烧写程序所占用的 Flash 空间的大小。</li>
+</ul>
+<hr>
+<p>&emsp;&emsp;这个是MDK编译之后能够得到的每个段的大小，也就能得到占用相应的FLASH和RAM的大小。</p>
+<ul>
+<li>Flash = Code + RO Data + RW Data;</li>
+<li>RAM = RW-data+ZI-data;</li>
+</ul>
+<p><strong><font color="red">Ps：</font></strong><br>堆和栈都存在RAM里，他两各分多少看函数需求，但是他两的总值不能超过单片机硬件的实际RAM尺寸！(可以外扩RAM)</p>
+<h1 id="三、分散文件加载"><a href="#三、分散文件加载" class="headerlink" title="三、分散文件加载"></a>三、分散文件加载</h1><p>&emsp;&emsp;<strong><font color="red">内存分配在嵌入式开发，有另外一个名字：分散文件加载。</font></strong></p>
+<p>该章节内容主要来自这位博主：<a href="https://blog.csdn.net/weixin_39118482/article/details/79849133" target="_blank" rel="noopener">Solaris_超</a>，想更了解分散文件加载的可以看这位博主链接文章。</p>
+<h2 id="3-1-什么是分散加载"><a href="#3-1-什么是分散加载" class="headerlink" title="3.1 什么是分散加载"></a>3.1 什么是分散加载</h2><p>&emsp;&emsp;简单来说就是让编译器高速MCU内核哪里存的是代码、哪里存的是数据，去哪个特定的地址找到下一步需要运行的函数，就是高速编译器把每一个编译好的函数、数据放到具体的哪一个物理地址。</p>
+<h2 id="3-2-分散加载常见应用场景"><a href="#3-2-分散加载常见应用场景" class="headerlink" title="3.2 分散加载常见应用场景"></a>3.2 分散加载常见应用场景</h2><ul>
+<li>Bootloader &amp; 程序升级<ul>
+<li>Bootloader的原理就简单来说在MCU的Flash里面同时摆放2个（或多个）不同工程的程序，一个Bootloader程序和一个用户程序，那么这就需要调整分散加载文件，以达成在一个Flash里面同时摆放两个不同程序的目的。</li>
+<li>程序升级都是为了增加一个小功能或修复一个小BUG，不需要全部升级而是只升级一点点。当然要实现这个功能同样需要分散加载的配合，把可能会后续升级的部分函数或数据事先分配好空间，留好空间上的余量，这些都需要分散加载来完成。</li>
+</ul>
+</li>
+<li>加速程序运行速度（如：对速度有较高要求的算法等、RTOS kernel）<ul>
+<li>在SRAM中运行的程序要比在XIP Flash中执行要快，性能提升明显。</li>
+</ul>
+</li>
+<li>访问扩展存储&amp;对存储区的划分<ul>
+<li>如果要把外扩的存储用于运行代码/扩展RW数据段等用途，简单来说就是把片内地址映射到片外，需要按照寻址空间的方式来访问扩展存储的话，比如扩展Nor-Flash、扩展SDRAM、扩展SRAM等，那就需要分散加载配合。（只作存储数据的话，分散加载不是必要的！！！）</li>
+</ul>
+</li>
+</ul>
+<h2 id="3-3-分散加载的基本结构定义以及分散加载的目的"><a href="#3-3-分散加载的基本结构定义以及分散加载的目的" class="headerlink" title="3.3 分散加载的基本结构定义以及分散加载的目的"></a>3.3 分散加载的基本结构定义以及分散加载的目的</h2><ul>
+<li>Code段：表示程序代码部分</li>
+<li>RO-data段：程序定义的所有常量以及const类型数据</li>
+<li>RW-data段：已经初始化的所有静态变量</li>
+<li>ZI-data段：未初始化的静态变量</li>
+</ul>
+<hr>
+<p>所以分散加载的根本目的就是：</p>
+<ul>
+<li>指引把RO-data数据段、RW数据段从片内程序存储区里面（一般是片内Flash），搬到片内程序运行区（一般是片内SRAM）;</li>
+<li>在片内程序运行区（一般是片内SRAM）内分配ZI数据段运行需要的空间并把这段数据初始化为0；</li>
+<li>初始化堆栈；</li>
+<li>对于有些指定加载到程序运行区（一般是片内SRAM）的RO数据段，把他们加载到程序运行区（一般是片内SRAM）里面。</li>
+</ul>
+<p><strong><font color="red">Ps：</font></strong> 这个和使用的电脑运行操作系统或者软件原理类似，电脑就是把硬盘里面的操作系统加载到内存里面，然后CPU从内存里面取数据以及程序指令来运行的。</p>
+<p><strong><font color="red">Ps：</font></strong> RW以及ZI数据段的初始化是在分散加载过程中完成的，也就是在__main中完成的，比如你定义一个全局变量，并给它赋值，只有在__main结束后你才能看到这个全局变量被赋值成功的，也就是说在__main之前，使用全局变量是行不通的。</p>
+<hr>
+<p>&emsp;&emsp;我们可以在编译链接完层的代码后，链接器的输出打印上看到这部分信息，如下图，就是一个Hello World工程的输出打印，其中链接器打印出了这几个段的大小（蓝色底纹部分）：</p>
+<img src="/2020/08/22/Stm32的内存管理-Code-RO-data-RW-data-ZI-data/1.png" title="链接器打印信息">
+
+<p>如果大家想看更详细编译结果，可以双击工程名查看.map文件</p>
+<img src="/2020/08/22/Stm32的内存管理-Code-RO-data-RW-data-ZI-data/2.png" title="map文件">
+
+<p>&emsp;&emsp;.map文件最后有关于编译结果的详细介绍，我是用的这个hello world工程中的所有被编译&amp;链接的文件都会在.map（链接器的工作报表）文件里面详细记述，每一个文件编译后产生的Code、RO-Data、RW、ZI的大小，以及加在一起的总大小，如下图：</p>
+<img src="/2020/08/22/Stm32的内存管理-Code-RO-data-RW-data-ZI-data/3.png" title="内存分配大小">
+
+<p><strong><font color="red">Ps：</font></strong> 我们可以通过查看 .map 文件来规划Bootloader程序的存储空间的大小。</p>
+<h1 id="四、嵌入式的内存分配"><a href="#四、嵌入式的内存分配" class="headerlink" title="四、嵌入式的内存分配"></a>四、嵌入式的内存分配</h1><ul>
+<li><strong>内存管理</strong>：是指软件运行时对计算机内存资源的分配和使用的技术。其最主要的目的是如何高效，快速的分配，并且在适当的时候释放和回收内存资源。内存管理的实现方法有很多种，他们其实最终都是要实现 2 个函数： malloc 和 free（<strong><font color="red">不可重入函数</font>，上操作系统注意调用，很危险</strong>）； malloc 函数用于内存申请， free 函数用于内存释放。</li>
+<li><strong>内存碎片</strong>：通常应用程序可以调用ANSI C编译器的malloc()和free()函数来动态的分配和释放内存，但多次这样的操作会把原来很大的一块连续存储区域逐渐地分割成许多非常小并且彼此不相邻的存储区域，这就是存储碎片。</li>
+</ul>
+<p>&emsp;&emsp;malloc( )属于标准C语言函数，当然可以在单片机上使用。</p>
+<p>&emsp;&emsp;但是在嵌入式(裸机)中最好不要这么做！一般单片机的内存都比较小，而且没有MMU(内存管理管理单元),多次的<code>malloc</code> 与<code>free</code>的使用容易造成内存碎片。没有MMU的管理，当后面因为空间不足而分配失败，从而导致系统崩溃，因此应该慎用，或者自己实现内存管理。除了UCOS或FREERTOS等嵌入式操作系统有自带的MMU处理外，裸机长时间连续工作产生的内存碎片为系统工作稳定埋下隐患。</p>
+<hr>
+<p>嵌入式内存的分配方式，常见如STM32可以先在启动文件中设置heap的大小，再使用动态内存分配：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Heap_Size     EQU    <span class="number">0x00000200</span>     <span class="comment">//也就是 512字节</span></span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;嵌入式系统的堆栈，不管是用什么方法来得到内存，感觉他的方式都和编程中的堆差不多。目前我知道两种获得内存情况：</p>
+<ol>
+<li>用庞大的全局变量数组来圈住一块内存，然后将这个内存拿来进行内存管理和分配。这种情况下，堆栈占用的内存就是上面说的：如果没有初始化数组，或者数组的初始化值为0，堆栈就是占用的RAM的ZI-data部分；如果数组初始化值不为0，堆栈就占用的RAM的RW-data部分。这种方式的好处是容易从逻辑上知道数据的来由和去向。</li>
+<li>就是把编译器没有用掉的RAM部分拿来做内存分配，也就是除掉RW-data+ZI-data+编译器堆+编译器栈后剩下的RAM内存中的一部分或者全部进行内存管理和分配。这样的情况下就只需要知道内存剩下部分的首地址和内存的尾地址，然后要用多少内存，就用首地址开始挖，做一个链表，把内存获取和释放相关信息链接起来，就能及时的对内存进行管理了。</li>
+</ol>
+<p>正点原子的方法即是上面的方法一，详情介绍可以看这篇文章：<a href></a></p>
+
+      
+    </div>
+    
+    
+    
+
+	<div>
+	  
+		<div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+	  
+	</div>
+
+    
+	
+
+	
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Stm32/" <i class="fa fa-tag"> Stm32</a>
+          
+            <a href="/tags/内存管理/" <i class="fa fa-tag"> 内存管理</a>
+          
+            <a href="/tags/分散文件加载/" <i class="fa fa-tag"> 分散文件加载</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/08/12/M0的中断向量表重映射/" rel="next" title="M0的中断向量表重映射">
+                <i class="fa fa-chevron-left"></i> M0的中断向量表重映射
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/08/22/嵌入式-Stm32-程序跑飞/" rel="prev" title="嵌入式(Stm32)程序跑飞">
+                嵌入式(Stm32)程序跑飞 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC80NjcwNy8yMzIxNw=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/header.jpg" alt="Shatang">
+            
+              <p class="site-author-name" itemprop="name">Shatang</p>
+              <p class="site-description motion-element" itemprop="description">身体和灵魂总要有一个在路上</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">54</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">62</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/ShaTang" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.bilibili.com/video/av42311652" title="火影.青春.梦想" target="_blank">火影.青春.梦想</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.bilibili.com/video/av45828728" title="FATE.士郎" target="_blank">FATE.士郎</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://tieba.baidu.com/p/6185344159?see_lz=1&pn=1" title="Hide on bush" target="_blank">Hide on bush</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.zhihu.com/question/272137224/answer/821655151" title="声微饭否" target="_blank">声微饭否</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.bilibili.com/video/av43067703" title="生老病死" target="_blank">生老病死</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.bilibili.com/video/av82424567" title="眉山剑客" target="_blank">眉山剑客</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一、内存分配"><span class="nav-text">一、内存分配</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二、Stm32的内存管理"><span class="nav-text">二、Stm32的内存管理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三、分散文件加载"><span class="nav-text">三、分散文件加载</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-什么是分散加载"><span class="nav-text">3.1 什么是分散加载</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-分散加载常见应用场景"><span class="nav-text">3.2 分散加载常见应用场景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-分散加载的基本结构定义以及分散加载的目的"><span class="nav-text">3.3 分散加载的基本结构定义以及分散加载的目的</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#四、嵌入式的内存分配"><span class="nav-text">四、嵌入式的内存分配</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Shatang</span>
+
+   
+</div>
+
+
+
+
+
+
+
+
+
+
+
+<span id="timeDate" title="网站运行时间">载入天数...</span><span id="times" title="网站运行时间">载入时分秒...</span>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i> 有
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人看过我的博客啦
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i> 本站总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/three.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/canvas_lines.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":180,"height":360},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
+
+<!--浏览器搞笑标题-->
+<script type="text/javascript" src="/js/src/FunnyTitle.js"></script>
+<!-- 页面点击颜文字表情 -->
+<script type="text/javascript" src="/js/src/emoji.js"></script>
+<!--此处为建站时间 -->
+<script>
+  var now = new Date(); 
+  function createtime() { 
+      var grt= new Date("09/13/2019 12:00:00");
+      now.setTime(now.getTime()+250); 
+      days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+      hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+      if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+      mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+      seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+      snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+      document.getElementById("timeDate").innerHTML ="(ㆆᴗㆆ)本站建立了"+dnum+"&thinsp;天"; 
+      document.getElementById("times").innerHTML = hnum + "&thinsp;时" + mnum + "&thinsp;分" + snum + "&thinsp;秒"; 
+  } 
+setInterval("createtime()",250);
+</script>
+<!-- 代码块复制功能 -->
+<script type="text/javascript" src="/js/src/clipboard.min.js"></script>  
+<script type="text/javascript" src="/js/src/clipboard-use.js"></script>
+
+
+
+<!--  
+数字雨 
+<canvas id="canvas" width="1440" height="900" ></canvas>
+<script type="text/javascript" src="/js/src/DigitalRain.js"></script>
+-->
