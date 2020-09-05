@@ -102,7 +102,7 @@
 <meta property="og:image" content="http://shatang.github.io/2020/08/12/Xmodem协议/1.png">
 <meta property="og:image" content="http://shatang.github.io/2020/08/12/Xmodem协议/2.png">
 <meta property="og:image" content="http://shatang.github.io/2020/08/12/Xmodem协议/3.png">
-<meta property="og:updated_time" content="2020-08-12T14:30:00.452Z">
+<meta property="og:updated_time" content="2020-09-05T05:26:24.150Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Xmodem协议">
 <meta name="twitter:description" content="&amp;emsp;&amp;emsp;常用于嵌入式IAP串口升级。">
@@ -373,8 +373,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2020-08-12T22:30:00+08:00">
-                2020-08-12
+              <time title="更新于" itemprop="dateModified" datetime="2020-09-05T13:26:24+08:00">
+                2020-09-05
               </time>
             
           </span>
@@ -431,7 +431,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  3k
+                  3.2k
                 </span>
               
 
@@ -555,15 +555,22 @@
 <h1 id="五、补充知识：128个字符的ASCII码表"><a href="#五、补充知识：128个字符的ASCII码表" class="headerlink" title="五、补充知识：128个字符的ASCII码表"></a>五、补充知识：128个字符的ASCII码表</h1><p>&emsp;&emsp;由于上面的文本文件，对编码格式有疑惑的，建议重新看一下128字符的ASCII码表。<strong>基础ascii码值最大值是0x7f=127，扩展ascii码值最大值是0xFF=255。</strong><br>&emsp;&emsp;文章的链接为：<a href="https://shatang.github.io/2020/06/28/128%E4%B8%AA%E5%AD%97%E7%AC%A6%E7%9A%84ASCII%E7%A0%81%E8%A1%A8/#more">128个字符的ASIIC码表</a></p>
 <h1 id="六、补充知识：CRC16校验的实现"><a href="#六、补充知识：CRC16校验的实现" class="headerlink" title="六、补充知识：CRC16校验的实现"></a>六、补充知识：CRC16校验的实现</h1><p>&emsp;&emsp;对CRC校验有疑惑、不了解的，可以看这篇博文：<a href="https://shatang.github.io/2020/08/10/CRC%E6%A0%A1%E9%AA%8C%E7%AE%97%E6%B3%95%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90/#more">CRC校验算法原理分析</a></p>
 <h1 id="七、代码实例"><a href="#七、代码实例" class="headerlink" title="七、代码实例"></a>七、代码实例</h1><p>&emsp;&emsp;这里先放一个官方例程：<a href="https://pan.baidu.com/s/1-jREbLowNT3TbI_50aAgBg" target="_blank" rel="noopener">ST官方的IAP + Ymodem代码</a>；提取码为：aan9<br>&emsp;&emsp;再放一个超级终端方便调试升级：<a href="https://pan.baidu.com/s/1OgDHkVzkezVbZZcGGQCMZw" target="_blank" rel="noopener">超级终端(支持win10)</a>；提取码为：3ejn</p>
-<h2 id="7-1-Ymodem协议"><a href="#7-1-Ymodem协议" class="headerlink" title="7.1 Ymodem协议"></a>7.1 Ymodem协议</h2><p>&emsp;&emsp;从上述Xmodem知识讲解后，如果你去查询 Ymodem协议概念 ，你会发现及其相似。这里我放我的实例；根据官方IAP升级例程进行修改简化，芯片是Stm32F407vgt6，支持多串口任选升级 的代码：<a href>基于Ymodem协议的IAP升级</a>。</p>
-<p>&emsp;&emsp;<strong>标准</strong>Ymodem的特点，就是相对Xmodem能进行批文件传输。具体的实现方法就是：文件发送完以后，发送方发出一个“EOT”信号，接收方也以“ACK”回应；然后接收方会再次发出“C”开启另一次传输，若接着发送方会发出一个“全0数据包”，接收方“ACK”以后，本次通信正式结束。</p>
-<p>&emsp;&emsp;这样的话，每次建立连接，标准Ymodem能多次传输文件，即批文件传输。</p>
-<p><strong>Ps：</strong> 如果应用在嵌入式Bootloader的话，基本都只用一次，即接收方嵌入式固件常为非标准的Ymodem协议。</p>
+<h2 id="7-1-Ymodem协议"><a href="#7-1-Ymodem协议" class="headerlink" title="7.1 Ymodem协议"></a>7.1 Ymodem协议</h2><p>&emsp;&emsp;从上述Xmodem知识讲解后，如果你去查询 Ymodem协议概念 ，你会发现及其相似。这里我放我的实例；根据官方IAP升级例程进行简化(阉割)，方便理解；芯片是Stm32F407vgt6，支持多串口任选升级 的代码：<a href="https://github.com/shatang/Bootloader_Uart_Ymodem" target="_blank" rel="noopener">非标准Ymodem协议的IAP升级</a>。</p>
+<p>&emsp;&emsp;<strong>标准</strong>Ymodem的特点，就是相对Xmodem能进行批文件传输。Ymodem支持文件传输，体现在YModem的起始帧并不直接传输文件的数据，而是将文件名与文件的大小放在数据帧中传输会先发。</p>
+<p>且数据传输结束方法要进行确认：</p>
+<ol>
+<li>数据传输完毕后，发送方发EOT，第一次接收方以NAK应答，准备二次确认。</li>
+<li>发送方收到NAK后，重发EOT，接收方第二次收到结束符，就以ACK应答。</li>
+<li>最后接收方再发送一个’C’，发送方在没有第二个文件要传输的情况下，发送数据<br><code>SOH 00 FF 00~00(共128个) CRCH CRCL</code></li>
+<li>接收方应答ACK后，正式结束数据传输。</li>
+</ol>
+<p>&emsp;&emsp;这样的话，每次建立连接，标准Ymodem一次能传输多文件，即批文件传输。</p>
+<p><strong>Ps：</strong> 如果应用在嵌入式Bootloader的话，基本都只传一个文件，且要压缩Bootloader程序大小；即接收方嵌入式固件为非标准的Ymodem协议。</p>
 <h2 id="7-2-Xmodem-amp-Ymodem"><a href="#7-2-Xmodem-amp-Ymodem" class="headerlink" title="7.2 Xmodem &amp; Ymodem"></a>7.2 Xmodem &amp; Ymodem</h2><p>&emsp;&emsp;根据 7.1 的实例，能够通过Ymodem协议进行IAP升级；Xmodem 和 Ymodem 极其相似，直接切换成 Xmodem协议 进行升级能不能成呢？</p>
 <p>当然是理所当然地报错了！那么极其相似，但到底差别在哪里？</p>
 <ul>
 <li>文件传输的第一个数据包<ul>
-<li>Ymodem支持文件传输，体现在了传输文件第一个包，会先发 文件名 &amp; 文件大小；</li>
+<li>Ymodem支持文件传输，体现在了传输文件第一个包；YModem的起始帧并不直接传输文件的数据，而是将文件名与文件的大小放在数据帧中传输会先发；</li>
 <li>而Xmodem是直接传输数据的</li>
 </ul>
 </li>
@@ -573,11 +580,19 @@
 </ul>
 </li>
 </ul>
-<p>&emsp;&emsp;通过上述的总结，因为Ymodem与Xmodem很相似，可以根据上面的不同点稍微改一下，就能得到 基于Xmodem协议的IAP升级 代码： <a href>基于Xmodem协议的IAP升级</a>。(可能残留一些Ymodem的代码)</p>
+<p>&emsp;&emsp;通过上述的总结，因为Ymodem与Xmodem很相似，可以根据上面的不同点稍微改一下，就能得到 基于Xmodem协议的IAP升级 代码： <a href="https://github.com/shatang/Bootloader_Uart_Xmodem" target="_blank" rel="noopener">基于Xmodem协议的IAP升级</a>。(残留一些Ymodem的代码，想精简可去掉)</p>
 <ul>
 <li>两者带来的差别：Flash的擦除<ul>
-<li>Ymodem协议，第一包数据可以知道文件名、文件大小；如果不匹配可以不擦除旧APP的Flash，与超级终端连上后，不升级，设备是不会变成砖的</li>
-<li>Xmodem协议，不清楚文件，故它一定会擦除旧APP存储的Flash；如果擦除程序在升级前做，那么如果连上后放弃升级，该设备自然就会变成砖(就我现在写的那个)；当然也可以改写成在确实收到(识别)第一包数据包后，再擦除Flash就能实现类似Ymodem的效果</li>
+<li>Ymodem协议，第一包数据可以知道文件名、文件大小，所以不必要直接连接上就擦除Flash；<ul>
+<li>可以第一包(文件)数据不符合要求就不擦除旧APP的Flash</li>
+<li>因此连上超级终端，不升级，设备是不会变成砖的(未擦除)</li>
+</ul>
+</li>
+<li>Xmodem协议，不清楚文件，因此一般会连接上后直接擦除旧APP存储的Flash；<ul>
+<li>因为擦除程序在连接成功后就做，那么如果连上后放弃升级，该设备自然就会变成砖(就我现在写的那个)；</li>
+<li>当然也可以改进成在确实收到(识别)第一包数据包后，再擦除Flash；就能实现类似Ymodem的效果</li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -585,9 +600,9 @@
 <ol>
 <li>做一个简易的上位机，把bin文件拖进去；由于bin文件就是二进制文件，可以将其 异或 某条字符串，不断循环直至 整个文件异或成 新的文件</li>
 <li>通过协议传输后，把获取到的数据，又重新异或一遍，这样的话，数据就会解密(数据异或两次就会变回原来的数据)，再写入Flash</li>
-<li>上位机的字符串加密要可改写非固定，这样就能实现简单文件加密传输拉！</li>
+<li>上位机的字符串加密要可改写非固定，这样就能实现简单文件加密传输拉！！</li>
 </ol>
-<p><strong>Ps：</strong> 上面我的代码例程就有夹杂解密的，可以去掉；不过我的代码里面没有做CRC校验，因为我看到官方Ymodem自己就没加CRC校验；我的Xmodem例程就顺带加了</p>
+<p><strong>Ps：</strong> 上面我的代码例程就有夹杂解密的，可以去掉；不过我代码的Ymodem没加CRC校验；Xmodem例程就加了CRC校验。实测加了校验，对实际传输的时间影响不大。</p>
 
       
     </div>

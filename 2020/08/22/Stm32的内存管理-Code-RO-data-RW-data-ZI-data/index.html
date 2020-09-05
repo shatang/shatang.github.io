@@ -102,7 +102,7 @@
 <meta property="og:image" content="http://shatang.github.io/2020/08/22/Stm32的内存管理-Code-RO-data-RW-data-ZI-data/1.png">
 <meta property="og:image" content="http://shatang.github.io/2020/08/22/Stm32的内存管理-Code-RO-data-RW-data-ZI-data/2.png">
 <meta property="og:image" content="http://shatang.github.io/2020/08/22/Stm32的内存管理-Code-RO-data-RW-data-ZI-data/3.png">
-<meta property="og:updated_time" content="2020-08-22T01:43:34.630Z">
+<meta property="og:updated_time" content="2020-09-05T03:48:14.469Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Stm32的内存管理(Code,RO-data,RW-data,ZI-data)">
 <meta name="twitter:description" content="&amp;emsp;&amp;emsp;单纯从C语言角度来讲内存管理，有点宏观；这里介绍具体嵌入式的内存分配管理。">
@@ -373,8 +373,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2020-08-22T09:43:34+08:00">
-                2020-08-22
+              <time title="更新于" itemprop="dateModified" datetime="2020-09-05T11:48:14+08:00">
+                2020-09-05
               </time>
             
           </span>
@@ -501,7 +501,7 @@
 <li>Flash = Code + RO Data + RW Data;</li>
 <li>RAM = RW-data+ZI-data;</li>
 </ul>
-<p><strong><font color="red">Ps：</font></strong><br>堆和栈都存在RAM里，他两各分多少看函数需求，但是他两的总值不能超过单片机硬件的实际RAM尺寸！(可以外扩RAM)</p>
+<p><strong><font color="red">Ps：</font></strong>堆和栈都存在RAM里，他两各分多少看函数需求，但是他两的总值不能超过单片机硬件的实际RAM尺寸！(可以外扩RAM)</p>
 <h1 id="三、分散文件加载"><a href="#三、分散文件加载" class="headerlink" title="三、分散文件加载"></a>三、分散文件加载</h1><p>&emsp;&emsp;<strong><font color="red">内存分配在嵌入式开发，有另外一个名字：分散文件加载。</font></strong></p>
 <p>该章节内容主要来自这位博主：<a href="https://blog.csdn.net/weixin_39118482/article/details/79849133" target="_blank" rel="noopener">Solaris_超</a>，想更了解分散文件加载的可以看这位博主链接文章。</p>
 <h2 id="3-1-什么是分散加载"><a href="#3-1-什么是分散加载" class="headerlink" title="3.1 什么是分散加载"></a>3.1 什么是分散加载</h2><p>&emsp;&emsp;简单来说就是让编译器高速MCU内核哪里存的是代码、哪里存的是数据，去哪个特定的地址找到下一步需要运行的函数，就是高速编译器把每一个编译好的函数、数据放到具体的哪一个物理地址。</p>

@@ -102,7 +102,7 @@
 <meta property="og:image" content="http://shatang.github.io/2019/09/27/如何搭建hexo博客/1.jpg">
 <meta property="og:image" content="http://shatang.github.io/2019/09/27/如何搭建hexo博客/2.png">
 <meta property="og:image" content="http://shatang.github.io/2019/09/27/如何搭建hexo博客/3.png">
-<meta property="og:updated_time" content="2020-02-06T04:10:23.822Z">
+<meta property="og:updated_time" content="2020-09-05T03:45:24.885Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="如何搭建自己的hexo博客">
 <meta name="twitter:description" content="&amp;emsp;&amp;emsp;本文不讲详细搭建，小白只是记录一下自己主题是如何（有手就行）配置">
@@ -373,8 +373,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2020-02-06T12:10:23+08:00">
-                2020-02-06
+              <time title="更新于" itemprop="dateModified" datetime="2020-09-05T11:45:24+08:00">
+                2020-09-05
               </time>
             
           </span>
@@ -584,18 +584,18 @@
 <h2 id="6-2-主页文章添加阴影效果"><a href="#6-2-主页文章添加阴影效果" class="headerlink" title="6.2 主页文章添加阴影效果"></a>6.2 主页文章添加阴影效果</h2><p>&emsp;&emsp;打开\themes\next\source\css_custom\custom.styl,向里面加入：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">/*主页文章添加阴影效果*/</span><br><span class="line"> .post &#123;</span><br><span class="line">   margin-top: 60px;</span><br><span class="line">   margin-bottom: 60px;</span><br><span class="line">   padding: 25px;</span><br><span class="line">   -webkit-box-shadow: 0 0 5px rgba(202, 203, 203, .5);</span><br><span class="line">   -moz-box-shadow: 0 0 5px rgba(202, 203, 204, .5);</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
 
-<h2 id="6-3-主页显示-阅读全文"><a href="#6-3-主页显示-阅读全文" class="headerlink" title="6.3 主页显示 阅读全文"></a>6.3 主页显示 阅读全文</h2><p>&emsp;&emsp;在文章中使用&lt; !–more–&gt; 手动进行截断</p>
-<h2 id="6-4-文章结尾–加入感谢阅读"><a href="#6-4-文章结尾–加入感谢阅读" class="headerlink" title="6.4 文章结尾–加入感谢阅读"></a>6.4 文章结尾–加入感谢阅读</h2><p>&emsp;&emsp;在\themes\next\layout_macro 中新建 passage-end-tag.swig 文件,并添加以下内容：</p>
+<h2 id="6-3-主页显示-阅读全文"><a href="#6-3-主页显示-阅读全文" class="headerlink" title="6.3 主页显示 阅读全文"></a>6.3 主页显示 阅读全文</h2><p>&emsp;&emsp;在文章中使用 <code>< !--more--></code> 手动进行截断</p>
+<h2 id="6-4-文章结尾–加入感谢阅读"><a href="#6-4-文章结尾–加入感谢阅读" class="headerlink" title="6.4 文章结尾–加入感谢阅读"></a>6.4 文章结尾–加入感谢阅读</h2><p>&emsp;&emsp;在<code>\themes\next\layout_macro</code> 中新建 <code>passage-end-tag.swig</code> 文件,并添加以下内容：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;div&gt;</span><br><span class="line">    &#123;% if not is_index %&#125;</span><br><span class="line">        &lt;div style=&quot;text-align:center;color: #ccc;font-size:14px;&quot;&gt;-------------本文结束&lt;i class=&quot;fa fa-paw&quot;&gt;&lt;/i&gt;感谢您的阅读-------------&lt;/div&gt;</span><br><span class="line">    &#123;% endif %&#125;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
 
-<p>接着打开\themes\next\layout_macro\post.swig文件，在<code>post-body</code>字样之后,<code>post-footer</code>字样之前添加如下代码（post-footer之前两个DIV）：</p>
+<p>接着打开<code>\themes\next\layout_macro\post.swig</code>文件，在<code>post-body</code>字样之后,<code>post-footer</code>字样之前添加如下代码（post-footer之前两个DIV）：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;div&gt;</span><br><span class="line">  &#123;% if not is_index %&#125;</span><br><span class="line">    &#123;% include &apos;passage-end-tag.swig&apos; %&#125;</span><br><span class="line">  &#123;% endif %&#125;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
 
 <p>然后打开 主题配置文件,在末尾添加：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># 文章末尾添加“本文结束”标记</span><br><span class="line">passage_end_tag:</span><br><span class="line">  enabled: true</span><br></pre></td></tr></table></figure>
 
 <p>完成以上设置之后，在每篇文章之后都会添加如上效果图的样子。</p>
-<h2 id="6-5-文章加密访问"><a href="#6-5-文章加密访问" class="headerlink" title="6.5 文章加密访问"></a>6.5 文章加密访问</h2><p>&emsp;&emsp;打开themes/next/layout/_partials/head.swig文件,在以下位置插入这样一段代码：</p>
+<h2 id="6-5-文章加密访问"><a href="#6-5-文章加密访问" class="headerlink" title="6.5 文章加密访问"></a>6.5 文章加密访问</h2><p>&emsp;&emsp;打开<code>themes/next/layout/_partials/head.swig</code>文件,在以下位置插入这样一段代码：</p>
 <img src="/2019/09/27/如何搭建hexo博客/2.png">
 <p>代码如下：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;script&gt;</span><br><span class="line">    (function()&#123;</span><br><span class="line">        if(&apos;&#123;&#123; page.password &#125;&#125;&apos;)&#123;</span><br><span class="line">            if (prompt(&apos;请输入文章密码&apos;) !== &apos;&#123;&#123; page.password &#125;&#125;&apos;)&#123;</span><br><span class="line">                alert(&apos;密码错误！&apos;);</span><br><span class="line">                history.back();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)();</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
@@ -609,11 +609,11 @@
 <p>再到 主题 ，找到<code>highlight_theme: normal</code>;注释显示有五种显示主题可用，我的配置为night blue。如何插入则如下图所示：</p>
 <img src="/2019/09/27/如何搭建hexo博客/3.png">
 <h2 id="6-7-代码复制按钮"><a href="#6-7-代码复制按钮" class="headerlink" title="6.7 代码复制按钮"></a>6.7 代码复制按钮</h2><ol>
-<li><p>下载插件clipboard.js；</p>
+<li><p>下载插件<code>clipboard.js</code>；</p>
 </li>
-<li><p>将下载的clipboard.js文件下的dist文件夹中的文件拖到.\themes\next\source\js\src 文件夹下</p>
+<li><p>将下载的<code>clipboard.js</code>文件下的<code>dist</code>文件夹中的文件拖到<code>.\themes\next\source\js\src</code> 文件夹下</p>
 </li>
-<li><p>也是在.\themes\next\source\js\src目录下，创建clipboard-use.js，文件内容如下：</p>
+<li><p>也是在<code>.\themes\next\source\js\src</code>目录下，创建<code>clipboard-use.js</code>，文件内容如下：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">/*页面载入完成后，创建复制按钮*/</span><br><span class="line">!function (e, t, a) &#123; </span><br><span class="line">  /* code */</span><br><span class="line">  var initCopyCode = function()&#123;</span><br><span class="line">    var copyHtml = &apos;&apos;;</span><br><span class="line">    copyHtml += &apos;&lt;button class=&quot;btn-copy&quot; data-clipboard-snippet=&quot;&quot;&gt;&apos;;</span><br><span class="line">    copyHtml += &apos;  &lt;i class=&quot;fa fa-globe&quot;&gt;&lt;/i&gt;&lt;span&gt;copy&lt;/span&gt;&apos;;</span><br><span class="line">    copyHtml += &apos;&lt;/button&gt;&apos;;</span><br><span class="line">    $(&quot;.highlight .code pre&quot;).before(copyHtml);</span><br><span class="line">    new ClipboardJS(&apos;.btn-copy&apos;, &#123;</span><br><span class="line">        target: function(trigger) &#123;</span><br><span class="line">            return trigger.nextElementSibling;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">  initCopyCode();</span><br><span class="line">&#125;(window, document);</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>在<code>.\themes\next\source\css_custom\custom.styl</code>文件中添加下面代码：</p>
@@ -625,7 +625,7 @@
 </li>
 </ol>
 <h2 id="6-8-博客插入本地图片"><a href="#6-8-博客插入本地图片" class="headerlink" title="6.8 博客插入本地图片"></a>6.8 博客插入本地图片</h2><ol>
-<li>把 主页 的<code>post_asset_folder</code>这个选项设置为true<br>2 .在根目录下执行这样一句话npm install hexo-asset-image –save，这是下载安装一个可以上传本地图片的插件，来自dalao：dalao的git</li>
+<li>把 主页 的<code>post_asset_folder</code>这个选项设置为true<br>2 .在根目录下执行这样一句话<code>npm install hexo-asset-image --save</code>，这是下载安装一个可以上传本地图片的插件，来自dalao：dalao的git</li>
 <li>等待一小段时间后，再运行hexo n “xxxx”来生成md博文时，/source/_posts文件夹内除了xxxx.md文件还有一个同名的文件夹</li>
 <li>把图片放进去后，在博文中插入图片如下：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;% asset_img image.jpg This is an image %&#125;</span><br></pre></td></tr></table></figure>
 
