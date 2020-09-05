@@ -91,18 +91,18 @@
 
 
 
-<meta name="description" content="&amp;emsp;&amp;emsp;无情的搬砖机器">
+<meta name="description" content="&amp;emsp;&amp;emsp;2020/09/05,最后一版~">
 <meta name="keywords" content="强制转换,自动转换">
 <meta property="og:type" content="article">
-<meta property="og:title" content="自动转换&amp;强制转换">
+<meta property="og:title" content="符号&amp;强制转换">
 <meta property="og:url" content="http://shatang.github.io/2020/03/15/自动转换-强制转换/index.html">
 <meta property="og:site_name" content="道简顿悟，法深渐修">
-<meta property="og:description" content="&amp;emsp;&amp;emsp;无情的搬砖机器">
+<meta property="og:description" content="&amp;emsp;&amp;emsp;2020/09/05,最后一版~">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-06-14T14:47:19.476Z">
+<meta property="og:updated_time" content="2020-09-05T08:27:08.113Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="自动转换&amp;强制转换">
-<meta name="twitter:description" content="&amp;emsp;&amp;emsp;无情的搬砖机器">
+<meta name="twitter:title" content="符号&amp;强制转换">
+<meta name="twitter:description" content="&amp;emsp;&amp;emsp;2020/09/05,最后一版~">
 
 
 
@@ -149,7 +149,7 @@
 
 
 
-  <title>自动转换&强制转换 | 道简顿悟，法深渐修</title>
+  <title>符号&强制转换 | 道简顿悟，法深渐修</title>
   
 
 
@@ -341,7 +341,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">自动转换&强制转换</h1>
+          <h1 class="post-title" itemprop="name headline">符号&强制转换</h1>
         
 
         <div class="post-meta">
@@ -369,8 +369,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2020-06-14T22:47:19+08:00">
-                2020-06-14
+              <time title="更新于" itemprop="dateModified" datetime="2020-09-05T16:27:08+08:00">
+                2020-09-05
               </time>
             
           </span>
@@ -427,7 +427,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1.7k
+                  3.1k
                 </span>
               
 
@@ -452,46 +452,41 @@
       
 
       
-        <p>&emsp;&emsp;无情的搬砖机器</p>
+        <p>&emsp;&emsp;2020/09/05,最后一版~</p>
 <a id="more"></a>
 
-<h1 id="一、类型转换的来源"><a href="#一、类型转换的来源" class="headerlink" title="一、类型转换的来源"></a>一、类型转换的来源</h1><p>&emsp;&emsp;计算机硬件进行算术操作时，要求各操作数的类型具有相同的大小（存储位数）及存储方式。例如，由于各操作数大小不同，硬件不能将 char 型（ 1 字节）数据与 int 型（ 2 或 4 字节）数据直接参与运算；由于存储方式的不同，也不能将 int 型数据与 float 型数据直接参与运算。</p>
-<p>&emsp;&emsp;然而，由于 C 语言编程的灵活性，在一个表达式或一条语句中，允许不同类型的数据混合运算。</p>
-<p>&emsp;&emsp;C 语言的灵活性与计算机硬件的机械性是一对矛盾，如处理不好，将会产生错误结果。对于某些类型的转换编译器可隐式地自动进行，不需人工干预，称这种转换为<strong>自动类型转换</strong>；而有些类型转换需要编程者显式指定，通常，把这种类型转换称为<strong>强制类型转换</strong>。</p>
-<h1 id="二、自动类型转换-隐式"><a href="#二、自动类型转换-隐式" class="headerlink" title="二、自动类型转换(隐式)"></a>二、自动类型转换(隐式)</h1><p>&emsp;&emsp;不同数据类型之间的差别在于数据的表示范围及精度上，一般情况下，数据的表示范围越大、精度越高，其类型也越“高级”。</p>
+<h1 id="一、符号-amp-变量类型"><a href="#一、符号-amp-变量类型" class="headerlink" title="一、符号 &amp; 变量类型"></a>一、符号 &amp; 变量类型</h1><h2 id="1-1-b1-lt-lt-1-和-b1-lt-lt-1"><a href="#1-1-b1-lt-lt-1-和-b1-lt-lt-1" class="headerlink" title="1.1 b1&lt;&lt;1 和 b1&lt;&lt;=1"></a>1.1 b1&lt;&lt;1 和 b1&lt;&lt;=1</h2><p>&emsp;&emsp;可能有人一眼就看出差异，这是因为有得对比；这里还是提醒一下，实际编写代码时往往会拐不过弯、忽略这点细节。</p>
+<ul>
+<li>b1&lt;&lt;1，等价于其结果左移1位，但是b1值没有发生改变</li>
+<li>b1&lt;&lt;=1，等价于b1 = b1&lt;&lt;1；b1&lt;&lt;1表示b左移1位(二进制)，b1值发生了变化</li>
+</ul>
+<h2 id="1-2-int-和-int32-t-、uint32-t"><a href="#1-2-int-和-int32-t-、uint32-t" class="headerlink" title="1.2 int 和 int32_t 、uint32_t"></a>1.2 int 和 int32_t 、uint32_t</h2><p>&emsp;&emsp;首先先区分有符号和无符号。uint和int之间不仅有符号，<strong>还有补码</strong>。不是只差最高位的符号位。<br>至于int32_t、uint32_t，是typedef重定义来的。代码如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="keyword">unsigned</span> <span class="keyword">char</span>           <span class="keyword">uint8_t</span>;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">signed</span> <span class="keyword">char</span>             <span class="keyword">int8_t</span>;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">unsigned</span> <span class="keyword">short</span>          <span class="keyword">uint16_t</span>;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">signed</span> <span class="keyword">short</span>            <span class="keyword">int16_t</span>;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">unsigned</span> <span class="keyword">int</span>            <span class="keyword">uint32_t</span>;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">signed</span> <span class="keyword">int</span>              <span class="keyword">int32_t</span>;</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;在嵌入式开发的话，为了提高兼容性和阅读理解，推荐统一使用该重定义。而且该重定义是有C的标准库的，提高代码的兼容性；常见的C的标准库举例如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdint.h&gt;         //标准库文件采用&lt;&gt;，自己编写的文件引用时采用""</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdbool.h&gt;</span></span></span><br><span class="line"><span class="meta">#incldue <span class="meta-string">&lt;stddef.h&gt;</span></span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>常见的给宏定义赋常量，会使用类似如下方法: </p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MINI_UNIT   (1ul)</span></span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;1ul说明这个常量1是unsigned long，用于明确计算值的范围。</p>
+<h2 id="1-3-少用printf"><a href="#1-3-少用printf" class="headerlink" title="1.3 少用printf"></a>1.3 少用printf</h2><p>&emsp;&emsp;有可能打印出来的类型都弄错了= =</p>
+<p>&emsp;&emsp;为什么呢？很多学生写完代码，直接用 printf 打印出来，发现结果不对。不会看变量的值，内存的值。只知道 printf 出来结果不对，却不知道为什么不对，怎么解决。这种情况还算好的。</p>
+<p>&emsp;&emsp;往往很多时候 printf 出来的结果是对的，然后呢，学生也理所当然的认为程序没有问题。 是这样吗？<br>&emsp;&emsp;打印结果对，并不代表程序真正没有问题。所以，以后尽量不要用 printf 函数，要去看变量的值、内存的值。</p>
+<h1 id="二、类型转换的来源"><a href="#二、类型转换的来源" class="headerlink" title="二、类型转换的来源"></a>二、类型转换的来源</h1><p>&emsp;&emsp;计算机硬件进行算术操作时，要求各操作数的类型具有相同的大小（存储位数）及存储方式。例如，由于各操作数大小不同，硬件不能将 char 型（ 1 字节）数据与 int 型（ 2 或 4 字节）数据直接参与运算；由于存储方式的不同，也不能将 int 型数据与 float 型数据直接参与运算。</p>
+<p>&emsp;&emsp;由于 <strong>C 语言编程的灵活性，在一个表达式或一条语句中，允许不同类型的数据混合运算</strong>。C 语言的灵活性与计算机硬件的机械性是一对矛盾，如处理不好，将会产生错误结果。</p>
+<ul>
+<li>对于某些类型的转换编译器可隐式地自动进行，不需人工干预，称这种转换为<strong>自动类型转换</strong>；</li>
+<li>而有些类型转换需要编程者显式指定，通常，把这种类型转换称为<strong>强制类型转换</strong>。</li>
+</ul>
+<h2 id="2-1-自动类型转换-隐式"><a href="#2-1-自动类型转换-隐式" class="headerlink" title="2.1 自动类型转换(隐式)"></a>2.1 自动类型转换(隐式)</h2><p>&emsp;&emsp;不同数据类型之间的差别在于数据的表示范围及精度上，一般情况下，数据的表示范围越大、精度越高，其类型也越“高级”。</p>
 <ul>
 <li>常见类型级别从低到高依次为：<br>char -&gt; short -&gt; int -&gt; unsigned int -&gt; long -&gt; unsigned long -&gt; double </li>
 <li>浮点型级别从低到高依次为：<br>float -&gt; double</li>
 </ul>
-<p>不同类型间的混合运算，较低类型将自动向较高类型转换。(精度提高不影响结果)</p>
-<p><strong>注意事项：(以下操作可能会截取精度)</strong></p>
-<ul>
-<li>赋值表达式中，表达式的值 (自动)转换为 左值(变量)的类型</li>
-<li>函数调用时，实参(自动)转化为形式参数的类型</li>
-<li>函数返回值，<code>return 表达式</code> (自动)转化为返回值的类型</li>
-</ul>
-<hr>
-<p>举例如下：</p>
-<ol>
-<li>赋值运算符，两恻的类型不一致</li>
-</ol>
-<p>&emsp;&emsp;当赋值运算符的右值（可能为常量、变量或表达式）类型与左值类型不一致时，将右值类型可能提升或降低为左值类型。例如：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">double</span> d;</span><br><span class="line">d=<span class="number">5.1f</span>;</span><br></pre></td></tr></table></figure>
-
-<p>&emsp;&emsp;由于左值为双精度浮点型，故先把右值单精度浮点型常量 5.1 提升为双精度浮点型后，再赋值给 d，不但不丢失精度反而提高了精度。</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> i;</span><br><span class="line">i=<span class="number">5.1</span>; <span class="comment">//右值5.1为双精度，左值为整型</span></span><br></pre></td></tr></table></figure>
-
-<p>&emsp;&emsp;右值双精度浮点型 5.1 降低为左值整型，即 5.1 舍弃小数部分后，把 5 赋给整型变量 i，这种情况会丢失精度。</p>
-<hr>
-<ol start="2">
-<li>赋值运算符，右值超出左值类型范围</li>
-</ol>
-<p>&emsp;&emsp;更糟糕的情况是，赋值运算符右值的范围超出了左值类型的表示范围，将把该右值截断后，赋给左值。所得结果可能毫无意义。例如：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span> c; <span class="comment">//char 占8位，表示范围-127〜128</span></span><br><span class="line">c=<span class="number">1025</span>; <span class="comment">//1025 对应二进制形式：100 0000 0001，超出了8位</span></span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"％d"</span>,c) ; <span class="comment">//以十进制输出c的值</span></span><br></pre></td></tr></table></figure>
-
-<p>&emsp;&emsp;该输出结果为 1，因为只取 1025 低 8 位 0000 0001（值为1），赋给字符型变量 c，故得到毫无意义的值。</p>
-<hr>
-<h1 id="三、强制类型转换"><a href="#三、强制类型转换" class="headerlink" title="三、强制类型转换"></a>三、强制类型转换</h1><p>&emsp;&emsp;为了给程序设计人员提供更多的类型转换控制权限，使程序设计更加灵活，转换的目的更加清晰，C 语言提供了可显式指定类型转换的语法支持，通常称之为强制类型转换。</p>
+<p>不同类型间的混合运算，较低类型将自动向较高类型转换(精度提高不影响结果)。</p>
+<h2 id="2-2-强制类型转换"><a href="#2-2-强制类型转换" class="headerlink" title="2.2 强制类型转换"></a>2.2 强制类型转换</h2><p>&emsp;&emsp;为了给程序设计人员提供更多的类型转换控制权限，使程序设计更加灵活，转换的目的更加清晰，C 语言提供了可显式指定类型转换的语法支持，通常称之为强制类型转换。</p>
 <ul>
 <li>强制类型转换常见的用法:<ul>
 <li>(1)数据的 高类型一般不会强制转换成低类型，因为可能会丢失一部分数据；</li>
@@ -507,11 +502,85 @@
 </li>
 </ul>
 <p>也许有人会问，那一开始都为高类型就不需要强制转换了吗？</p>
-<p>&emsp;&emsp;很简单，能低类型处理能够更好体现对应函数的功能性。当需要调用该变量，再强制转换获取到的数值，防止数据溢出。这种灵活性，还能实现<strong>节省内存</strong>。</p>
-<blockquote>
-<p>举例——强制地址跳转</p>
-</blockquote>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> jump(TargetAddr)   (*((void(*)())(TargetAddr)))()</span></span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;很简单，能低类型处理能够更好体现对应代码块功能性。当外部需要调用该变量，再强制转换成想要(高)数据类型，防止计算过程中数据溢出。这种灵活性，还能实现<strong>节省内存</strong>。</p>
+<h1 id="三、类型转换例子"><a href="#三、类型转换例子" class="headerlink" title="三、类型转换例子"></a>三、类型转换例子</h1><h2 id="3-1-常见类型转换-算术运算式"><a href="#3-1-常见类型转换-算术运算式" class="headerlink" title="3.1 常见类型转换(算术运算式)"></a>3.1 常见类型转换(算术运算式)</h2><ul>
+<li><code>(int)(a + b)</code></li>
+<li><code>(int)a + b</code></li>
+</ul>
+<p>前者是(a+b)共同强制转换成整形常数，后者是a强制成整形 加上b的值。举例如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">float</span> a = <span class="number">5.1</span>, b = <span class="number">2.2</span>;</span><br><span class="line"></span><br><span class="line">(<span class="keyword">int</span>)(a + b) = <span class="number">7</span></span><br><span class="line">(<span class="keyword">int</span>)a + b = <span class="number">7.2</span>        <span class="comment">//低类型自动转成高类型计算</span></span><br></pre></td></tr></table></figure>
+
+<p>同理</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> a = <span class="number">2</span>,b = <span class="number">3</span>;</span><br><span class="line">(<span class="keyword">float</span>)(a+b)/<span class="number">2</span> = <span class="number">2.5</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="3-2-float、double类型的近似问题"><a href="#3-2-float、double类型的近似问题" class="headerlink" title="3.2 float、double类型的近似问题"></a>3.2 float、double类型的近似问题</h2><p>&emsp;&emsp;float double这类的数据是近似值，有精度问题。也就是说打印出制来的 8.0000 未必是 8.00000。<br>&emsp;&emsp;8.00000实际上可能是是7.99999999999872812850 ，所以如果进行强制转换会是转为int的7。</p>
+<p>举例如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> temp,i;</span><br><span class="line">    <span class="keyword">double</span> a=<span class="number">2.4568</span>;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">char</span> b[<span class="number">5</span>];</span><br><span class="line">    <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;<span class="number">5</span>;i++)</span><br><span class="line">    &#123;</span><br><span class="line">        temp=(<span class="keyword">int</span>)a;</span><br><span class="line">        b[i]=temp+<span class="string">'0'</span>;</span><br><span class="line">        a=(a-temp)*<span class="number">10</span>;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"%.20f %d\n"</span>,a,(<span class="keyword">int</span>)a);</span><br><span class="line">    &#125;</span><br><span class="line">    b[<span class="number">5</span>]=<span class="string">'\0'</span>;</span><br><span class="line">    <span class="built_in">puts</span>(b);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>结果如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">4.56799999999999872813</span> <span class="number">4</span></span><br><span class="line"><span class="number">5.67999999999998728129</span> <span class="number">5</span></span><br><span class="line"><span class="number">6.79999999999987281285</span> <span class="number">6</span></span><br><span class="line"><span class="number">7.99999999999872812850</span> <span class="number">7</span></span><br><span class="line"><span class="number">9.99999999998728128503</span> <span class="number">9</span></span><br><span class="line"><span class="number">24567</span></span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;一般来说 要把浮点转为int 要取得最近似的值，大都是采用(int)(a+0.5) 从而达到一种四舍五入的效果。</p>
+<h2 id="3-3-隐式-强制转换"><a href="#3-3-隐式-强制转换" class="headerlink" title="3.3 (隐式)强制转换"></a>3.3 <font color="red">(隐式)强制转换</font></h2><ul>
+<li>算术运算式中，低类型能够转换为高类型(比较熟悉)</li>
+<li>赋值表达式中，表达式的值 (自动)转换为 左值(变量)的类型</li>
+<li>函数调用时，实参(自动)转化为形式参数的类型</li>
+<li>函数返回值，<code>return 表达式</code> (自动)转化为返回值的类型</li>
+</ul>
+<p>&emsp;&emsp;举一个简单直白的例子如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">float</span> a = <span class="number">5.1</span>, b = <span class="number">2.2</span>;</span><br><span class="line"><span class="keyword">int</span> c = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">c = (<span class="keyword">int</span>)a + b;         <span class="comment">//等效于下面式子，结果虽然为7.2，但最后赋值经过强制转换，c = 7</span></span><br><span class="line">c = (<span class="keyword">int</span>)((<span class="keyword">int</span>)a + b);  <span class="comment">//与上述式子等效，c = 7</span></span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;<strong>相当于赋值操作总有一个整体的强制转换(隐藏)</strong>。再举一个例子如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> a = <span class="number">2</span>,b = <span class="number">3</span>;</span><br><span class="line"><span class="keyword">float</span> c = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">c = (<span class="keyword">float</span>)(a+b)/<span class="number">2</span>;             <span class="comment">//c = 2.500000</span></span><br><span class="line">c = (<span class="keyword">float</span>)((<span class="keyword">float</span>)(a+b)/<span class="number">2</span>);    <span class="comment">//如同上式</span></span><br><span class="line"></span><br><span class="line">c = (a+b)/(<span class="keyword">float</span>)<span class="number">2</span>;             <span class="comment">//在整个式子计算中，结果计算中较低类型自动转换较高类型</span></span><br><span class="line">c = (<span class="keyword">float</span>)((a+b)/(<span class="keyword">float</span>)<span class="number">2</span>);    <span class="comment">//因此两式子结果均为 c = 2.5000000</span></span><br><span class="line"></span><br><span class="line">c = (a+b)/<span class="number">2</span>;                    <span class="comment">//毫无意外，c = 2.000000；等效下面式子</span></span><br><span class="line">c = (<span class="keyword">float</span>)((a+b)/<span class="number">2</span>);           <span class="comment">//经典错误，很多人容易把强制转换放错位置</span></span><br><span class="line"><span class="comment">//最后一条式子是经典错误，尤其是式子比较复杂时，容易理解错误并放错位置</span></span><br><span class="line"><span class="comment">//导致最终结果并不是想要的值</span></span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;再举一个因(隐藏)强制转换导致的常见例子如下；右值超出左值类型范围，将把该右值截断后，赋给左值。所得结果可能毫无意义。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span> c;     <span class="comment">//char 占8位，表示范围-127〜128</span></span><br><span class="line">c = <span class="number">1025</span>;   <span class="comment">//1025 对应二进制形式：100 0000 0001，超出了8位</span></span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"％d"</span>,c) ; <span class="comment">//以十进制输出c的值</span></span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;该输出结果为 1，因为只取 1025 低 8 位 0000 0001（值为1），赋给字符型变量 c，故得到毫无意义的值。</p>
+<h1 id="四、double-转-uint32-t-等于？"><a href="#四、double-转-uint32-t-等于？" class="headerlink" title="四、double 转 uint32_t 等于？"></a>四、double 转 uint32_t 等于？</h1><p>举例如下:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdint.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">double</span> i = <span class="number">-3</span>;</span><br><span class="line">	<span class="keyword">uint32_t</span> j = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">int32_t</span> k = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">uint8_t</span> z = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int8_t</span> y = <span class="number">0</span>;</span><br><span class="line">	</span><br><span class="line">	j = (<span class="keyword">uint32_t</span>)i;</span><br><span class="line">	k = (<span class="keyword">int32_t</span>)i;</span><br><span class="line">	z = (<span class="keyword">uint8_t</span>)i;</span><br><span class="line">	y = (<span class="keyword">int8_t</span>)i;</span><br><span class="line">	</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%f\n"</span>,i);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%d\n"</span>,j);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%u\n"</span>,j);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%d\n"</span>,k);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%d\n"</span>,z);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%u\n"</span>,z);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%d\n"</span>,y);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>那么，以上例子的 j 值究竟是多少？答案是 4294967293。全部结果如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">-3.000000</span></span><br><span class="line"><span class="number">-3</span></span><br><span class="line"><span class="number">4294967293</span></span><br><span class="line"><span class="number">-3</span></span><br><span class="line"><span class="number">253</span></span><br><span class="line"><span class="number">253</span></span><br><span class="line"><span class="number">-3</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>&emsp;&emsp;如果你以为上面的答案就是结束了？那你就大错特错了；上面的答案可能不够准确，在x86平台上是-3的补码，在ARM平台上是0。</p>
+<hr>
+<p>这里要如何解释该现象呢？首先明确一些概念：</p>
+<ul>
+<li>有符号类型和无符号类型时所有的操作数都自动转换为无符号类型(在编译器中)；从这个意义上讲，无符号数的运算优先级要高于有符号数</li>
+<li>由于负数在底层存储是补码形式，从而方便机器放入运算器进行计算(基础知识)</li>
+<li>这样实际上导致了，有符号数与无符号数不能直接一起运算</li>
+</ul>
+<p>&emsp;&emsp;举个明显的例子：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">uint32_t</span> a = <span class="number">20</span>;</span><br><span class="line"><span class="keyword">int32_t</span> b = <span class="number">-130</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(a &gt; b)</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%o\n"</span>, a);</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%d\n"</span>, b);</span><br><span class="line">    </span><br><span class="line"><span class="comment">//最终打印出来的是b的值，因为编译器把 b 转化为无符号数处理，因此 b &gt; a</span></span><br></pre></td></tr></table></figure>
+
+<p>我们在学校学到的知识是基于x86平台的，即：</p>
+<ul>
+<li>整型负数的类型转换，是在其补码上做高位的去除和填补</li>
+<li>浮点型负数的类型转换，是取其整数部分的补码做高位去除和填补。</li>
+<li>当负数是整数时，无符号整数只是换了一种表达方式来解释它的补码，所以 -1 是 4294967295。</li>
+<li>当负数是浮点数时，浮点数的存储是尾数+指数的方式</li>
+<li>如果直接将浮点数的二进制数据(补码)转为无符号整数，这就依赖平台的实现了；具体的ARM会转成0，而x86会转成整数部分。</li>
+</ul>
+<hr>
+<p>&emsp;&emsp;举一个stm32在keil平台的测试情况：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">double i = -12.456;</span><br><span class="line">uint32_t j = 0;</span><br><span class="line">int32_t k = 0;</span><br><span class="line">uint16_t p = 0;</span><br><span class="line">int16_t q = 0;</span><br><span class="line">uint8_t y = 0;</span><br><span class="line">int8_t z = 0;</span><br><span class="line"></span><br><span class="line">j = (uint32_t)i;</span><br><span class="line">k = (int32_t)i;</span><br><span class="line">p = (uint16_t)i;</span><br><span class="line">q = (int16_t)i;</span><br><span class="line">y = (uint8_t)i;</span><br><span class="line">z = (int8_t)i;</span><br></pre></td></tr></table></figure>
+
+<p>最后的结果如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">i = <span class="number">-12.456</span>;</span><br><span class="line">j = <span class="number">0x00000000</span>;</span><br><span class="line">k = <span class="number">0xfffffff4</span>;</span><br><span class="line">p = <span class="number">0x0000</span>;</span><br><span class="line">q = <span class="number">0xfff4</span>;</span><br><span class="line">y = <span class="number">0x00</span>;</span><br><span class="line">z = <span class="number">0xf4</span>;</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;这里总结一下强制转换 &amp; 类型的要点：</p>
+<ul>
+<li>有符号数 &amp; 无符号数 不要混合运算；运算前明确转换成同种类型，不然可能因为有符号数为负数时导致数值异常问题</li>
+<li>无符号整形 &amp; 浮点型 不能直接强制转换；两者的底层存储数据方式不一样，浮点型的负数补码且因为补码方式不一样，不同硬件平台可能出现不同结果</li>
+<li>如果都为整形，只是长度的强制转换，因为底层存储方式一样；只讨论有符号(负数)转无符号<ul>
+<li>高类型强制转换为低类型时，截取一定精度</li>
+<li>低类型强制转换为高类型时，空白高位会补充0xff</li>
+</ul>
+</li>
+</ul>
+<h1 id="五、强制转换-实现-地址-指针-跳转"><a href="#五、强制转换-实现-地址-指针-跳转" class="headerlink" title="五、强制转换 实现 地址(指针)跳转"></a>五、强制转换 实现 地址(指针)跳转</h1><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> jump(TargetAddr)   (*((void(*)())(TargetAddr)))()</span></span><br></pre></td></tr></table></figure>
 
 <p>&emsp;&emsp;第一个<code>(( void( * )(  ))</code> ，意思为强制类型转换为一个无形参，无返回值的函数指针，<code>(*(TargetAddr))</code>为跳转地址，但是函数指针变量不能为常数所以要加<code>((void( * )(  ))</code> 进行强制类型转换。最后一个<code>()</code>为执行的意思。</p>
 <p>整个宏定义目的是为了跳转到一个绝对地址执行函数。用处如下：</p>
@@ -520,30 +589,6 @@
 <li>如果程序是由多个程序合并的（bootloader跳转），跳转到某一个确定的用户程序地址执行。</li>
 <li>如果flash空间足够大的话，甚至还可以实现当多份不相同的代码合并为一份后，在软件上做逻辑跳转，好处是新程序不必为旧程序做大量的兼容工作，通常旧程序含有大量的前人的(坏)编程习惯。可以选择执行想要的版本软件程序。</li>
 </ol>
-<h1 id="四。衍生出来的常见例子"><a href="#四。衍生出来的常见例子" class="headerlink" title="四。衍生出来的常见例子"></a>四。衍生出来的常见例子</h1><h2 id="4-1-int-a-b-amp-int-a-b"><a href="#4-1-int-a-b-amp-int-a-b" class="headerlink" title="4.1 (int)(a+b) &amp; (int)a+b"></a>4.1 (int)(a+b) &amp; (int)a+b</h2><ol>
-<li>前者是(a+b)共同强制转换成整形常数</li>
-<li>后者是a强制成整形 加上b的值</li>
-</ol>
-<ul>
-<li>举例 a=5.1，b=2.2<ul>
-<li>(int)(a+b)=7</li>
-<li>(int)a+b=7.2</li>
-</ul>
-</li>
-</ul>
-<hr>
-<ul>
-<li>同理，举例 int a=2,b=3;<ul>
-<li>(float)(a+b)/2 = 2.5</li>
-</ul>
-</li>
-</ul>
-<h2 id="4-2-精度问题"><a href="#4-2-精度问题" class="headerlink" title="4.2 精度问题"></a>4.2 精度问题</h2><p>&emsp;&emsp;首先 float double这类的数据是近似值 有精度问题。也就是说打印出来的知8.0000 未必是8.00000<br>在你这个例子里面<br>我改了一下 改为打印出20位小数</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> temp,i;</span><br><span class="line">    <span class="keyword">double</span> a=<span class="number">2.4568</span>;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">char</span> b[<span class="number">5</span>];</span><br><span class="line">    <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;<span class="number">5</span>;i++)</span><br><span class="line">    &#123;</span><br><span class="line">        temp=(<span class="keyword">int</span>)a;</span><br><span class="line">        b[i]=temp+<span class="string">'0'</span>;</span><br><span class="line">        a=(a-temp)*<span class="number">10</span>;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"%.20f %d\n"</span>,a,(<span class="keyword">int</span>)a);</span><br><span class="line">    &#125;</span><br><span class="line">    b[<span class="number">5</span>]=<span class="string">'\0'</span>;</span><br><span class="line">    <span class="built_in">puts</span>(b);</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>你再运行一下看看</p>
-<p>可以发现8.00000实际上是7.99999999999872812850 所以会是转为int的7</p>
-<p>一般来说 要把浮点转为int 要取得最近似的值道 都是采用(int)(a+0.5) 从而达到一种四舍五入的效果</p>
 
       
     </div>
@@ -790,7 +835,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一、类型转换的来源"><span class="nav-text">一、类型转换的来源</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二、自动类型转换-隐式"><span class="nav-text">二、自动类型转换(隐式)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三、强制类型转换"><span class="nav-text">三、强制类型转换</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#四。衍生出来的常见例子"><span class="nav-text">四。衍生出来的常见例子</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-int-a-b-amp-int-a-b"><span class="nav-text">4.1 (int)(a+b) &amp; (int)a+b</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2-精度问题"><span class="nav-text">4.2 精度问题</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一、符号-amp-变量类型"><span class="nav-text">一、符号 &amp; 变量类型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-b1-lt-lt-1-和-b1-lt-lt-1"><span class="nav-text">1.1 b1&lt;&lt;1 和 b1&lt;&lt;=1</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-int-和-int32-t-、uint32-t"><span class="nav-text">1.2 int 和 int32_t 、uint32_t</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-少用printf"><span class="nav-text">1.3 少用printf</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二、类型转换的来源"><span class="nav-text">二、类型转换的来源</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-自动类型转换-隐式"><span class="nav-text">2.1 自动类型转换(隐式)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-强制类型转换"><span class="nav-text">2.2 强制类型转换</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三、类型转换例子"><span class="nav-text">三、类型转换例子</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-常见类型转换-算术运算式"><span class="nav-text">3.1 常见类型转换(算术运算式)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-float、double类型的近似问题"><span class="nav-text">3.2 float、double类型的近似问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-隐式-强制转换"><span class="nav-text">3.3 (隐式)强制转换</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#四、double-转-uint32-t-等于？"><span class="nav-text">四、double 转 uint32_t 等于？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#五、强制转换-实现-地址-指针-跳转"><span class="nav-text">五、强制转换 实现 地址(指针)跳转</span></a></li></ol></div>
             
 
           </div>

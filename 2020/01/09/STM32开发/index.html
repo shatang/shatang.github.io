@@ -91,26 +91,24 @@
 
 
 
-<meta name="description" content="&amp;emsp;&amp;emsp;水平有限，可能其中也有错误，希望各位大佬提醒和海涵">
+<meta name="description" content="&amp;emsp;&amp;emsp;持续断断续续更新ing；现已更新完毕~">
 <meta name="keywords" content="STM32,c">
 <meta property="og:type" content="article">
 <meta property="og:title" content="STM32开发">
 <meta property="og:url" content="http://shatang.github.io/2020/01/09/STM32开发/index.html">
 <meta property="og:site_name" content="道简顿悟，法深渐修">
-<meta property="og:description" content="&amp;emsp;&amp;emsp;水平有限，可能其中也有错误，希望各位大佬提醒和海涵">
+<meta property="og:description" content="&amp;emsp;&amp;emsp;持续断断续续更新ing；现已更新完毕~">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://shatang.github.io/2020/01/09/STM32开发/0.png">
-<meta property="og:image" content="http://shatang.github.io/2020/01/09/STM32开发/1.jpg">
-<meta property="og:image" content="http://shatang.github.io/2020/01/09/STM32开发/2.jpg">
+<meta property="og:image" content="http://shatang.github.io/2020/01/09/STM32开发/1.png">
+<meta property="og:image" content="http://shatang.github.io/2020/01/09/STM32开发/2.png">
 <meta property="og:image" content="http://shatang.github.io/2020/01/09/STM32开发/3.png">
 <meta property="og:image" content="http://shatang.github.io/2020/01/09/STM32开发/4.png">
-<meta property="og:image" content="http://shatang.github.io/2020/01/09/STM32开发/5.jpg">
-<meta property="og:image" content="http://shatang.github.io/2020/01/09/STM32开发/6.jpg">
-<meta property="og:image" content="http://shatang.github.io/2020/01/09/STM32开发/7.jpg">
-<meta property="og:updated_time" content="2020-03-19T12:18:51.606Z">
+<meta property="og:image" content="http://shatang.github.io/2020/01/09/STM32开发/5.png">
+<meta property="og:updated_time" content="2020-09-05T07:49:02.513Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="STM32开发">
-<meta name="twitter:description" content="&amp;emsp;&amp;emsp;水平有限，可能其中也有错误，希望各位大佬提醒和海涵">
+<meta name="twitter:description" content="&amp;emsp;&amp;emsp;持续断断续续更新ing；现已更新完毕~">
 <meta name="twitter:image" content="http://shatang.github.io/2020/01/09/STM32开发/0.png">
 
 
@@ -378,8 +376,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2020-03-19T20:18:51+08:00">
-                2020-03-19
+              <time title="更新于" itemprop="dateModified" datetime="2020-09-05T15:49:02+08:00">
+                2020-09-05
               </time>
             
           </span>
@@ -436,7 +434,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  6.6k
+                  3.9k
                 </span>
               
 
@@ -461,23 +459,54 @@
       
 
       
-        <p>&emsp;&emsp;水平有限，可能其中也有错误，希望各位大佬提醒和海涵</p>
+        <p>&emsp;&emsp;持续断断续续更新ing；现已更新完毕~</p>
 <a id="more"></a>
 
-<h1 id="一、硬件IO驱动异常"><a href="#一、硬件IO驱动异常" class="headerlink" title="一、硬件IO驱动异常"></a>一、硬件IO驱动异常</h1><p>&emsp;&emsp;Bug现象：刚写一个 功能(驱动)，出现异常；经过多次排查后，发现是硬件IO驱动初始化(部分IO异常)的问题。<br>问题来源：</p>
+<h1 id="一、迁移工程"><a href="#一、迁移工程" class="headerlink" title="一、迁移工程"></a>一、迁移工程</h1><p>&emsp;&emsp;keil建立工程，需要添加启动文件，需要修改魔术棒设置，需要添减文件和文件路径等等……,不难，倒是很麻烦；如果有现成的工程（往往都会有现成的工程），只需要稍微修改工程信息，借助这个基础工程会节省点<del>偷懒</del>点时间；故，说明下如何简单快速的修改工程；简单3个步骤很实用！！！</p>
 <ol>
-<li>时钟使能问题；</li>
-<li>该管脚为(默认)复用管脚；</li>
+<li>在工程文件目录中，将old.uvoptx和old.uvprojx名字改成new.uvoptx和new.uvprojx。并其他 .uvoptx文件统统删除。如：</li>
 </ol>
-<h2 id="1-1-宏定义错误"><a href="#1-1-宏定义错误" class="headerlink" title="1.1 宏定义错误"></a>1.1 宏定义错误</h2><p>&emsp;&emsp;其实在STM32库(其他芯片也是)，<strong>库函数初始化中的所有选项， 均为(寄存器)<font color="red">宏定义</font>  的一个特殊数值</strong>；具体例子如下：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">RCC_APB1PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);	 <span class="comment">//使能 GPIOB端口 时钟</span></span><br><span class="line">RCC_APB2PeriphClockCmd(RCC_APB1Periph_USART2, ENABLE);	 <span class="comment">//使能 串口2 时钟</span></span><br></pre></td></tr></table></figure>
+<img src="/2020/01/09/STM32开发/0.png">
 
-<p>很明显，上面两行代码的时钟使能是错误的，但是编译是不会报错的；因为本质上就是一个赋值操作，赋错值并不会产生报错，除非类型不同、宏定义名称查询不到。不单单是IO的驱动，不管是什么驱动，大家在配置底层驱动的时候一定要细心，配置错误不一定会报警，但是会卡住你。</p>
-<h2 id="1-2-关闭JTAG功能当普通IO口用"><a href="#1-2-关闭JTAG功能当普通IO口用" class="headerlink" title="1.2 关闭JTAG功能当普通IO口用"></a>1.2 关闭JTAG功能当普通IO口用</h2><p>&emsp;&emsp;例如：PA15是个复用引脚；关闭JTAG功能，把PA15当作普通IO口使用就行了。而下载调试程序就要使用SWD功能（平常应该都是用的SWD下载调试）。</p>
+<ol start="2">
+<li>双击打开new.uvproj,点击，在弹出的界面上，双击“Progect target”下面的工程名，修改成new</li>
+</ol>
+<img src="/2020/01/09/STM32开发/1.png">
+
+<ol start="3">
+<li>点击魔术棒，将Name of Executeable中的名称改为new即可，这表示生成的hex文件是new.hex，F7编译一遍，再双击new工程名字，说明形成了新的new.map文件，建立成功了</li>
+</ol>
+<img src="/2020/01/09/STM32开发/2.png">
+<img src="/2020/01/09/STM32开发/3.png">
+<ol start="4">
+<li>注意：最好先kill重编译，若编译后还有带不需要的文件，删除后重新编译即可。</li>
+</ol>
+<img src="/2020/01/09/STM32开发/4.png">
+
+<h1 id="二、常见驱动异常"><a href="#二、常见驱动异常" class="headerlink" title="二、常见驱动异常"></a>二、常见驱动异常</h1><h2 id="2-1-驱动异常-amp-复用时钟"><a href="#2-1-驱动异常-amp-复用时钟" class="headerlink" title="2.1 驱动异常 &amp; 复用时钟"></a>2.1 驱动异常 &amp; 复用时钟</h2><p>&emsp;&emsp;<strong>AFIO时钟只是在STM32F1系列里被提及。</strong> 对于32F1系列，涉及到管脚的EXTI、 REMAP、<strong>默认复用管脚(JTAG管脚)</strong>、事件输出时就需要开启AFIO时钟。</p>
+<p>Bug现象：刚写一个 功能(驱动)，出现异常；经过多次排查后，发现是IO管脚驱动初始化的问题。经测试，部分IO位无法正常响应置复位的操作。</p>
+<p>问题来源：</p>
+<ol>
+<li>IO时钟使能错误；</li>
+<li>外设时钟未使能；</li>
+<li>该管脚为默认复用管脚；</li>
+</ol>
+<p>举例：STM32默认启动时PB4、PB3、PA15三个引脚不是普通IO，而是JTAG的复用功能，分别为JNTRST、JTDI、JTDO。如果作为普通IO使用，要<strong>先开启复用时钟，再关闭JTAG复用功能</strong>，才能作为普通IO口使用。</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO,ENABLE);	<span class="comment">//使能复用时钟</span></span><br><span class="line">GPIO_PinRemapConfig(GPIO_Remap_SWJ_JTAGDisable, ENABLE);<span class="comment">//关闭jtag，使能SWD，可以用SWD模式调试</span></span><br></pre></td></tr></table></figure>
 
-<p><strong><font color="red">划重点</font>：初始化中，必须使能  复用端口<code>RCC_APB2Periph_AFIO</code>的时钟  才能对应关闭JTAG功能</strong></p>
-<h1 id="二、STM32管脚四种输出模式对比"><a href="#二、STM32管脚四种输出模式对比" class="headerlink" title="二、STM32管脚四种输出模式对比"></a>二、STM32管脚四种输出模式对比</h1><ul>
+<p><strong><font color="red">划重点</font>：初始化中，必须使能  复用端口<code>RCC_APB2Periph_AFIO</code>的时钟  才能对应关闭JTAG功能</strong>(没开启复用时钟，只关闭JTAG复用的操作是无效的)。</p>
+<hr>
+<p>&emsp;&emsp;<strong>对于STM32F1以外的其它STM32系列，不再提AFIO，多了个SYSCFG(系统控制器)外设</strong>，其功能跟F1的AFIO 有些类似但有差异：主要管理内存空间的映射、与EXTI中断源有关的IO配置以及其它配置等事务，不同32系列间还各有细小差异。如果不打开SYSCFG时钟，有关内存空间重映射、与EXTI配置的操作就会无效。</p>
+<h2 id="2-2-宏定义值错误"><a href="#2-2-宏定义值错误" class="headerlink" title="2.2 宏定义值错误"></a>2.2 宏定义值错误</h2><p>&emsp;&emsp;库函数的实现，实际上就是把寄存器抽象成一个个变量，宏定义很多替换值对其进行赋值操作；由于可能不同寄存器在同一个32位bit内，因此赋值操作过程中会进行位与操作，防止改写掉其他寄存器配置。</p>
+<p>&emsp;&emsp;因此，往往库函数的宏定义配置，其替换值往往都是32bit的；类型都一样，编译器是无法识别出你赋错值，例如你写错宏定义进去，编译器并不会报错。</p>
+<hr>
+<p>举具体两个例子：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//错误的写法</span></span><br><span class="line">RCC_APB1PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);	 <span class="comment">//使能 GPIOB端口 时钟</span></span><br><span class="line">RCC_APB2PeriphClockCmd(RCC_APB1Periph_USART2, ENABLE);	 <span class="comment">//使能 串口2 时钟</span></span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;很明显，上面两行代码的时钟使能是错误的，但是编译是不会报错的；因为本质上就是一个赋值操作，赋错值并不会产生报错，除非类型不同、宏定义名称查询不到。不单单是IO的驱动，不管是什么驱动，大家在配置底层驱动的时候一定要细心，配置错误不会报错警，但是会卡住你项目进度。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//错误的写法</span></span><br><span class="line">GPIO_PinAFConfig(GPIOC,GPIO_Pin_10,GPIO_AF_SPI3);</span><br><span class="line">GPIO_PinAFConfig(GPIOC,GPIO_Pin_11,GPIO_AF_SPI3);</span><br><span class="line">GPIO_PinAFConfig(GPIOC,GPIO_Pin_12,GPIO_AF_SPI3);</span><br><span class="line"></span><br><span class="line"><span class="comment">//正确的写法</span></span><br><span class="line">GPIO_PinAFConfig(GPIOC,GPIO_PinSource10,GPIO_AF_SPI3);</span><br><span class="line">GPIO_PinAFConfig(GPIOC,GPIO_PinSource11,GPIO_AF_SPI3);</span><br><span class="line">GPIO_PinAFConfig(GPIOC,GPIO_PinSource12,GPIO_AF_SPI3);</span><br></pre></td></tr></table></figure>
+
+<h1 id="三、STM32管脚四种输出模式对比"><a href="#三、STM32管脚四种输出模式对比" class="headerlink" title="三、STM32管脚四种输出模式对比"></a>三、STM32管脚四种输出模式对比</h1><ul>
 <li>普通推挽输出（ GPIO_Mode_Out_PP ） :<ul>
 <li><code>使用场合</code>：一般用在0V 和 3.3V 的场合。线路经过两个P_MOS和 N_MOS管，负责上拉和下拉电流。</li>
 <li><code>使用方法</code>：直接使用</li>
@@ -494,37 +523,59 @@
 <li>复用开漏输出（ GPIO_Mode_AF_OD ）：用在 IIC 。</li>
 </ul>
 <p><strong><font color="red">Ps：</font>所有的开漏输出都需要接上拉电阻</strong></p>
-<h1 id="三、中断"><a href="#三、中断" class="headerlink" title="三、中断"></a>三、中断</h1><p>&emsp;&emsp;中断的概念具体就不赘述，这里以stm32F103RBT6芯片为例讲中断配置</p>
-<h2 id="3-1-抢占优先级和响应优先级"><a href="#3-1-抢占优先级和响应优先级" class="headerlink" title="3.1 抢占优先级和响应优先级"></a>3.1 抢占优先级和响应优先级</h2><p>&emsp;&emsp;STM32的中断向量具有两个属性，一个为抢占属性，另一个为响应属性，其属性编号越小，表明它的优先级别越高。<br>&emsp;&emsp;<strong>抢占</strong>，是指打断其他中断的属性，即因为具有这个属性会出现嵌套中断（在执行中断服务函数A 的过程中被中断B打断，执行完中断服务函数B，再继续执行中断服务函数A），抢占属性由NVIC_IRQChannelPreemptionPriority 的参数配置。<br>&emsp;&emsp;<strong>响应</strong>，应用在抢占属性相同的情况下，当两个中断向量的抢占优先级相同时，如果两个中断同时到达，则先处理响应优先级高的中断， 响应属性由NVIC_IRQChannelSubPriority 参数配置。<br>&emsp;&emsp;<strong>如果两个中断的抢占优先级和响应优先级都是一样的话，则看哪个中断先发生就先执行</strong></p>
-<h2 id="3-2-NVIC-的优先级组"><a href="#3-2-NVIC-的优先级组" class="headerlink" title="3.2 NVIC 的优先级组"></a>3.2 NVIC 的优先级组</h2><p>&emsp;&emsp;STM32的NVIC 有十六个优先级<br><strong>（一）STM32分组为：组0-4</strong><br><strong>（二）分组配置在寄存器SCB-&gt;AIRCR中：</strong></p>
-<img src="/2020/01/09/STM32开发/0.png" title="中断优先级分组">
+<h1 id="四、中断优先级"><a href="#四、中断优先级" class="headerlink" title="四、中断优先级"></a>四、中断优先级</h1><p>&emsp;&emsp;中断的概念具体就不赘述，这里以stm32F103RBT6芯片为例讲中断配置</p>
+<h2 id="4-1-抢占优先级和响应优先级"><a href="#4-1-抢占优先级和响应优先级" class="headerlink" title="4.1 抢占优先级和响应优先级"></a>4.1 抢占优先级和响应优先级</h2><p>&emsp;&emsp;STM32的中断向量具有两个属性，一个为抢占属性，另一个为响应属性，其属性编号越小，表明它的优先级别越高。<br>&emsp;&emsp;<strong>抢占</strong>，是指打断其他中断的属性，即因为具有这个属性会出现嵌套中断（在执行中断服务函数A 的过程中被中断B打断，执行完中断服务函数B，再继续执行中断服务函数A），抢占属性由NVIC_IRQChannelPreemptionPriority 的参数配置。<br>&emsp;&emsp;<strong>响应</strong>，应用在抢占属性相同的情况下，当两个中断向量的抢占优先级相同时，如果两个中断同时到达，则先处理响应优先级高的中断， 响应属性由NVIC_IRQChannelSubPriority 参数配置。<br>&emsp;&emsp;<strong>如果两个中断的抢占优先级和响应优先级都是一样的话，则看哪个中断先发生就先执行</strong></p>
+<h2 id="4-2-NVIC-的优先级组"><a href="#4-2-NVIC-的优先级组" class="headerlink" title="4.2 NVIC 的优先级组"></a>4.2 NVIC 的优先级组</h2><p>&emsp;&emsp;STM32的NVIC 有十六个优先级。</p>
+<p><strong>（一）STM32分组为：组0-4</strong></p>
+<p><strong>（二）分组配置在寄存器SCB-&gt;AIRCR中：</strong></p>
+<img src="/2020/01/09/STM32开发/5.png" title="中断优先级分组">
 <p><strong>（三）解析第二点</strong></p>
 <ol>
 <li>组0就是4位都用来设置成响应优先级，2^4=16位都是响应优先级</li>
-<li>组1分为（2^1）两个抢占优先级，在这两个抢占优先级里面还分别有（2^3）八个响应优先级，（2^1） * （2^3） =16</li>
-<li>组2分为（2^2）四个抢占优先级，在这四个抢占优先级里面还分别有（2^2）四个响应优先级，（2^2） * （2^2） =16</li>
-<li>组3分为（2^3）八个抢占优先级，在这八个抢占优先级里面还分别有（2^1）两个响应优先级，（2^3） * （2^1） =16</li>
-<li>组4分为（2^4）十六个都是抢占优先级  （2^4） =16</li>
+<li>组1分为(2^1)两个抢占优先级，在这两个抢占优先级里面还分别有(2^3)八个响应优先级，(2^1)*(2^3) =16</li>
+<li>组2分为(2^2)四个抢占优先级，在这四个抢占优先级里面还分别有(2^2)四个响应优先级，(2^2)*(2^2) =16</li>
+<li>组3分为(2^3)八个抢占优先级，在这八个抢占优先级里面还分别有(2^1)两个响应优先级，(2^3)*(2^1) =16</li>
+<li>组4分为(2^4)十六个都是抢占优先级(2^4) =16</li>
 </ol>
 <p><strong>（四）配置示例</strong></p>
-<ol>
-<li>NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2); //设置NVIC中断分组2:2位抢占优先级，2位响应优先级</li>
-<li>也就是说可以配置成四个抢占优先级，在这四个抢占优先级中还可以配置四个响应优先级</li>
-</ol>
-<p><strong>（五）优先级顺序举例</strong><br>&emsp;&emsp;假定设置中断优先级组为2，然后设置<br>中断3(RTC中断)的抢占优先级为2，响应优先级为1<br>中断6（外部中断0）的抢占优先级为3，响应优先级为0<br>中断7（外部中断1）的抢占优先级为2，响应优先级为0。<br>&emsp;&emsp;那么这3个中断的优先级顺序为：中断7&gt;中断3&gt;中断6</p>
-<h1 id="四、定时器"><a href="#四、定时器" class="headerlink" title="四、定时器"></a>四、定时器</h1><p>&emsp;&emsp;STM32 的高级定时器TIM1, TIM8以及通用定时器TIM9, TIM10, TIM11的时钟来源是APB2总线;通用的 TIM2、TIM3、TIM4 和 TIM5 定时器 挂载在低速的APB1总线上。</p>
-<h2 id="4-1-时钟疑问"><a href="#4-1-时钟疑问" class="headerlink" title="4.1 时钟疑问"></a>4.1 时钟疑问</h2><p><strong><font color="red">疑问：</font></strong>以F103为例，APB1 提供时钟：他的最大值是 36M。有很多人不理解，为什么 TIM2 的时钟不是 36M 而是 72M呢？<br><strong>通用定时器（TIM2-7）的时钟不是直接来自APB1，而是通过APB1的预分频器以后才到达定时器模块</strong></p>
-<p>APB1 的时钟最大只能是 36M,在 RCC 时钟配置的函数，也就是程序最开始初始化系统时钟到 72M（AHB）的时候,里面有</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2); <span class="comment">//设置NVIC中断分组2:2位抢占优先级，2位响应优先级</span></span><br><span class="line"><span class="comment">//也就是说可以配置成四个抢占优先级，在这四个抢占优先级中还可以配置四个响应优先级</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>（五）优先级顺序举例</strong></p>
+<p>&emsp;&emsp;假定设置中断优先级组为2，然后设置如下：</p>
+<ul>
+<li>中断3(RTC中断)的抢占优先级为2，响应优先级为1</li>
+<li>中断6（外部中断0）的抢占优先级为3，响应优先级为0</li>
+<li>中断7（外部中断1）的抢占优先级为2，响应优先级为0。</li>
+</ul>
+<p>&emsp;&emsp;那么这3个中断的优先级顺序为：中断7&gt;中断3&gt;中断6</p>
+<h1 id="五、定时器"><a href="#五、定时器" class="headerlink" title="五、定时器"></a>五、定时器</h1><p>&emsp;&emsp;STM32的高级定时器TIM1, TIM8以及通用定时器TIM9, TIM10, TIM11的时钟来源是APB2总线;通用的 TIM2、TIM3、TIM4和TIM5 定时器 挂载在低速的APB1总线上。</p>
+<h2 id="5-1-F103定时器时钟疑问"><a href="#5-1-F103定时器时钟疑问" class="headerlink" title="5.1 F103定时器时钟疑问"></a>5.1 F103定时器时钟疑问</h2><p><strong><font color="red">疑问：</font></strong> 以F103为例，APB1 提供时钟：他的最大值是 36M。有很多人不理解，为什么 TIM2 的时钟不是 36M 而是 72M呢？</p>
+<p>解答：<strong>通用定时器（TIM2-7）的时钟不是直接来自APB1，而是通过APB1的预分频器以后才到达定时器模块</strong></p>
+<hr>
+<p>&emsp;&emsp;APB1 的时钟最大只能是 36M,在 RCC 时钟配置的函数，也就是程序最开始初始化系统时钟到 72M（AHB）的时候,里面有</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RCC-&gt;CFGR |= (<span class="keyword">uint32_t</span>)RCC_CFGR_PPRE1_DIV2;</span><br></pre></td></tr></table></figure>
 
-<p>除以了 2，也就是在我们配置 AHB 为 72M 的时候 APB1 是 72/2=36M. 根据当APB1的预分频系数为1 时，这个倍频器不起作用，定时器的时钟频率等于 APB1 的频率；当 APB1 的预分频系数为其它数值(即预分频系数为 2、4、8 或 16)时，这个倍频器起作用，定时器的时钟频率等于 APB1 的频率两倍。这里我们设置的是 2，那么到定时器就要乘以 2，那么就是 72M 了</p>
+<p>除以了 2，也就是在我们配置 AHB 为 72M 的时候 APB1 是 72/2=36M 。根据当APB1的预分频系数为1 时，这个倍频器不起作用，定时器的时钟频率等于 APB1 的频率；当 APB1 的预分频系数为其它数值(即预分频系数为 2、4、8 或 16)时，这个倍频器起作用，定时器的时钟频率等于 APB1 的频率两倍。这里我们设置的是 2，那么到定时器就要乘以 2，那么就是 72M 了。</p>
 <p>&emsp;&emsp;综上，通用定时器的时钟最大为72MHz，挂在APB1上除了通用定时器的其他外设时钟最大为36MHz。这样设计的目的就是让挂在APB1上的低速外设有合适的低速时钟，同时还可以让挂在APB1上的通用定时器能够在不影响低速外设的情况下仍然有高速的时钟。<br>(注：系统时钟初始化后，默认AHB是72MHz，APB1是AHB的2分频36MHz，通用定时器时钟是APB1的两倍72MHz)</p>
-<h2 id="4-2-定时器计时"><a href="#4-2-定时器计时" class="headerlink" title="4.2 定时器计时"></a>4.2 定时器计时</h2><p>&emsp;&emsp;定时器跟时间相关的量有：系统时钟、分频系数、重装载值</p>
-<p><strong>系统时钟:</strong> 默认不配置的时候是72M，可以根据自己需求配置；<br><strong>分频系数:</strong> psc,就是对系统时钟进行多少分频之后在使用，最好设置为72的倍数，方便运算；<br><strong>重新装载值:</strong> arr,是计算这么多值，时间到了之后重新开始计算的值，每一次计数的时间为分频之后时钟的到时；</p>
-<p>举例：假设系统时间72M，分频系数设置为7200-1，那现在定时器的时钟为10kHz，每计一个数花费1/（10000）秒，重装值设置为5000-1，那一次溢出的时间为500ms。</p>
-<p><strong>Time = （（period+1）*（prescaler+1））/sysclock</strong><br><code>time：溢出时间(MHz)</code><br><code>sysclock：系统时钟（us）</code><br><code>period：重装值</code><br><code>prescaler：分频系数</code></p>
+<h2 id="5-2-定时器计时算法"><a href="#5-2-定时器计时算法" class="headerlink" title="5.2 定时器计时算法"></a>5.2 定时器计时算法</h2><p>&emsp;&emsp;定时器跟时间相关的量有：系统时钟、分频系数、重装载值。</p>
+<ul>
+<li><strong>系统时钟:</strong> 默认不配置的时候是72M，可以根据自己需求配置；</li>
+<li><strong>分频系数:</strong> psc,就是对系统时钟进行多少分频之后在使用，最好设置为72的倍数，方便运算；</li>
+<li><strong>重新装载值:</strong> arr,是计算这么多值，时间到了之后重新开始计算的值，每一次计数的时间为分频之后时钟的到时；</li>
+</ul>
+<p>举例：假设系统时间72M，分频系数设置为7200-1，那现在定时器的时钟为10kHz，每计一个数花费1/(10000)秒，重装值设置为5000-1，那一次溢出的时间为500ms。</p>
+<p><strong>Time = ((period+1)*(prescaler+1))/sysclock</strong></p>
+<ul>
+<li>time：溢出时间(MHz)</li>
+<li>sysclock：系统时钟(us)</li>
+<li>period：重装值</li>
+<li>prescaler：分频系数</li>
+</ul>
 <p>time = ((4999+1)*(7199+1))/72 = 5000 000us = 500ms</p>
-<h2 id="4-3-计时拓展"><a href="#4-3-计时拓展" class="headerlink" title="4.3 计时拓展"></a>4.3 计时拓展</h2><p>&emsp;&emsp;定时器的计时可以采用 任务机制回调；<br>实现思路如下：</p>
+<hr>
+<p><strong><font color="red">Ps：</font>定时器的重装值不能为0。</strong></p>
+<p>&emsp;&emsp;以上面为例：不改动分频系数的情况下，重装值设置为5000-1，那一次溢出的时间为500ms。如果让溢出的时间为1ms，那重装值要设置为10-1；但是无法设置溢出时间为0.1ms，重装值不能为1-1。该最小的定时溢出时间为2-1，即2ms触发一次定时器中断。</p>
+<h2 id="5-3-计时拓展"><a href="#5-3-计时拓展" class="headerlink" title="5.3 计时拓展"></a>5.3 计时拓展</h2><p>&emsp;&emsp;定时器的计时可以采用 任务机制回调；实现思路如下：</p>
 <ol>
 <li><p>创建结构体数组，用于存放 多定时器任务 数据；结构体内容如下：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*******************************************************************************</span></span><br><span class="line"><span class="comment">块注释：结构体定义声明</span></span><br><span class="line"><span class="comment">*******************************************************************************/</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span>&#123;</span></span><br><span class="line">	<span class="keyword">volatile</span> <span class="keyword">uint32_t</span> Time_task_name;	<span class="comment">//任务名称（组名称或上ID号码）</span></span><br><span class="line">	<span class="keyword">volatile</span> <span class="keyword">uint32_t</span> Time_Out;			<span class="comment">//超时时间</span></span><br><span class="line">	<span class="keyword">volatile</span> <span class="keyword">uint32_t</span> Time_Count;		<span class="comment">//任务启动为止到当前的时间</span></span><br><span class="line">	FUNCTION*  callback_F;				<span class="comment">//回调函数</span></span><br><span class="line">&#125;TIMER_TASK;							<span class="comment">//定义添加执行任务所需要的数据</span></span><br></pre></td></tr></table></figure>
@@ -533,21 +584,28 @@
 </li>
 <li><p>定时器中断会循环检索任务的存在；如果任务存在则对应的Time_Count(任务计时)++；如果Time_Count和Time_Out(设定时间)相同，则重置Time_Count，并执行回调；</p>
 </li>
-<li><p>回调函数一般短小精悍，因为是在中断内处理；用于置某些标志位或者关闭自身定时器任务</p>
+<li><p>回调函数一般短小精悍，因为是在中断内检索处理；用于置某些标志位或者关闭自身定时器任务</p>
 </li>
 </ol>
-<p>实现具体细节如下(均为功能函数)：</p>
-<ol>
+<p>实现具体细节如下(以函数为划分)：</p>
+<ul>
 <li>创建某个定时器任务</li>
 <li>复位某个定时器任务</li>
-<li>清除某个定时器任务(一般在回调函数中使用)</li>
+<li>清除某个定时器任务(一般在执行回调函数中使用)</li>
 <li>清除全体定时器任务</li>
-<li>获取当前定时器计数(函数返回值)</li>
+<li>获取当前定时器计数(其值为该函数返回值)</li>
+</ul>
+<h1 id="六、串口通讯"><a href="#六、串口通讯" class="headerlink" title="六、串口通讯"></a>六、串口通讯</h1><p>&emsp;&emsp;这里讲串口常见概念和现象。</p>
+<h2 id="6-1-TXE-和-TC"><a href="#6-1-TXE-和-TC" class="headerlink" title="6.1 TXE 和 TC"></a>6.1 TXE 和 TC</h2><p>&emsp;&emsp;串口的发送TX标志位 <code>USART_FLAG_TXE</code> 和 <code>USART_FLAG_TC</code>的理解:</p>
+<ol>
+<li><code>TXE</code>是指“手里要搬运的”空；</li>
+<li><code>TC</code> 是指“地上要搬运的”空；</li>
 </ol>
-<h1 id="五、串口通讯"><a href="#五、串口通讯" class="headerlink" title="五、串口通讯"></a>五、串口通讯</h1><p>&emsp;&emsp;这里讲串口一般会遇到的问题；</p>
-<h2 id="5-1-TXE-和-TC"><a href="#5-1-TXE-和-TC" class="headerlink" title="5.1 TXE 和 TC"></a>5.1 TXE 和 TC</h2><p>&emsp;&emsp;串口的发送TX标志位 <code>USART_FLAG_TXE</code> 和 <code>USART_FLAG_TC</code>的理解:<br>1)<code>TXE</code>是指“手里要搬运的”空；<br>2)<code>TC</code> 是指“地上要搬运的”空；</p>
-<p><code>USART_FLAG_TXE</code> 来说，只是说明数据寄存器中的数据已经被发送移位寄存器取走了<br><code>USART_FLAG_TC</code>来说，没必要每次当发送移位寄存器中的数据发送完成后都发生中断，而应该是整个串口数据帧全部发送完毕，包括最后一个字节也发送出去之后才应该开中断，这代表的就是一个数据帧发送完成事件了。</p>
-<h2 id="5-2-不停进入串口中断的Bug"><a href="#5-2-不停进入串口中断的Bug" class="headerlink" title="5.2 不停进入串口中断的Bug"></a>5.2 不停进入串口中断的Bug</h2><p>&emsp;&emsp;Bug现象：在使用stm32的时候，发现usart会莫名的卡在串口中断里，然而串口初始化只配置了<code>RXNE</code>中断，打断点发现不断进入中断却发现不是<code>RXNE</code>中断引起的</p>
+<ul>
+<li><code>USART_FLAG_TXE</code> 来说，只是说明数据寄存器中的数据已经被发送移位寄存器取走了</li>
+<li><code>USART_FLAG_TC</code>来说，没必要每次当发送移位寄存器中的数据发送完成后都发生中断，而应该是整个串口数据帧全部发送完毕，包括最后一个字节也发送出去之后才应该开中断，这代表的就是一个数据帧发送完成事件了。</li>
+</ul>
+<h2 id="6-2-不停进入串口中断的Bug"><a href="#6-2-不停进入串口中断的Bug" class="headerlink" title="6.2 不停进入串口中断的Bug"></a>6.2 不停进入串口中断的Bug</h2><p>&emsp;&emsp;Bug现象：在使用stm32的时候，发现usart会莫名的卡在串口中断里，然而串口初始化只配置了<code>RXNE</code>中断，打断点发现不断进入中断却发现不是<code>RXNE</code>中断引起的</p>
 <blockquote>
 <p>该Bug来源：经过查找资料发现是<code>ORE</code>的问题：开启<code>RXNE</code>中断同时， <code>ORE</code> 也会被开启；</p>
 </blockquote>
@@ -559,132 +617,15 @@
 
 <p>STM32中文参考手册541页，内容如下：</p>
 <blockquote>
-<p>ORE：过载错误 (Overrun error)<br>当RXNE仍然是’1’的时候，当前被接收在移位寄存器中的数据，需要传送至RDR寄存器时，硬件将该位置位。如果USART_CR1中的RXNEIE为’1’的话，则产生中断。由软件序列将其清零(先读USART_SR，然后读USART_CR)。<br>0：没有过载错误；<br>1：检测到过载错误。<br>注意：该位被置位时， RDR寄存器中的值不会丢失，但是移位寄存器中的数据会被覆盖。如果设置了EIE位，在多缓冲器通信模式下，ORE标志置位会产生中断的</p>
+<p>ORE：过载错误 (Overrun error)</p>
 </blockquote>
+<p>&emsp;&emsp;当RXNE仍然是’1’的时候，当前被接收在移位寄存器中的数据，需要传送至RDR寄存器时，硬件将该位置位。如果USART_CR1中的RXNEIE为’1’的话，则产生中断。由软件序列将其清零(先读USART_SR，然后读USART_CR)。</p>
+<ul>
+<li>0：没有过载错误；</li>
+<li>1：检测到过载错误。<br>注意：该位被置位时， RDR寄存器中的值不会丢失，但是移位寄存器中的数据会被覆盖。如果设置了EIE位，在多缓冲器通信模式下，ORE标志置位会产生中断的</li>
+</ul>
+<p>&emsp;&emsp;关于ORE的更细致处理方法主要还是参照下面几个博主的文章：</p>
 <p><a href="https://blog.csdn.net/origin333/article/details/49992383" target="_blank" rel="noopener">STM32串口中断卡死主循环问题分析</a><br><a href="https://bbs.21ic.com/icview-160999-1-1.html" target="_blank" rel="noopener">关于USART接收中断的BUG和注意事项</a><br><a href="https://www.cnblogs.com/tiantiantian-dianzi/articles/5952318.html" target="_blank" rel="noopener">关于STM32不断进入串口中断的问题</a></p>
-<h1 id="六、程序跑飞"><a href="#六、程序跑飞" class="headerlink" title="六、程序跑飞"></a>六、程序跑飞</h1><p>&emsp;&emsp;程序跑飞有两种情况：1)人为程序代码逻辑问题；2)进入<code>HardFault_Handler</code><br>1)代码逻辑问题，往往是逻辑错误(缺少)，进入死循环；可以通过软件仿真，很快就能排查该问题<br>2)<code>HardFault_Handler</code>的问题比较麻烦，这里讲其相关的问题</p>
-<h2 id="6-1-HardFault-Handler的原因"><a href="#6-1-HardFault-Handler的原因" class="headerlink" title="6.1 HardFault_Handler的原因"></a>6.1 HardFault_Handler的原因</h2><p>&emsp;&emsp;在用Keil对STM32的程序进行仿真时程序有时会跑飞，停止仿真程序会停在<code>HardFault_Handler</code>函数里的死循环while(1)中。这说明STM32出现了硬件错误。</p>
-<img src="/2020/01/09/STM32开发/1.jpg">
-<blockquote>
-<p>STM32出现硬件错误可能有以下原因：</p>
-</blockquote>
-<ol>
-<li>数组越界操作；</li>
-<li>内存溢出，访问越界；</li>
-<li>堆栈溢出，程序跑飞；(大多数是因为中断嵌套)</li>
-<li>中断处理错误；</li>
-</ol>
-<p>遇到这种情况，可以通过以下方法来定位到出错代码段。</p>
-<h2 id="6-2-解决方法"><a href="#6-2-解决方法" class="headerlink" title="6.2 解决方法"></a>6.2 解决方法</h2><p>&emsp;&emsp;在<code>HardFault_Handler</code>函数中，一般为 C语言的 <code>While(1);</code> 或 汇编的 <code>B .</code> ，实际效果都一样(死循环)。</p>
-<blockquote>
-<p><strong>方法1</strong></p>
-</blockquote>
-<p>1.1 在硬件中断函数<code>HardFault_Handler</code>里的while(1)处打调试断点，程序执行到断点处时点击“STOP”停止仿真。</p>
-<img src="/2020/01/09/STM32开发/2.jpg">
-<p>1.2 在Keil菜单栏点击“View”——“Registers Window”，在寄存器查看窗口查找R14(LR)的值。如果R14(LR) = 0xFFFFFFE9，继续查看MSP（主堆栈指针）的值，如果R14(LR) = 0xFFFFFFFD，继续查看PSP（进程栈指针）的值。我的程序R14(LR) = 0xFFFFFFF9，接下来以此为例。</p>
-<img src="/2020/01/09/STM32开发/3.png">
-<p>1.3 在Keil菜单栏点击“View”——“Memory Windows”——“Memory1”，在“Address”地址栏中输入MSP的值：0x20001288，然后在对应的行里找到地址。地址一般以0x08开头的32位数。本例中，地址为0x08003CB9。</p>
-<img src="/2020/01/09/STM32开发/4.png">
-<p>1.4 在Keil菜单栏点击“View”——“Disassembly Window”，在“Disassembly”窗口中右击，在下拉菜单中选择“Show Disassemblyat Address…”。在弹出框“Show Code atAdress”的地址框中输入地址0x08003CB9进行搜索，然后就会找到相对应的代码。这里的代码就是进入循环中断之前的情况。仔细查看附近区域的相关代码来排查错误具体原因。</p>
-<img src="/2020/01/09/STM32开发/5.jpg">
-<blockquote>
-<p><strong>方法2</strong></p>
-</blockquote>
-<p>2.1 在硬件中断函数HardFault_Handler里的while(1)处打调试断点，程序执行到断点处时点击“STOP”停止仿真。</p>
-<img src="/2020/01/09/STM32开发/6.jpg">
-<p>2.2 在Keil菜单栏点击“View”——“Call Stack Window”弹出“Call Stack + Locals”对话框。然后在对话框中右键选择“Show Caller Code”，就会跳转到出错之前的函数处，仔细查看这部分函数被调用或者数组内存使用情况。</p>
-<blockquote>
-<p><strong>方法3</strong></p>
-</blockquote>
-<p>&emsp;&emsp;默认的HardFault_Handler处理方法不是B .这样的死循环么？将它改成<code>BX LR</code>直接返回的形式，然后在这条语句打个断点；<br>一旦在断点中停下来，说明出错了，然后再返回，就可以返回到出错的位置的下一条语句那儿</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">__<span class="function"><span class="keyword">asm</span> <span class="keyword">void</span> <span class="title">wait</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;       </span><br><span class="line">	BX lr</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">HardFault_Handler</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;    </span><br><span class="line">	<span class="comment">/* Go to infinite loop when Hard Fault exception occurs */</span>   </span><br><span class="line">	wait();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="6-3-具体案例分析"><a href="#6-3-具体案例分析" class="headerlink" title="6.3 具体案例分析"></a>6.3 具体案例分析</h2><p>&emsp;&emsp;这里介绍 不断进入串口中断的问题分析，提供一种(遇到其他Bug时也可以借鉴)思路<br>现象：使用STM32作为主控，程序运行一段时间后概率出现主循环卡死。问题分析和解决方法如下：</p>
-<ol>
-<li>主循环卡死；</li>
-<li>仿真并未进入<code>HardFault</code>；</li>
-<li>仿真一直死循环在USART2中断处理(不做其他处理)</li>
-<li>关闭对应USART2功能，系统正常</li>
-<li>检查USART2接收中断标志是否忘记清除；</li>
-<li>确认好Bug来自于STM32串口中断异常</li>
-</ol>
-<p>确认Bug来自于STM32串口中断异常，可能原因如下：<br>7.1 USART2接收中断标志没有清除；<br>7.2 堆栈数据溢出，导致程序异常；<br>7.3 USART2中断ERR；<br>7.4 USART2中断重入导致异常；<br>7.5 USART2中断函数被异常响应；</p>
-<p>综上所述：<br>8.1 开始面向X度编程  or<br>8.2 查看STM32中文参考手册 串口章节</p>
-<h1 id="七、UCOSIII系统"><a href="#七、UCOSIII系统" class="headerlink" title="七、UCOSIII系统"></a>七、UCOSIII系统</h1><h2 id="7-1-把一个裸机程序移植到ucos系统"><a href="#7-1-把一个裸机程序移植到ucos系统" class="headerlink" title="7.1 把一个裸机程序移植到ucos系统"></a>7.1 把一个裸机程序移植到ucos系统</h2><ol>
-<li>先把裸机任务改一个名字；先在芯片上把ucos跑起来，启动一个ucos任务调用裸机的main函数就可以了；</li>
-<li>先都放在一个进程中，再慢慢剥离到其他进程;想要优化程序的话你就将原来裸机的程序分成几个任务，再按照每个任务的重要性选择任务优先级和大小以及任务执行间隔。</li>
-<li>清理原来的程序，区分出任务和任务间通信的数据；把任务按一定的优先级整理好，创建到UCOS中；再把任务间通信的数据，采用UCOS提供的：信号量、锁，队列等，机制建立起来。</li>
-<li>然后，把任务和数据关联起来，再进一步调试，跑系统。特别注意有没有优先级反转、死机，任务饥饿等问题</li>
-</ol>
-<h1 id="八、Bootloader"><a href="#八、Bootloader" class="headerlink" title="八、Bootloader"></a>八、Bootloader</h1><p>&emsp;&emsp;一个成熟的嵌入式产品，往往有 软件升级 的功能；升级的功能 需要用到Bootloader。<br><strong><font color="red">Ps：</font></strong>BootLoader的实现还是需要靠BootLoader程序和App程序的配合才能正常使用：App程序需要重定位中断向量表，才能正常工作。</p>
-<p>对于嵌入式系统来说，常见的升级方式为:<br>1)串口升级(私有协议或者X－Modem)<br>2)USB升级(DFU)<br>3)U盘升级(OTG)<br>4)网络升级<br>5)无线升级(OTA)</p>
-<h2 id="8-1-hex文件和bin文件"><a href="#8-1-hex文件和bin文件" class="headerlink" title="8.1 hex文件和bin文件"></a>8.1 hex文件和bin文件</h2><p>&emsp;&emsp;Bootloader程序升级，往往是采用写入bin文件；那hex文件和bin文件有什么关系呢？</p>
-<blockquote>
-<p><strong>hex文件</strong></p>
-</blockquote>
-<p>&emsp;&emsp;hex文件是以ASCII文本形式保存编译后的二进制文件信息。Hex文件使用ASCII文本的形式保存Bin文件的内容和Bin文件的一些配置信息。hex文件可以由下载器（比如jlink）烧写到MCU的ROM中。<br>&emsp;&emsp;平时用J-LINK或者串口下载程序，都是下载hex文件的;因为hex文件包含地址信息，下载程序的时候知道程序下载到ROM的哪个区域。反过来讲，hex文件是不能直接写进ROM的，一边写需要一边转换(解码出地址信息，将对应内容写入ROM)。</p>
-<blockquote>
-<p><strong>bin文件</strong></p>
-</blockquote>
-<p>&emsp;&emsp;Bin文件是MCU固件烧写的最终形式，也就是说MCU的ROM中烧写的内容完全就是Bin文件的内容。</p>
-<blockquote>
-<p><strong>区别</strong></p>
-</blockquote>
-<p>&emsp;&emsp;Hex文件有更好的可读性，最重要的是hex文件能够保证固件在保存与传输时的完整性。因此hex文件更适用于保存与传输。而Bin文件是纯二进制文件，内部只包含程序编译后的机器码和变量数据。当文件损坏时，我们也无法知道文件已损坏。不过Bin文件作为固件的最终形式，在使用串口下载程序或者远程升级时，是不可替代的。</p>
-<blockquote>
-<p><strong>bin文件生成</strong></p>
-</blockquote>
-<p>&emsp;&emsp;默认情况下编译后生成的是hex文件，没有生成bin文件。keil的Bin文件生成方式有很多种，可以另外下载一个hex2bin工具，然后用Keil脚本执行；这里，介绍使用Keil自带的工具fromelf.exe。在Keil的安装目录下，例如：<code>E:\Keil\ARM\ARMCC\bin\fromelf.exe</code></p>
-<p>第一种方式：设置绝对路径(不建议这样做，别人用你工程需要再次修改路径)</p>
-<figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">D:\<span class="title">Program</span> <span class="title">Files</span>\<span class="title">MDK516</span>\<span class="title">ARM</span>\<span class="title">ARMCC</span>\<span class="title">bin</span>\<span class="title">fromelf.exe</span>" --<span class="title">bin</span> -<span class="title">o</span> ./<span class="title">obj</span>/<span class="title">test_app.bin</span> ./<span class="title">obj</span>/<span class="title">test_app.axf</span></span></span><br></pre></td></tr></table></figure>
-
-<p>第二种方式：相对路径，直接复制下面的路径就能直接使用</p>
-<figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$K\ARM\ARMCC\bin\fromelf.exe --bin --output=@L.bin !L</span><br></pre></td></tr></table></figure>
-
-<p>bin文件生成在xxx.uvprojx的当前目录下，在xxx.uvprojx当前目录下你可看到一个test1.bin（名字是根据你的hex文件名字一样）。</p>
-<p>希望生成.bin文件输出在当前工程下的指定目录，比如Bin文件夹，可如下操作：</p>
-<figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$K\ARM\ARMCC\bin\fromelf.exe --bin --output=Bin\@L.bin !L</span><br></pre></td></tr></table></figure>
-
-<p>生成的文件也是在xxx.uvprojx的当前目录下，在xxx.uvprojx当前目录下，可看到一个新生成的Bin文件夹，里面是test1.bin。</p>
-<h2 id="8-2-Flash地址0x08000000"><a href="#8-2-Flash地址0x08000000" class="headerlink" title="8.2 Flash地址0x08000000"></a>8.2 Flash地址0x08000000</h2><blockquote>
-<p>为什么STM32从Flash地址0x08000000的启动重映射?</p>
-</blockquote>
-<p>&emsp;&emsp;在初写STM32程序时，遇到一个困惑，STM32的Flash在MDK里被设置为起始地址0x0800 0000，而CM3手册规定芯片复位时要从0x0000 0000地址开始取出中断向量 ，那STM32怎么样执行代码呢？地址重映射？或者在0x0000 0000里有对应有实际存储器？</p>
-<p>仔细阅读手册，发现这件事是因为STM32设计的Flash起始地址是在0x0800 0000位置开始的。全部代码都只能从这里开始存储。详见STM32 referenc manual手册第54页。</p>
-<p>那既然从这里才能存储代码，就必须在MDK里设置Flash地址为0x0800 0000，下面是MDK设置页面，这个应该都看到过。</p>
-<img src="/2020/01/09/STM32开发/7.jpg">
-<p>&emsp;&emsp;这样就还有一个问题，理论上，CM3中规定上电后CPU是从0地址开始执行，但是这里中断向量表却被烧写在0x0800 0000地址里，那启动时不就找不到中断向量表了？既然CM3定下的规矩是从0地址启动，SMT32当然不能破坏ARM定下的“规矩”，所以它做了一个启动映射的过程，就是和芯片上总能见到的BOOT0和BOOT1有关了，当选择从主Flash启动模式后，芯片一上电，Flash的0x0800 0000地址被映射到0地址处，不影响CM3内核的读取，所以这时的CM3既可以在0地址处访问中断向量表，也可以在0x0800 0000地址处访问中断向量表，而代码还是在0x0800 0000地址处存储的。这就是最难理解的地方，其实，这是基本上所有ARM芯片采用的启动映射方法。ARM7，ARM9没有内部Flash的通常都是这样做的。这个过程出自STM32 referenc manual手册，里面是有说明的。</p>
-<p>还要注意，<strong>这个中断向量表是可以在程序中再次被映射的</strong>。控制它的就是CM3已经规定的NVIC寄存器<code>SCB->VTOR</code>。在STM32库中给出的启动代码里，startup_stm32f10x_hd.s文件里，第146行，是上电后读取中断向量表中的复位中断位置，并执行复位中断处理代码，代码如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">; Reset handler</span><br><span class="line">Reset_Handler   PROC</span><br><span class="line">                EXPORT  Reset_Handler             [WEAK]</span><br><span class="line">                IMPORT  __main</span><br><span class="line">                IMPORT  SystemInit</span><br><span class="line">                LDR     R0, =SystemInit</span><br><span class="line">                BLX     R0               </span><br><span class="line">                LDR     R0, =__main</span><br><span class="line">                BX      R0</span><br><span class="line">                ENDP</span><br></pre></td></tr></table></figure>
-
-<p> 注意复位后第一个被执行的是SystemInit代码，这个代码在库目录下的system_stm32f10x.c文件里，它初始化了时钟，NVIC等一系列操作，这里摘要与中断向量有关的代码：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">SystemInit</span> <span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">......</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> VECT_TAB_SRAM</span></span><br><span class="line">  SCB-&gt;VTOR = SRAM_BASE | VECT_TAB_OFFSET; <span class="comment">/* Vector Table Relocation in Internal SRAM. */</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">else</span></span></span><br><span class="line">  SCB-&gt;VTOR = FLASH_BASE | VECT_TAB_OFFSET; <span class="comment">/* Vector Table Relocation in Internal FLASH. */</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span> </span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>可以看出中断向量重映射是一个选择性编译，通常宏定义<code>VECT_TAB_SRAM</code>都没有被定义，所以这里执行结束后，<code>SCB->VTOR</code>就是FLASH_BASE了，值为0x0800 0000。以后CM3再取中断向量里，就会根据<code>SCB->VTOR</code>的设置，从这里取向量执行了。中断向量自此终于转正。</p>
-<p>注意：这时连__main函数都还没进，看起来中断向量的重映射位置还是够早的。</p>
-<h2 id="8-3-Bootloader介绍"><a href="#8-3-Bootloader介绍" class="headerlink" title="8.3 Bootloader介绍"></a>8.3 Bootloader介绍</h2><p>&emsp;&emsp;源自linux上的BootLoader的概念，在linux上，BootLoader是首先执行的程序，BootLoader启动之后初始化CPU、RAM、Flash等设备，然后从Flash中读取Linux程序数据到RAM中去，最后跳转到RAM中Linux的起始地址中去启动Linux系统。除了从Flash中读取系统启动之外，BootLoader还能通过网络NFS协议从服务器上读取Linux并启动。BootLoader还能够更新Linux内核、配置Linux启动信息、测试系统等等。<br>&emsp;&emsp;在嵌入式操作系统中，BootLoader是在操作系统内核运行之前运行。可以初始化硬件设备、建立内存空间映射图，从而将系统的软硬件环境带到一个合适状态，以便为最终调用操作系统内核准备好正确的环境。在嵌入式系统中，通常并没有像Window自带BIOS那样的固件程序（注，有的嵌入式CPU也会内嵌一段短小的启动程序），因此整个系统的加载启动任务就完全由BootLoader来完成。</p>
-<p>我们要做的STM32的BootLoader也是类似的工作原理，但是没有Linux系统的BootLoader功能那么强大。我们要做的STM32的BootLoader只有两个主要目的：</p>
-<ol>
-<li>跳转到应用程序并执行；</li>
-<li>更新应用程序；</li>
-</ol>
-<p><strong><font color="red">Ps：</font></strong>因此，下载新程序后并不擦除bootLoader程序，下次启动依然先运行BootLoader程序，可以选择性更新或者不更新程序，所以STM32的BootLoader往往就是用来管理单片机程序的更新。</p>
-<h2 id="8-4-Bootloader预备知识"><a href="#8-4-Bootloader预备知识" class="headerlink" title="8.4 Bootloader预备知识"></a>8.4 Bootloader预备知识</h2><h3 id="8-4-1-复位序列"><a href="#8-4-1-复位序列" class="headerlink" title="8.4.1 复位序列"></a>8.4.1 复位序列</h3><blockquote>
-<p>栈指针<br>复位向量</p>
-</blockquote>
-<h3 id="8-4-2-重定位中断向量表"><a href="#8-4-2-重定位中断向量表" class="headerlink" title="8.4.2 重定位中断向量表"></a>8.4.2 重定位中断向量表</h3><blockquote>
-<p>STM32的中断向量表<br>设置中断向量表偏移  </p>
-</blockquote>
-<h3 id="8-4-3-分散加载文件相关"><a href="#8-4-3-分散加载文件相关" class="headerlink" title="8.4.3 分散加载文件相关"></a>8.4.3 分散加载文件相关</h3><blockquote>
-<p>C语言的函数地址<br>BootLoader占用的ROM<br>修改ROM起始地址</p>
-</blockquote>
-<h2 id="8-5-BootLoader的实现"><a href="#8-5-BootLoader的实现" class="headerlink" title="8.5 BootLoader的实现"></a>8.5 BootLoader的实现</h2><h2 id="8-8-Bin文件合并"><a href="#8-8-Bin文件合并" class="headerlink" title="8.8 Bin文件合并"></a>8.8 Bin文件合并</h2><p>需要烧录2个bin文件，整个程序才可以正常运行。那如果是量产烧录2次程序是非常耗时间的</p>
-<p>目的：合并两个单独程序的bin文件<br>工具：keil，jlink，j-flash ARM</p>
-<ol>
-<li>用keil和jlink生成两个bin文件，如何生成不详细解释，主要是几个问题说明一下<br>1)使用jlink时需要注意，尤其是port的选择，明确用jlink是jtag还是sw。<br>2)既然是合并，那么两个bin文件的flash的地址分配需要明确</li>
-<li>利用j-flash ARM合并bin文件<br>1)拖拽第一个文件进j-flash ARM，确定好初始地址<br>2)file–message data…–第二个文件，确定好初始地址<br>3)save data file as..保存合并后的文件</li>
-<li>使用j-flash ARM进行程序下载<br>1)open project …选择芯片类型<br>2)Options-project setting 进行相关配置，明确用jlink是jtag还是sw。<br>3)注意芯片的选型。<br>参考资料：<a href="https://wenku.baidu.com/view/ae895065ddccda38376bafb5.html" target="_blank" rel="noopener">https://wenku.baidu.com/view/ae895065ddccda38376bafb5.html</a><br>#####pwm定时器脉冲</li>
-</ol>
 
       
     </div>
@@ -931,7 +872,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一、硬件IO驱动异常"><span class="nav-text">一、硬件IO驱动异常</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-宏定义错误"><span class="nav-text">1.1 宏定义错误</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-关闭JTAG功能当普通IO口用"><span class="nav-text">1.2 关闭JTAG功能当普通IO口用</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二、STM32管脚四种输出模式对比"><span class="nav-text">二、STM32管脚四种输出模式对比</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三、中断"><span class="nav-text">三、中断</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-抢占优先级和响应优先级"><span class="nav-text">3.1 抢占优先级和响应优先级</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-NVIC-的优先级组"><span class="nav-text">3.2 NVIC 的优先级组</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#四、定时器"><span class="nav-text">四、定时器</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-时钟疑问"><span class="nav-text">4.1 时钟疑问</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2-定时器计时"><span class="nav-text">4.2 定时器计时</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-3-计时拓展"><span class="nav-text">4.3 计时拓展</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#五、串口通讯"><span class="nav-text">五、串口通讯</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#5-1-TXE-和-TC"><span class="nav-text">5.1 TXE 和 TC</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-2-不停进入串口中断的Bug"><span class="nav-text">5.2 不停进入串口中断的Bug</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#六、程序跑飞"><span class="nav-text">六、程序跑飞</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#6-1-HardFault-Handler的原因"><span class="nav-text">6.1 HardFault_Handler的原因</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-2-解决方法"><span class="nav-text">6.2 解决方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-3-具体案例分析"><span class="nav-text">6.3 具体案例分析</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#七、UCOSIII系统"><span class="nav-text">七、UCOSIII系统</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#7-1-把一个裸机程序移植到ucos系统"><span class="nav-text">7.1 把一个裸机程序移植到ucos系统</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#八、Bootloader"><span class="nav-text">八、Bootloader</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#8-1-hex文件和bin文件"><span class="nav-text">8.1 hex文件和bin文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-2-Flash地址0x08000000"><span class="nav-text">8.2 Flash地址0x08000000</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-3-Bootloader介绍"><span class="nav-text">8.3 Bootloader介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-4-Bootloader预备知识"><span class="nav-text">8.4 Bootloader预备知识</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#8-4-1-复位序列"><span class="nav-text">8.4.1 复位序列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-4-2-重定位中断向量表"><span class="nav-text">8.4.2 重定位中断向量表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-4-3-分散加载文件相关"><span class="nav-text">8.4.3 分散加载文件相关</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-5-BootLoader的实现"><span class="nav-text">8.5 BootLoader的实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-8-Bin文件合并"><span class="nav-text">8.8 Bin文件合并</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一、迁移工程"><span class="nav-text">一、迁移工程</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二、常见驱动异常"><span class="nav-text">二、常见驱动异常</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-驱动异常-amp-复用时钟"><span class="nav-text">2.1 驱动异常 &amp; 复用时钟</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-宏定义值错误"><span class="nav-text">2.2 宏定义值错误</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三、STM32管脚四种输出模式对比"><span class="nav-text">三、STM32管脚四种输出模式对比</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#四、中断优先级"><span class="nav-text">四、中断优先级</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-抢占优先级和响应优先级"><span class="nav-text">4.1 抢占优先级和响应优先级</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2-NVIC-的优先级组"><span class="nav-text">4.2 NVIC 的优先级组</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#五、定时器"><span class="nav-text">五、定时器</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#5-1-F103定时器时钟疑问"><span class="nav-text">5.1 F103定时器时钟疑问</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-2-定时器计时算法"><span class="nav-text">5.2 定时器计时算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-3-计时拓展"><span class="nav-text">5.3 计时拓展</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#六、串口通讯"><span class="nav-text">六、串口通讯</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#6-1-TXE-和-TC"><span class="nav-text">6.1 TXE 和 TC</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-2-不停进入串口中断的Bug"><span class="nav-text">6.2 不停进入串口中断的Bug</span></a></li></ol></li></ol></div>
             
 
           </div>
