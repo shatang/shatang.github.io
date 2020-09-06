@@ -1,0 +1,1392 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-flash.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="计算机概念,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="道简顿悟，法深渐修" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="&amp;emsp;&amp;emsp;这篇内容基本来源于力扣官方在知乎给萌新学习力扣的建议。&amp;emsp;&amp;emsp;在开始刷题前，只需要你至少掌握一门编程语言，即使你从未刷过算法题，从现在开始好好利用这两个月的时间制定合适的学习计划，也可以给自己的算法水平带来质的提升。 首先，为什么搞嵌入式底层开发还是要学算法和数据结构？ &amp;emsp;&amp;emsp;虽然在搞嵌入式底层开发大多数数据结构用到的不多，学点常用的基本都">
+<meta name="keywords" content="计算机概念">
+<meta property="og:type" content="article">
+<meta property="og:title" content="零基础力扣学习">
+<meta property="og:url" content="http://shatang.github.io/2020/09/06/零基础力扣学习/index.html">
+<meta property="og:site_name" content="道简顿悟，法深渐修">
+<meta property="og:description" content="&amp;emsp;&amp;emsp;这篇内容基本来源于力扣官方在知乎给萌新学习力扣的建议。&amp;emsp;&amp;emsp;在开始刷题前，只需要你至少掌握一门编程语言，即使你从未刷过算法题，从现在开始好好利用这两个月的时间制定合适的学习计划，也可以给自己的算法水平带来质的提升。 首先，为什么搞嵌入式底层开发还是要学算法和数据结构？ &amp;emsp;&amp;emsp;虽然在搞嵌入式底层开发大多数数据结构用到的不多，学点常用的基本都">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://shatang.github.io/2020/09/06/零基础力扣学习/1.jpg">
+<meta property="og:image" content="http://shatang.github.io/2020/09/06/零基础力扣学习/2.jpg">
+<meta property="og:image" content="http://shatang.github.io/2020/09/06/零基础力扣学习/3.jpg">
+<meta property="og:image" content="http://shatang.github.io/2020/09/06/零基础力扣学习/4.jpg">
+<meta property="og:image" content="http://shatang.github.io/2020/09/06/零基础力扣学习/5.jpg">
+<meta property="og:image" content="http://shatang.github.io/2020/09/06/零基础力扣学习/6.jpg">
+<meta property="og:image" content="http://shatang.github.io/2020/09/06/零基础力扣学习/7.jpg">
+<meta property="og:image" content="http://shatang.github.io/2020/09/06/零基础力扣学习/8.jpg">
+<meta property="og:image" content="http://shatang.github.io/2020/09/06/零基础力扣学习/9.jpg">
+<meta property="og:updated_time" content="2020-09-06T02:06:20.938Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="零基础力扣学习">
+<meta name="twitter:description" content="&amp;emsp;&amp;emsp;这篇内容基本来源于力扣官方在知乎给萌新学习力扣的建议。&amp;emsp;&amp;emsp;在开始刷题前，只需要你至少掌握一门编程语言，即使你从未刷过算法题，从现在开始好好利用这两个月的时间制定合适的学习计划，也可以给自己的算法水平带来质的提升。 首先，为什么搞嵌入式底层开发还是要学算法和数据结构？ &amp;emsp;&amp;emsp;虽然在搞嵌入式底层开发大多数数据结构用到的不多，学点常用的基本都">
+<meta name="twitter:image" content="http://shatang.github.io/2020/09/06/零基础力扣学习/1.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+<script>
+    (function(){
+        if(''){
+            if (prompt('请输入文章密码') !== ''){
+                alert('密码错误！');
+                history.back();
+            }
+        }
+    })();
+</script>
+
+
+
+  <link rel="canonical" href="http://shatang.github.io/2020/09/06/零基础力扣学习/">
+
+
+
+
+
+  <title>零基础力扣学习 | 道简顿悟，法深渐修</title>
+  
+
+
+
+
+
+
+
+
+  
+  
+</head>
+
+
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">道简顿悟，法深渐修</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">It's not hard to give up, but it must be cool to stick to it.</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home                          //首页"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive          //归档"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th           //分类"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags                     //标签"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user                   //关于"></i> <br>
+            
+            关于我
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://shatang.github.io/2020/09/06/零基础力扣学习/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Shatang">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/header.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="道简顿悟，法深渐修">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">零基础力扣学习</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-09-06T09:51:17+08:00">
+                2020-09-06
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2020-09-06T10:06:20+08:00">
+                2020-09-06
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/计算机基础概念-算法/" itemprop="url" rel="index">
+                    <span itemprop="name">计算机基础概念 & 算法</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+		
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>次阅读
+            </span>
+          
+		  
+
+          
+            <div class="post-wordcount">
+              
+                
+                  <span class="post-meta-divider">|</span>
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  2.6k
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>&emsp;&emsp;这篇内容基本来源于力扣官方在知乎给萌新学习力扣的建议。<br>&emsp;&emsp;在开始刷题前，只需要你至少掌握一门编程语言，即使你从未刷过算法题，从现在开始好好利用这两个月的时间制定合适的学习计划，也可以给自己的算法水平带来质的提升。</p>
+<p>首先，为什么搞嵌入式底层开发还是要学算法和数据结构？</p>
+<p>&emsp;&emsp;虽然在搞嵌入式底层开发大多数数据结构用到的不多，学点常用的基本都能解决问题。例如，递归往往可以用于求解，其本质是从结果倒回输入的求解，常用于算法题，数据检索等；但不常见于嵌入式开发流程的场景应用，因为嵌入式往往是要从输入得到结果。但是我觉得还是有必要深入学习一下，这个不仅仅能够提升你代码的技术水平，还能提高你码代码的视界。</p>
+<a id="more"></a>
+
+<h1 id="一、算法和数据结构的知识考点"><a href="#一、算法和数据结构的知识考点" class="headerlink" title="一、算法和数据结构的知识考点"></a>一、算法和数据结构的知识考点</h1><blockquote>
+<p>算法和数据结构的关系</p>
+</blockquote>
+<p>&emsp;&emsp;如果把算法比作建筑工程的图纸，数据结构就像是建造大楼的工具。数据结构设计的初衷就是方便程序员使用，虽然看似种类较多，但实际上每一种都不难，可以结合算法一起学习。</p>
+<img src="/2020/09/06/零基础力扣学习/1.jpg">
+
+<h1 id="二、探索卡片"><a href="#二、探索卡片" class="headerlink" title="二、探索卡片"></a>二、探索卡片</h1><p>&emsp;&emsp;对于零基础的同学来说，不建议一开始就从题库页开始按顺序刷题。在力扣的<strong>探索页面</strong>有十分丰富的算法和数据结构主题卡片，从探索卡片开始学习能帮助你快速入门。每个卡片都覆盖了详细的知识点介绍，概念讲解，结构特点，代码实现，例题及答题套路。</p>
+<p>&emsp;&emsp;按照正确的顺序来刷探索卡片，由浅入深，逐层打好算法根基。</p>
+<p>!<img src="/2020/09/06/零基础力扣学习/2.jpg"></p>
+<h1 id="三、进阶"><a href="#三、进阶" class="headerlink" title="三、进阶"></a>三、进阶</h1><p>&emsp;&emsp;按着上面的探索卡片学习；有了一定的算法和数据结构基础以后，这时你就可以选择刷面试题、或者题库了。</p>
+<p>&emsp;&emsp;要准备面试的话，多写写面试题；面试题可以选最近时期的「名企高频面试题」、「剑指 Offer」等。如果已经在准备面试冲刺的阶段，这时候不妨多刷两遍「剑指 Offer」题库。</p>
+<hr>
+<p>&emsp;&emsp;当然也可以养生刷刷题库；根据题库页的标签分类进行专项刷题也是一个非常不错的选择。</p>
+<img src="/2020/09/06/零基础力扣学习/3.jpg">
+
+<h1 id="四、刷题技巧"><a href="#四、刷题技巧" class="headerlink" title="四、刷题技巧"></a>四、刷题技巧</h1><p>&emsp;&emsp;当我们开始刷一类算法题前，如果对此算法的概念还不太熟悉，花费 5 分钟左右的时间了解其概念是很有必要的。在力扣题库页的 <strong>标签分类</strong> 中，点击对应的标签即可查看算法概念。</p>
+<p>&emsp;&emsp;在足够多的准备工作后，我们就可以开始找一道简单～中等的题目小试牛刀了。有的同学会想：直接从困难题目开始练习，练会了困难题目，再去看简单题和中等题岂不是轻而易举？事实上我们不建议初学者直接练习困难题目。<strong>因为困难题目往往不够典型，困难题总是糅合了多种算法，难点在于对多种算法的综合应用，不适合在学习阶段用来专攻某一类算法。</strong></p>
+<hr>
+<p>&emsp;&emsp;下面举一个具体的例子，比如我们计划本周刷深度优先搜索的题目。先点击题库页「深度优先搜索」标签，查看其概念：</p>
+<img src="/2020/09/06/零基础力扣学习/4.jpg">
+
+<p>&emsp;&emsp;从概念中我们知道，深度优先搜索，简称 DFS，主要用于遍历或搜索树或图。核心是沿着树的深度遍历树的节点，以深度优先的方式来遍历一棵树，直到找到需要搜索的节点或是遍历结束。</p>
+<p>这不难理解，了解完概念，我们的脑中就对此算法有了一个粗略地认识：</p>
+<ul>
+<li>想象我们正站在一棵大树前，我们想要浏览这棵树的整个结构。</li>
+<li>于是我们选择从大树的根出发，往树枝处浏览；</li>
+<li>遇到树木分叉的地方，就随机选择一个树枝开始浏览；</li>
+<li>浏览完后，回到上一个分叉的地方，选择另一个树枝继续浏览，直到所有的树枝都浏览完成。</li>
+</ul>
+<p>&emsp;&emsp;事实上，深度优先搜索和树形结构经常成双成对出现，二者总是密不可分。有了一个粗略的认识后，我们应该立即选择一道简单的题目开始练习：</p>
+<img src="/2020/09/06/零基础力扣学习/5.jpg">
+
+<p>看到题目，我们的第一想法可能是以根节点为中心，左边的最长路径加上右边的最长路径应该就是答案。如题目示例中的树：</p>
+<img src="/2020/09/06/零基础力扣学习/6.jpg">
+
+<p>根节点左边的最长路径为 2，右边的最长路径为 1，所以和为 3。</p>
+<p>看起来没有错，我们再考虑一些特殊情况，有没有可能最长路径不经过根节点呢？不妨画个草图看一下：</p>
+<img src="/2020/09/06/零基础力扣学习/7.jpg">
+
+<p>对于这样一棵树，根节点没有右子树，所以根节点右边的最长路径为 0，而左边的最长路径是 3，所以这样算起来直径为 3。但我们发现以2做为根节点的子树直径为 4，大于我们当前算法算出的直径！显然我们之前的思路是错误的，根节点其实不一定经过根节点，子节点可能存在更长的直径。我们不得不选择另一种思路。</p>
+<p>如果此时冥思苦想，仍然没有思路的话，我们可以点开题解区抄一下别人的解题思路。先依着葫芦画瓢，等学会了再自己创造。</p>
+<p>我们看到本题题解区有力扣官方发布的题解：</p>
+<img src="/2020/09/06/零基础力扣学习/8.jpg">
+
+<p>&emsp;&emsp;看完题解我们已经有了具体的解题思路。此时切记不要眼高手低，不要觉得看懂了就是会了，一定要亲自将代码敲一遍，有过刷题经验的人都知道，看别人解题和自己亲自上手是完全不一样的感觉。经常是脑子和眼睛在说：我会了。而手在说：不，你不会！</p>
+<p>仿照着官方题解，我们写出本题的 kotlin 解法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">var ans = 0</span><br><span class="line">fun diameterOfBinaryTree(root: TreeNode?): Int &#123;</span><br><span class="line">        ans = 1</span><br><span class="line">        depth(root)</span><br><span class="line">return ans - 1</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">fun depth(node: TreeNode?): Int &#123;</span><br><span class="line">if (node == null) return 0 // 访问到空节点了，返回0</span><br><span class="line">val L = depth(node.left) // 左儿子为根的子树的深度</span><br><span class="line">val R = depth(node.right) // 右儿子为根的子树的深度</span><br><span class="line">        ans = Math.max(ans, L + R + 1) // 计算d_node即L+R+1 并更新ans</span><br><span class="line">return Math.max(L, R) + 1 // 返回该节点为根的子树的深度</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;这是一道非常典型的 DFS 算法题，刷完之后我们应该反复思索，做出总结：DFS 的核心是依次尝试，运用的主要手段是递归函数。</p>
+<p>然后我们马上再找一道近似的题，继续练习本类算法，比如：</p>
+<img src="/2020/09/06/零基础力扣学习/9.jpg">
+
+<p>&emsp;&emsp;这道题与上道题非常类似，它也是非常典型的 DFS 题，因为它没有掺杂多类算法，实际难度算不上困难。这一次我们争取不查看题解，先将上题的模板拷贝过来，加以修改写出解法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">var max = Int.MIN_VALUE</span><br><span class="line"></span><br><span class="line">fun maxPathSum(root: TreeNode?): Int &#123;</span><br><span class="line">        maxDeep(root)</span><br><span class="line">return max</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">fun maxDeep(node: TreeNode?): Int &#123;</span><br><span class="line">if (node == null) return 0</span><br><span class="line">val L = Math.max(maxDeep(node.left), 0)</span><br><span class="line">val R = Math.max(maxDeep(node.right), 0)</span><br><span class="line">        max = Math.max(max, node.`val` + L + R)</span><br><span class="line">return node.`val` + Math.max(L, R)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果此时仍然不能手打出一道完整的典型 DFS 题目，就继续反复练习，坚持这个过程，直至自己完全掌握此类题目。</p>
+<p>总而言之，算法学习技巧可总结为四个步骤：一看二抄三改四写。</p>
+<ul>
+<li>一看：先查看基本概念，知道这类算法是什么。</li>
+<li>二抄：照着别人的解题思路，将代码完整敲一遍，理解其思路。学习算法切忌自己造轮子，绝大多数问题都早已经有了完善的解决方案。</li>
+<li>三改：拷贝自己以前敲的模板代码，加以修改，反复巩固。</li>
+<li>四写：看答案与改答案 AC 的题不能算是真的会了，必须自己能手打出完整的代码才是真正会了。</li>
+</ul>
+<h1 id="五、时间规划"><a href="#五、时间规划" class="headerlink" title="五、时间规划"></a>五、时间规划</h1><p>&emsp;&emsp;梳理完算法学习的先后顺序和刷题技巧，一份可执行的时间计划是非常重要的，大家可以根据自己的学习进度安排，下面列出一些计划的要点。</p>
+<h2 id="5-1-确定学习方式"><a href="#5-1-确定学习方式" class="headerlink" title="5.1 确定学习方式"></a>5.1 确定学习方式</h2><p>&emsp;&emsp;有的同学基础还比较薄弱，就需要花一定的时间梳理知识点，可以通过探索卡片或者看书学习，在刷题前至少保证一周左右的时间充分梳理知识点，而基础比较扎实的同学可以适当缩短梳理知识点的时间，或者直接从题目开始刷。</p>
+<h2 id="5-2-计划刷题总数量"><a href="#5-2-计划刷题总数量" class="headerlink" title="5.2 计划刷题总数量"></a>5.2 计划刷题总数量</h2><p>&emsp;&emsp;一般来说，刷 150 - 200 题就能比较充分地应对技术面试了。同学们可以根据时间按照实际情况调整。在这个基础上可以预估每天要花多少时间刷题，刷多少题。</p>
+<h2 id="5-3-预留面试前复习时间"><a href="#5-3-预留面试前复习时间" class="headerlink" title="5.3 预留面试前复习时间"></a>5.3 预留面试前复习时间</h2><p>&emsp;&emsp;复习是刷题过程中非常重要的一个环节，刷了一定数量的题目后，可以准备一周的时间系统回顾错题和难题，避免出现面试时遇到做过的题仍然回答不上来的情况。</p>
+<h2 id="5-4-安排实战演练和冲刺时间"><a href="#5-4-安排实战演练和冲刺时间" class="headerlink" title="5.4 安排实战演练和冲刺时间"></a>5.4 安排实战演练和冲刺时间</h2><p>&emsp;&emsp;在正式开始面试前的一到两周，你就需要进行大量实战演练和冲刺刷题了，在这个阶段反复练习 70+ 道2020 年互联网名企高频面试题探索卡片，保持刷题的手感。</p>
+
+      
+    </div>
+    
+    
+    
+
+	<div>
+	  
+		<div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+	  
+	</div>
+
+    
+	
+
+	
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/计算机概念/" <i class="fa fa-tag"> 计算机概念</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/09/05/最小二乘法/" rel="next" title="最小二乘法">
+                <i class="fa fa-chevron-left"></i> 最小二乘法
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/09/06/Linux思维导图-宏观/" rel="prev" title="Linux思维导图_宏观">
+                Linux思维导图_宏观 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC80NjcwNy8yMzIxNw=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/header.jpg" alt="Shatang">
+            
+              <p class="site-author-name" itemprop="name">Shatang</p>
+              <p class="site-description motion-element" itemprop="description">身体和灵魂总要有一个在路上</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">58</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">62</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/ShaTang" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.bilibili.com/video/av42311652" title="火影.青春.梦想" target="_blank">火影.青春.梦想</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.bilibili.com/video/av45828728" title="FATE.士郎" target="_blank">FATE.士郎</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://tieba.baidu.com/p/6185344159?see_lz=1&pn=1" title="Hide on bush" target="_blank">Hide on bush</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.zhihu.com/question/272137224/answer/821655151" title="声微饭否" target="_blank">声微饭否</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.bilibili.com/video/av43067703" title="生老病死" target="_blank">生老病死</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.bilibili.com/video/av82424567" title="眉山剑客" target="_blank">眉山剑客</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一、算法和数据结构的知识考点"><span class="nav-text">一、算法和数据结构的知识考点</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二、探索卡片"><span class="nav-text">二、探索卡片</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三、进阶"><span class="nav-text">三、进阶</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#四、刷题技巧"><span class="nav-text">四、刷题技巧</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#五、时间规划"><span class="nav-text">五、时间规划</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#5-1-确定学习方式"><span class="nav-text">5.1 确定学习方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-2-计划刷题总数量"><span class="nav-text">5.2 计划刷题总数量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-3-预留面试前复习时间"><span class="nav-text">5.3 预留面试前复习时间</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-4-安排实战演练和冲刺时间"><span class="nav-text">5.4 安排实战演练和冲刺时间</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Shatang</span>
+
+   
+</div>
+
+
+
+
+
+
+
+
+
+
+
+<span id="timeDate" title="网站运行时间">载入天数...</span><span id="times" title="网站运行时间">载入时分秒...</span>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i> 有
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人看过我的博客啦
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i> 本站总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/three.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/canvas_lines.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":180,"height":360},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
+
+<!--浏览器搞笑标题-->
+<script type="text/javascript" src="/js/src/FunnyTitle.js"></script>
+<!-- 页面点击颜文字表情 -->
+<script type="text/javascript" src="/js/src/emoji.js"></script>
+<!--此处为建站时间 -->
+<script>
+  var now = new Date(); 
+  function createtime() { 
+      var grt= new Date("09/13/2019 12:00:00");
+      now.setTime(now.getTime()+250); 
+      days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+      hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+      if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+      mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+      seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+      snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+      document.getElementById("timeDate").innerHTML ="(ㆆᴗㆆ)本站建立了"+dnum+"&thinsp;天"; 
+      document.getElementById("times").innerHTML = hnum + "&thinsp;时" + mnum + "&thinsp;分" + snum + "&thinsp;秒"; 
+  } 
+setInterval("createtime()",250);
+</script>
+<!-- 代码块复制功能 -->
+<script type="text/javascript" src="/js/src/clipboard.min.js"></script>  
+<script type="text/javascript" src="/js/src/clipboard-use.js"></script>
+
+
+
+<!--  
+数字雨 
+<canvas id="canvas" width="1440" height="900" ></canvas>
+<script type="text/javascript" src="/js/src/DigitalRain.js"></script>
+-->

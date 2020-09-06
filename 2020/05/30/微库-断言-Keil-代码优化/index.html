@@ -99,7 +99,7 @@
 <meta property="og:site_name" content="道简顿悟，法深渐修">
 <meta property="og:description" content="&amp;emsp;&amp;emsp;这篇介绍 在Keil平台开发嵌入式遇到的一些东西：MicroLIB、Assert、代码优化。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-05-30T03:34:20.668Z">
+<meta property="og:updated_time" content="2020-09-05T10:57:56.573Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="微库 &amp; 断言 &amp; (Keil)代码优化">
 <meta name="twitter:description" content="&amp;emsp;&amp;emsp;这篇介绍 在Keil平台开发嵌入式遇到的一些东西：MicroLIB、Assert、代码优化。">
@@ -369,8 +369,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2020-05-30T11:34:20+08:00">
-                2020-05-30
+              <time title="更新于" itemprop="dateModified" datetime="2020-09-05T18:57:56+08:00">
+                2020-09-05
               </time>
             
           </span>
@@ -427,7 +427,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  3.1k
+                  3.2k
                 </span>
               
 
@@ -454,12 +454,13 @@
       
         <p>&emsp;&emsp;这篇介绍 在Keil平台开发嵌入式遇到的一些东西：MicroLIB、Assert、代码优化。</p>
 <a id="more"></a>
-<h1 id="一、MicroLIB"><a href="#一、MicroLIB" class="headerlink" title="一、MicroLIB"></a>一、MicroLIB</h1><h2 id="1-1-Use-MicroLIB-amp-printf"><a href="#1-1-Use-MicroLIB-amp-printf" class="headerlink" title="1.1 Use MicroLIB &amp; printf"></a>1.1 Use MicroLIB &amp; printf</h2><p>&emsp;&emsp;大多人一般之所以使用 <code>Use MicroLIB</code>，是因为使能后能够直接调用<code>printf()</code>等函数。</p>
-<p>&emsp;&emsp;<code>printf()</code>之类的库函数，是一些很骚的东西；使用printf、 fopen等库函数库函数调用，会让软件进入半主机模式。但是<code>printf()</code>库函数本身 不需要半主机模式(关掉,当然也能用printf)。</p>
-<p>使用C标准库(stdio.h)中的函数，例如<code>printf()</code>之类的函数，会进入半主机模式，<br>发生软件异常，会导致程序无法运行 ,以下是解决方法 :</p>
+
+<h1 id="一、MicroLIB"><a href="#一、MicroLIB" class="headerlink" title="一、MicroLIB"></a>一、MicroLIB</h1><p>&emsp;&emsp;大多人一般之所以使用 <code>Use MicroLIB</code>，是因为使能后能够直接调用<code>printf()</code>等函数。</p>
+<h2 id="1-1-Use-MicroLIB-amp-printf"><a href="#1-1-Use-MicroLIB-amp-printf" class="headerlink" title="1.1 Use MicroLIB &amp; printf"></a>1.1 Use MicroLIB &amp; printf</h2><p>&emsp;&emsp;<code>printf()</code>之类的库函数，是一些很骚的东西；使用printf、 fopen等库函数库函数调用，会让软件进入半主机模式。但是<code>printf()</code>库函数本身 不需要半主机模式(关掉,当然也能用printf)。</p>
+<p>使用C标准库(stdio.h)中的函数，例如<code>printf()</code>之类的函数，会进入半主机模式，<br>发生软件异常，会导致程序无法运行，以下是解决方法 :</p>
 <ul>
-<li>方法 1.使用微库 ,因为使用微库的话 ,不会使用半主机模式。MDK 勾选 <code>Use MicroLIB</code>这样以后就可以<br>使用 <code>printf</code> ，<code>sprintf</code> 函数了</li>
-<li>方法 2.仍然使用标准库 ,在主程序添加下面代码 :<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//此段代码可以在正点原子例程Uart处找到</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> import(__use_no_semihosting)  <span class="comment">//确保没有从 C 库链接使用半主机的函数</span></span></span><br><span class="line">_sys_exit(<span class="keyword">int</span>  x) <span class="comment">//定义 _sys_exit() 以避免使用半主机模式</span></span><br><span class="line">&#123;</span><br><span class="line">x = x;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> __<span class="title">FILE</span>  // 标准库需要的支持函数</span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line"><span class="keyword">int</span> handle;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">FILE __stdout;</span><br></pre></td></tr></table></figure>
+<li>方法 1.使用微库，因为使用微库的话 ,不会使用半主机模式。MDK 勾选 <code>Use MicroLIB</code>这样以后就可以使用 <code>printf</code> ，<code>sprintf</code> 函数了</li>
+<li>方法 2.仍然使用标准库，在主程序添加下面代码 :<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//此段代码可以在正点原子例程Uart处找到</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> import(__use_no_semihosting)  <span class="comment">//确保没有从 C 库链接使用半主机的函数</span></span></span><br><span class="line">_sys_exit(<span class="keyword">int</span>  x) <span class="comment">//定义 _sys_exit() 以避免使用半主机模式</span></span><br><span class="line">&#123;</span><br><span class="line">x = x;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> __<span class="title">FILE</span>  // 标准库需要的支持函数</span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line"><span class="keyword">int</span> handle;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">FILE __stdout;</span><br></pre></td></tr></table></figure>
 
 </li>
 </ul>
@@ -472,14 +473,14 @@
 <p>&emsp;&emsp;总而言之，实际上 法1 &amp; 法2 都不推荐用于实际项目，顶多就用于快速搭建Demo 或 做测试用。</p>
 <h2 id="1-2-半主机-amp-printf"><a href="#1-2-半主机-amp-printf" class="headerlink" title="1.2 半主机 &amp; printf"></a>1.2 半主机 &amp; printf</h2><p>&emsp;&emsp;半主机模式是这么一种机制：它使得在ARM目标上跑的代码，如果主机电脑运行了调试器，那么该代码可以使用该主机电脑的输入输出设备。这点非常重要，因为开发初期，可能开发者根本不知道该ARM器件上有什么输入输出设备，而半主机机制使得你不用知道ARM器件的外设，利用主机电脑的外设就可以实现输入输出调试。</p>
 <p>&emsp;&emsp;所以，如果不用主机电脑的外设就可以实现输入输出调试，而是要利用目标ARM器件的输入输出设备，首先要关掉半主机机制。然后再将输入输出重定向到ARM器件上，如printf和scanf，你需要重写fputc和fgetc函数(原有的输入输出，标准库函数的默认输出设备是显示器)。</p>
-<h2 id="1-3-MicroLIB"><a href="#1-3-MicroLIB" class="headerlink" title="1.3 MicroLIB"></a>1.3 MicroLIB</h2><p>&emsp;&emsp;之所以在代码优化提及到MicroLIB，是因为微库本身由于有精简代码的效果，因此它可以用来压缩代码量。</p>
-<p>MicroLIB 与 缺省C库 之间的主要差异是： </p>
+<h2 id="1-3-MicroLIB的代码优化"><a href="#1-3-MicroLIB的代码优化" class="headerlink" title="1.3 MicroLIB的代码优化"></a>1.3 MicroLIB的代码优化</h2><p>&emsp;&emsp;之所以在代码优化提及到MicroLIB，是因为微库本身就是一个精简库，进而有精简代码的效果，因此它可以用来压缩代码量。</p>
+<p>MicroLIB 与 缺省C库 之间的主要差异是：</p>
 <ol>
 <li>microlib 不符合 ISO C 库标准。 不支持某些 ISO 特性，并且其他特性具有的功能也较少。 </li>
 <li>microlib 不符合 IEEE 754 二进制浮点算法标准。 </li>
 <li>microlib 进行了高度优化以使代码变得很小。</li>
 </ol>
-<p>&emsp;&emsp;还有更多细节上的差异就不罗列出来了，直接网上一查一大把。但是，也正是这些零零碎碎的差异，可能就导致你做项目时疯狂翻车，所以一般不建议使用 MicroLIB (还有其他原因等等，尤其是项目刚开发的时候真不建议使用)。</p>
+<p>&emsp;&emsp;还有更多细节上的差异就不罗列出来了，直接网上一查一大把。但是，也正是这些零零碎碎的差异，可能就导致你做项目时疯狂翻车，所以一般不建议使用 MicroLIB (还有其他原因等等，尤其是项目刚开发时真不建议使用)。</p>
 <hr>
 <p>以下是我对该库的总结：</p>
 <ul>
@@ -490,14 +491,13 @@
 </li>
 <li>MicroLIB库 不支持浮点数运算。<ul>
 <li>ST除了F4xx系列，其他是没有FPU单元，都是采用软件模拟运算。</li>
-<li>故，移植UcosII在F4xx系列，不选 Use MicroLIB，开了FPU就会死机</li>
+<li>故在F4xx系列，选 Use MicroLIB，开了FPU就会死机(或其他情况)</li>
 </ul>
 </li>
-<li>MicroLIB库 不支持半主机模式，进而支持<code>printf()</code>函数。但是实际用起来还是不太好用</li>
+<li>MicroLIB库 不支持半主机模式，进而支持<code>printf()</code>函数。但是实际用起来不太好用(只能固定映射串口1)</li>
 </ul>
-<p>&emsp;&emsp;一般来讲，最好不要加。它和标准库有很多繁琐区别，对代码的维护性不好。</p>
-<p>常见的有以下情况：</p>
-<p>&emsp;&emsp;当旧的项目工程要换新的硬件平台，迁移的时候发现异常。建议查看一下旧项目工程是否采用了微库；然后查看旧代码是不是调用了<code>printf</code>之类的C库函数。如果调用就用上述的方法，Use MicroLIB 或者 关闭半主机模式(+重定向)。</p>
+<p><strong><font color="red">Ps：</font></strong> 一般来讲，最好不要加。它和标准库有很多繁琐区别；如果是会迁移平台、项目代码时，用它对代码的维护性不好。</p>
+<p>&emsp;&emsp;例如，当旧的项目工程要换新的硬件平台，迁移的时候发现Bug，但是检查应用层代码和底层驱动代码正常。建议查看一下旧项目工程是否采用了微库，而新项目工程没采用微库；然后查看旧代码是不是调用了<code>printf</code>等之类的C库函数。如果调用，先调用Use MicroLIB 或者 想办法关闭半主机模式(+重定向)，分析一下问题的来源。</p>
 <h1 id="二、assert"><a href="#二、assert" class="headerlink" title="二、assert"></a>二、assert</h1><p>&emsp;&emsp;assert() 不仅仅是个(字面意义上)报错函数！<strong>对于在开发过程中的程序员来说，加断言是个好习惯，可以帮助调试。</strong></p>
 <p>程序在假设条件下，能够正常良好的运作，那assert()其实就相当于一个 if 语句：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(假设成立)</span><br><span class="line">&#123;</span><br><span class="line">     程序正常运行；</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">&#123;</span><br><span class="line">      报错&amp;&amp;终止程序！（避免由程序运行引起更大的错误）  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -517,6 +517,7 @@
 </li>
 </ul>
 <p>&emsp;&emsp;如果是看过Stm32的库函数实现方式的话，肯定会看到<code>assert_param(expr) ((void)0)</code>。这也是断言，不过是ST官方自己写的断言函数；而且有个宏定义用来是否失活该断言函数。当你打开一份Stm32的例程，进去库函数就会发现这些<code>assert_param(expr) ((void)0)</code>是失活的。</p>
+<hr>
 <p><strong><font color="red">Ps：</font>MicroLIB 库并不支持assert()函数，两者同时用产生报错。</strong></p>
 <p>&emsp;&emsp;microlib是一个比ARM标准C库小的独立库。为了节省大小，arm microlib c库不支持或实现几乎所有与操作系统交互的函数，例如abort（）、exit（）或assert（）。</p>
 <hr>
@@ -574,8 +575,7 @@
 <li>唯一的途径，就是把程序其他代码删除，留下所需的代码进行仿真调试局部(无法调试整体)</li>
 <li>建议还是更换有更大Flash的MCU，或者自己优化一下程序代码</li>
 </ul>
-<hr>
-<p>&emsp;&emsp;最极端的代码压缩方法，即采用较高的Level2或Level3进行代码优化，然后再选用MicroLIB对代码量再进行压缩一下(最后一步再勾选微库，方便找出微库造成的问题)。</p>
+<p><strong><font color="red">Ps：</font></strong> 最极端的代码压缩方法，即采用较高的Level2或Level3进行代码优化，然后再选用MicroLIB对代码量再进行压缩一下(最后一步再勾选微库，方便找出微库造成的问题)。</p>
 
       
     </div>
@@ -720,7 +720,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">54</span>
+                  <span class="site-state-item-count">58</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -826,7 +826,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一、MicroLIB"><span class="nav-text">一、MicroLIB</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-Use-MicroLIB-amp-printf"><span class="nav-text">1.1 Use MicroLIB &amp; printf</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-半主机-amp-printf"><span class="nav-text">1.2 半主机 &amp; printf</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-MicroLIB"><span class="nav-text">1.3 MicroLIB</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二、assert"><span class="nav-text">二、assert</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三、Keil的代码优化等级"><span class="nav-text">三、Keil的代码优化等级</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-代码优化等级"><span class="nav-text">3.1 代码优化等级</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-优化随之带来的Bug"><span class="nav-text">3.2 优化随之带来的Bug</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-小总结"><span class="nav-text">3.3 小总结</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一、MicroLIB"><span class="nav-text">一、MicroLIB</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-Use-MicroLIB-amp-printf"><span class="nav-text">1.1 Use MicroLIB &amp; printf</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-半主机-amp-printf"><span class="nav-text">1.2 半主机 &amp; printf</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-MicroLIB的代码优化"><span class="nav-text">1.3 MicroLIB的代码优化</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二、assert"><span class="nav-text">二、assert</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三、Keil的代码优化等级"><span class="nav-text">三、Keil的代码优化等级</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-代码优化等级"><span class="nav-text">3.1 代码优化等级</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-优化随之带来的Bug"><span class="nav-text">3.2 优化随之带来的Bug</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-小总结"><span class="nav-text">3.3 小总结</span></a></li></ol></li></ol></div>
             
 
           </div>
