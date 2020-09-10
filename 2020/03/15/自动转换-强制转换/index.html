@@ -99,7 +99,7 @@
 <meta property="og:site_name" content="道简顿悟，法深渐修">
 <meta property="og:description" content="&amp;emsp;&amp;emsp;2020/09/05,最后一版~">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-09-05T08:27:08.113Z">
+<meta property="og:updated_time" content="2020-09-10T10:59:39.655Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="符号&amp;强制转换">
 <meta name="twitter:description" content="&amp;emsp;&amp;emsp;2020/09/05,最后一版~">
@@ -369,8 +369,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2020-09-05T16:27:08+08:00">
-                2020-09-05
+              <time title="更新于" itemprop="dateModified" datetime="2020-09-10T18:59:39+08:00">
+                2020-09-10
               </time>
             
           </span>
@@ -548,9 +548,9 @@
 <hr>
 <p>这里要如何解释该现象呢？首先明确一些概念：</p>
 <ul>
-<li>有符号类型和无符号类型时所有的操作数都自动转换为无符号类型(在编译器中)；从这个意义上讲，无符号数的运算优先级要高于有符号数</li>
+<li>有符号类型和无符号类型<strong>混合运算</strong>时，所有的操作数都自动转换为无符号类型(在编译器中)；从这个意义上讲，无符号数的运算优先级要高于有符号数</li>
 <li>由于负数在底层存储是补码形式，从而方便机器放入运算器进行计算(基础知识)</li>
-<li>这样实际上导致了，有符号数与无符号数不能直接一起运算</li>
+<li>因此导致了，有符号数与无符号数不能直接一起混合运算</li>
 </ul>
 <p>&emsp;&emsp;举个明显的例子：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">uint32_t</span> a = <span class="number">20</span>;</span><br><span class="line"><span class="keyword">int32_t</span> b = <span class="number">-130</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(a &gt; b)</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%o\n"</span>, a);</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%d\n"</span>, b);</span><br><span class="line">    </span><br><span class="line"><span class="comment">//最终打印出来的是b的值，因为编译器把 b 转化为无符号数处理，因此 b &gt; a</span></span><br></pre></td></tr></table></figure>
@@ -572,15 +572,15 @@
 
 <p>&emsp;&emsp;这里总结一下强制转换 &amp; 类型的要点：</p>
 <ul>
-<li>有符号数 &amp; 无符号数 不要混合运算；运算前明确转换成同种类型，不然可能因为有符号数为负数时导致数值异常问题</li>
-<li>无符号整形 &amp; 浮点型 不能直接强制转换；两者的底层存储数据方式不一样，浮点型的负数补码且因为补码方式不一样，不同硬件平台可能出现不同结果</li>
-<li>如果都为整形，只是长度的强制转换，因为底层存储方式一样；只讨论有符号(负数)转无符号<ul>
-<li>高类型强制转换为低类型时，截取一定精度</li>
-<li>低类型强制转换为高类型时，空白高位会补充0xff</li>
+<li><strong>有符号数 &amp; 无符号数 不要混合运算</strong>；运算前明确转换成同种类型，不然可能因为<strong>有符号数自动转为无符号数</strong>导致获取数值异常问题</li>
+<li>强制转换<strong>只能 截取或提高 精度</strong>(二进制机器码存储长度)，并<strong>不能改变数据的正负</strong>；例如 <code>-1</code>强制转换为正数，会变成一个很大的数(补码)；举例如下：<ul>
+<li>(uint32_t)-3，0xfffffffd；即4294967293</li>
+<li>(uint16_t)-3, 0xfffd；即65533</li>
 </ul>
 </li>
+<li>因此，无符号整形 &amp; 浮点型 不能直接强制转换；因为不但涉及到精度，还涉及到正负问题。且浮点型的补码和整数补码方式不一样，不同硬件平台可能出现不同结果</li>
 </ul>
-<h1 id="五、强制转换-实现-地址-指针-跳转"><a href="#五、强制转换-实现-地址-指针-跳转" class="headerlink" title="五、强制转换 实现 地址(指针)跳转"></a>五、强制转换 实现 地址(指针)跳转</h1><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> jump(TargetAddr)   (*((void(*)())(TargetAddr)))()</span></span><br></pre></td></tr></table></figure>
+<h1 id="五、强制转换-实现-地址-指针-跳转"><a href="#五、强制转换-实现-地址-指针-跳转" class="headerlink" title="五、强制转换 实现 地址(指针)跳转"></a>五、强制转换 实现 地址(指针)跳转</h1><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> jump(TargetAddr)   (*((void   TargetAddr)))()</span></span><br></pre></td></tr></table></figure>
 
 <p>&emsp;&emsp;第一个<code>(( void( * )(  ))</code> ，意思为强制类型转换为一个无形参，无返回值的函数指针，<code>(*(TargetAddr))</code>为跳转地址，但是函数指针变量不能为常数所以要加<code>((void( * )(  ))</code> 进行强制类型转换。最后一个<code>()</code>为执行的意思。</p>
 <p>整个宏定义目的是为了跳转到一个绝对地址执行函数。用处如下：</p>

@@ -99,7 +99,7 @@
 <meta property="og:site_name" content="道简顿悟，法深渐修">
 <meta property="og:description" content="&amp;emsp;&amp;emsp;无情的搬砖机器= =">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-03-15T03:01:33.345Z">
+<meta property="og:updated_time" content="2020-09-10T11:10:30.969Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="指针&amp;数组&amp;字符串">
 <meta name="twitter:description" content="&amp;emsp;&amp;emsp;无情的搬砖机器= =">
@@ -369,8 +369,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2020-03-15T11:01:33+08:00">
-                2020-03-15
+              <time title="更新于" itemprop="dateModified" datetime="2020-09-10T19:10:30+08:00">
+                2020-09-10
               </time>
             
           </span>
@@ -521,7 +521,7 @@
 <h2 id="3-1-实-字符数组、-虚-字符串"><a href="#3-1-实-字符数组、-虚-字符串" class="headerlink" title="3.1 (实)字符数组、(虚)字符串"></a>3.1 (实)字符数组、(虚)字符串</h2><p>&emsp;&emsp;下面的代码合法吗？使用它有什么隐患？</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span> a[<span class="number">3</span>] = <span class="string">"abc"</span>;</span><br><span class="line"><span class="keyword">char</span> *p = &amp;a;</span><br><span class="line">p[<span class="number">0</span>]= <span class="string">'I'</span>;</span><br><span class="line">答案与分析：</span><br></pre></td></tr></table></figure>
 
-<p>&emsp;&emsp;在标准C中这是合法的，但是它的生存环境非常狭小；它定义一个大小为3的字符数组，初始化为“abc”；注意，它没有通常的字符串终止符’\0’，因此这个数组只是看起来像C语言中的字符串，实质上却不是。因此所有对字符串进行处理的函数，比如strcpy、printf等，都不能够被使用在这个假字符串上。</p>
+<p>&emsp;&emsp;在标准C中这是合法的，但是它的生存环境非常狭小；它定义一个大小为3的字符数组，初始化为<code>“abc”</code>；注意，它没有通常的字符串终止符<code>'\0'</code>，因此这个数组只是看起来像C语言中的字符串，实质上却不是。因此所有对字符串进行处理的函数，比如<code>strcpy、printf</code>等，都不能够被使用在这个假字符串上。</p>
 <h2 id="3-2-字符串的长度"><a href="#3-2-字符串的长度" class="headerlink" title="3.2 字符串的长度"></a>3.2 字符串的长度</h2><ul>
 <li>字符串的长度就是字符串说包含字符的个数</li>
 <li>C语言中的字符串的长度值得是第一个<code>'\0'</code>字符串出现的字符个数</li>
@@ -538,16 +538,16 @@
 </ul>
 <p>注意事项</p>
 <ul>
-<li>不受限制的字符串函数都是以’\0’作为结束标记来进行的，因此输入参数必须包含’\0’</li>
+<li>不受限制的字符串函数都是以<code>'\0'</code>作为结束标记来进行的，因此输入参数必须包含<code>'\0'</code></li>
 <li>strcat和strcpy必须保证目标字符数组的剩余空间足以保存整个源字符串</li>
 <li>strcmp以0值表示两个字符串相同<ul>
 <li>第一个字符串大于第二个字符串的时候返回值大于0</li>
 <li>第一个字符串小于第二个字符串的时候返回值小于0</li>
-<li>strcmp不会修改参数值，但依然以’\0’作为结束符号</li>
+<li>strcmp不会修改参数值，但依然以<code>'\0'</code>作为结束符号</li>
 </ul>
 </li>
 </ul>
-<h2 id="3-4-长度受限制的字符串函数"><a href="#3-4-长度受限制的字符串函数" class="headerlink" title="3.4 长度受限制的字符串函数"></a>3.4 长度受限制的字符串函数</h2><p>&emsp;&emsp;长度受限的字符串函数接收一个显示的长度参数用于限定操作的字符串。</p>
+<h2 id="3-4-长度受限制的字符串函数"><a href="#3-4-长度受限制的字符串函数" class="headerlink" title="3.4 长度受限制的字符串函数"></a>3.4 长度受限制的字符串函数</h2><p>&emsp;&emsp;长度受限的字符串函数，是接收一个长度参数用于限定操作的字符串，提高程序的安全性。</p>
 <ul>
 <li>字符串复制:<code>char* strncpy</code></li>
 <li>字符串连接:<code>char* strncat</code></li>
@@ -563,7 +563,7 @@
 <p>尽管不能以值传递的形式传递数组，但是我们可以把形参写成类似数组的形式：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//尽管形式不同，但这三个进行print函数是等价的</span></span><br><span class="line"><span class="comment">//每个函数都有一个const int*类型的形参</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">print</span><span class="params">(<span class="keyword">const</span> <span class="keyword">int</span>*)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">print</span><span class="params">(<span class="keyword">const</span> <span class="keyword">int</span>[])</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">print</span><span class="params">(<span class="keyword">const</span> <span class="keyword">int</span>[<span class="number">10</span>])</span><span class="comment">//这里的维度表示我们期望数组含有多少元素，实际不一定</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="comment">//第三种容易被误会，且容易造成数组越界:</span></span></span><br><span class="line"><span class="function"><span class="comment">//实际元素不确定，但是函数操作(传入数组较短)以10个操作，越界</span></span></span><br></pre></td></tr></table></figure>
 
-<p>当编译器处理对print函数的调用时，只检查传入的参数是否是const int*类型：</p>
+<p>当编译器处理对<code>print</code>函数的调用时，只检查传入的参数是否是<code>const int*</code>类型：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> i = <span class="number">2</span>;</span><br><span class="line"><span class="keyword">int</span> j[<span class="number">2</span>] = &#123;<span class="number">1</span>,<span class="number">2</span>&#125;;</span><br><span class="line">print(&amp;i);  <span class="comment">//正确，&amp;i的类型是int*</span></span><br><span class="line">print(j);   <span class="comment">//正确，j被转换成int*并指向j[0]</span></span><br></pre></td></tr></table></figure>
 
 <p>如果我们传给printf函数的是一个数组，则实参自动地转换成指向首元素的指针，数组的大小对函数的调用没有影响。</p>
