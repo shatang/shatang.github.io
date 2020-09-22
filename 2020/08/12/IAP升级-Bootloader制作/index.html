@@ -78,7 +78,7 @@
 
 
 
-  <meta name="keywords" content="IAP,Xmodem,bootloader,">
+  <meta name="keywords" content="IAP,bootloader,Xmodem,">
 
 
 
@@ -92,7 +92,7 @@
 
 
 <meta name="description" content="&amp;emsp;&amp;emsp;本篇主要讲基于Stm32的IAP升级(即Bootloader升级)。主要是讲解Bootloader制作思路(该思路不只是用于该系列的芯片)。此篇文章内容较多，需要慢慢消化，部分内容可以先跳着看。">
-<meta name="keywords" content="IAP,Xmodem,bootloader">
+<meta name="keywords" content="IAP,bootloader,Xmodem">
 <meta property="og:type" content="article">
 <meta property="og:title" content="IAP升级 &amp; Bootloader制作">
 <meta property="og:url" content="http://shatang.github.io/2020/08/12/IAP升级-Bootloader制作/index.html">
@@ -100,7 +100,7 @@
 <meta property="og:description" content="&amp;emsp;&amp;emsp;本篇主要讲基于Stm32的IAP升级(即Bootloader升级)。主要是讲解Bootloader制作思路(该思路不只是用于该系列的芯片)。此篇文章内容较多，需要慢慢消化，部分内容可以先跳着看。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://shatang.github.io/2020/08/12/IAP升级-Bootloader制作/1.jpg">
-<meta property="og:updated_time" content="2020-08-22T06:46:07.884Z">
+<meta property="og:updated_time" content="2020-09-22T01:31:01.624Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="IAP升级 &amp; Bootloader制作">
 <meta name="twitter:description" content="&amp;emsp;&amp;emsp;本篇主要讲基于Stm32的IAP升级(即Bootloader升级)。主要是讲解Bootloader制作思路(该思路不只是用于该系列的芯片)。此篇文章内容较多，需要慢慢消化，部分内容可以先跳着看。">
@@ -371,8 +371,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2020-08-22T14:46:07+08:00">
-                2020-08-22
+              <time title="更新于" itemprop="dateModified" datetime="2020-09-22T09:31:01+08:00">
+                2020-09-22
               </time>
             
           </span>
@@ -560,7 +560,7 @@
 
 </li>
 </ul>
-<p>&emsp;&emsp;bin文件生成在xxx.uvprojx的当前目录下，在xxx.uvprojx当前目录下你可看到一个test1.bin（名字是根据你的hex文件名字一样）。</p>
+<p>&emsp;&emsp;bin文件生成在<code>xxx.uvprojx</code>的当前目录下，在<code>xxx.uvprojx</code>当前目录下你可看到一个<code>test1.bin</code>（名字是根据你的hex文件名字一样）。</p>
 <p>希望生成.bin文件输出在当前工程下的指定目录，比如Bin文件夹，可如下操作：</p>
 <figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$K\ARM\ARMCC\bin\fromelf.exe --bin --output=Bin\@L.bin !L</span><br></pre></td></tr></table></figure>
 
@@ -579,7 +579,7 @@
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">typedef</span> <span class="title">void</span> <span class="params">(*pFunction)</span><span class="params">(<span class="keyword">void</span>)</span></span>;</span><br><span class="line">pFunction JumpApp;</span><br><span class="line"><span class="comment">/********************************************************************************</span></span><br><span class="line"><span class="comment">* 函数名 : IAP_LoadApp</span></span><br><span class="line"><span class="comment">* 功  能 : Bootloader跳转至APP</span></span><br><span class="line"><span class="comment">* 说  明 : none</span></span><br><span class="line"><span class="comment">* 入  参 : none</span></span><br><span class="line"><span class="comment">* 返  回 : none</span></span><br><span class="line"><span class="comment">* 设  计 : Shatang                    时  间 : 2020.06.23</span></span><br><span class="line"><span class="comment">* 修  改 : none                       时  间 : none</span></span><br><span class="line"><span class="comment">********************************************************************************/</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">IAP_LoadApp</span><span class="params">(<span class="keyword">uint32_t</span> Appxaddr)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(((*(__IO <span class="keyword">uint32_t</span>*)Appxaddr) &amp; <span class="number">0x2FFE0000</span>) == <span class="number">0x20000000</span>)	<span class="comment">//检查栈顶地址是否合法.</span></span><br><span class="line">	&#123; </span><br><span class="line">		JumpApp = (pFunction)*(__IO <span class="keyword">uint32_t</span>*)(Appxaddr + <span class="number">4</span>);		<span class="comment">//用户代码区第二个字为程序开始地址(复位地址)</span></span><br><span class="line">		__set_MSP(*(__IO <span class="keyword">uint32_t</span>*)Appxaddr);				    <span class="comment">//初始化APP堆栈指针(用户代码区的第一个字用于存放栈顶地址)</span></span><br><span class="line">		JumpApp();								                <span class="comment">//跳转到APP.</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <hr>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> ((((__IO <span class="keyword">uint32_t</span>*)Appxaddr) &amp; <span class="number">0x2FFE0000</span> ) == <span class="number">0x20000000</span>)</span><br><span class="line"><span class="comment">//判断栈定地址值是否在0x2000 0000 - 0x 2000 2000之间</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (((*(__IO <span class="keyword">uint32_t</span>*)Appxaddr) &amp; <span class="number">0x2FFE0000</span> ) == <span class="number">0x20000000</span>)</span><br><span class="line"><span class="comment">//判断栈定地址值是否在0x2000 0000 - 0x 2000 2000之间</span></span><br></pre></td></tr></table></figure>
 
 <ol>
 <li>在程序里 <code>#define Appxaddr    0x8003000 </code></li>
@@ -590,8 +590,7 @@
 <hr>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">JumpApp = (pFunction)*(__IO <span class="keyword">uint32_t</span>*)(Appxaddr + <span class="number">4</span>);</span><br></pre></td></tr></table></figure>
 
-<p>&emsp;&emsp;<code>ApplicationAddress + 4</code>  即为0x0800 3004 ,里面放的是运行必不可少的第二项“复位地址”。此处强制转换，将地址值转换成指向地址。</p>
-<p>&emsp;&emsp;<code>void (*pFunction)(void);</code>    是声明一个函数指针。将复位地址作为函数指针，当其执行对应函数时，就是执行复位函数。</p>
+<p>&emsp;&emsp;<code>ApplicationAddress + 4</code>  即为0x0800 3004 ,里面放的是运行必不可少的第二项“复位地址”。此处强制转换，将地址值转换成指向地址。<br>&emsp;&emsp;<code>void (*pFunction)(void);</code>    是声明一个函数指针。将复位地址作为函数指针，当其执行该函数指针时，就是执行复位函数。</p>
 <hr>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">__set_MSP(*(__IO <span class="keyword">uint32_t</span>*) ApplicationAddress);  <span class="comment">//设置主函数栈指针</span></span><br></pre></td></tr></table></figure>
 
@@ -610,8 +609,8 @@
 
 <p>&emsp;&emsp;可以看出中断向量重映射是一个选择性编译，通常宏定义 <code>VECT_TAB_SRAM</code> 都没有被定义，所以这里执行结束后， <code>SCB->VTOR</code> 就是 FLASH_BASE 了，值为 0x08000000 。以后CM3再取中断向量里，就会根据 <code>SCB->VTOR</code> 的设置，从这里取向量执行了。中断向量自此开始偏移。</p>
 <p><strong><font color="red">Ps：</font></strong> 这时连<code>__main</code>函数都还没进，中断向量的重映射位置还是够早的。</p>
-<p>&emsp;&emsp;当然，也有些其他系列，甚至都没有<code>SCB->VTOR</code>，例如M0系列；这里有专门一篇文章讲解M0如何编写App的中断向量表重映射：<a href="https://shatang.github.io/2020/08/12/M0%E7%9A%84%E4%B8%AD%E6%96%AD%E5%90%91%E9%87%8F%E8%A1%A8%E9%87%8D%E6%98%A0%E5%B0%84/#more">M0的中断向量表重映射</a>。</p>
-<h1 id="四、多种升级方式的源码"><a href="#四、多种升级方式的源码" class="headerlink" title="四、多种升级方式的源码"></a>四、多种升级方式的源码</h1><p>&emsp;&emsp;待更新</p>
+<p>&emsp;&emsp;当然，有些其他系列ST芯片都没有<code>SCB->VTOR</code>，例如M0系列；这里有专门一篇文章讲解M0如何编写App的中断向量表重映射：<a href="https://shatang.github.io/2020/08/12/M0%E7%9A%84%E4%B8%AD%E6%96%AD%E5%90%91%E9%87%8F%E8%A1%A8%E9%87%8D%E6%98%A0%E5%B0%84/#more">M0的中断向量表重映射</a>。</p>
+<h1 id="四、多种升级方式的源码"><a href="#四、多种升级方式的源码" class="headerlink" title="四、多种升级方式的源码"></a>四、多种升级方式的源码</h1><p>&emsp;&emsp;<a href="https://github.com/shatang/Bootloader_SDCard" target="_blank" rel="noopener">基于Stm32F407的SD卡升级</a><br>&emsp;&emsp;<a href="https://github.com/shatang/Bootloader_UDisk_USB_FS" target="_blank" rel="noopener">基于Stm32F407的U盘Host，USB_FS升级</a><br>&emsp;&emsp;<a href="https://github.com/shatang/Bootloader_UDisk_USB_HS" target="_blank" rel="noopener">基于Stm32F407的U盘Host，USB_HS复用为USB_FS升级</a><br>&emsp;&emsp;<a href="https://github.com/shatang/Bootloader_Stm32F103rbt6" target="_blank" rel="noopener">基于Stm32F103的485串口Ymodem协议升级</a></p>
 
       
     </div>
@@ -643,9 +642,9 @@
           
             <a href="/tags/IAP/" <i class="fa fa-tag"> IAP</a>
           
-            <a href="/tags/Xmodem/" <i class="fa fa-tag"> Xmodem</a>
-          
             <a href="/tags/bootloader/" <i class="fa fa-tag"> bootloader</a>
+          
+            <a href="/tags/Xmodem/" <i class="fa fa-tag"> Xmodem</a>
           
         </div>
       
@@ -754,7 +753,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">59</span>
+                  <span class="site-state-item-count">60</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -776,7 +775,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">62</span>
+                  <span class="site-state-item-count">63</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

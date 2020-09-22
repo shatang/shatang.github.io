@@ -102,7 +102,7 @@
 <meta property="og:image" content="http://shatang.github.io/2020/08/22/Stm32的内存管理-Code-RO-data-RW-data-ZI-data/1.png">
 <meta property="og:image" content="http://shatang.github.io/2020/08/22/Stm32的内存管理-Code-RO-data-RW-data-ZI-data/2.png">
 <meta property="og:image" content="http://shatang.github.io/2020/08/22/Stm32的内存管理-Code-RO-data-RW-data-ZI-data/3.png">
-<meta property="og:updated_time" content="2020-09-05T03:48:14.469Z">
+<meta property="og:updated_time" content="2020-09-22T01:37:16.672Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Stm32的内存管理(Code,RO-data,RW-data,ZI-data)">
 <meta name="twitter:description" content="&amp;emsp;&amp;emsp;单纯从C语言角度来讲内存管理，有点宏观；这里介绍具体嵌入式的内存分配管理。">
@@ -373,8 +373,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2020-09-05T11:48:14+08:00">
-                2020-09-05
+              <time title="更新于" itemprop="dateModified" datetime="2020-09-22T09:37:16+08:00">
+                2020-09-22
               </time>
             
           </span>
@@ -431,7 +431,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  3.3k
+                  3.7k
                 </span>
               
 
@@ -562,7 +562,22 @@
 <li>用庞大的全局变量数组来圈住一块内存，然后将这个内存拿来进行内存管理和分配。这种情况下，堆栈占用的内存就是上面说的：如果没有初始化数组，或者数组的初始化值为0，堆栈就是占用的RAM的ZI-data部分；如果数组初始化值不为0，堆栈就占用的RAM的RW-data部分。这种方式的好处是容易从逻辑上知道数据的来由和去向。</li>
 <li>就是把编译器没有用掉的RAM部分拿来做内存分配，也就是除掉RW-data+ZI-data+编译器堆+编译器栈后剩下的RAM内存中的一部分或者全部进行内存管理和分配。这样的情况下就只需要知道内存剩下部分的首地址和内存的尾地址，然后要用多少内存，就用首地址开始挖，做一个链表，把内存获取和释放相关信息链接起来，就能及时的对内存进行管理了。</li>
 </ol>
-<p>正点原子的方法即是上面的方法一，详情介绍可以看这篇文章：<a href></a></p>
+<p>正点原子的方法即是上面的方法一，详情介绍可以看这篇文章：<a href="https://shatang.github.io/2020/09/20/%E6%AD%A3%E7%82%B9%E5%8E%9F%E5%AD%90%E4%BE%8B%E7%A8%8B-%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86-%E8%BD%AC/#more">正点原子例程_内存管理</a></p>
+<h1 id="五、内存管理的好处"><a href="#五、内存管理的好处" class="headerlink" title="五、内存管理的好处"></a>五、内存管理的好处</h1><p>&emsp;&emsp;内存管理，即进行内存分配、释放操作。</p>
+<p>&emsp;&emsp;内存管理的核心好处，就是释放内存；开辟内存并不难，问题是及时把不用到的内存释放出来。当嵌入式项目用到文件系统、操作系统时，就需要内存管理了。一般如果做的嵌入式项目不涉及文件系统、操作系统，是不需要进行内存管理的。<br>&emsp;&emsp;因为不涉及文件系统、操作系统的话，嵌入式项目内部采用所需的变量内存大小都是大致可知的；声明定义采用 足够长的局部数组类型，既分配了临时内存。离开后又自动及时释放；就根本不需要内存管理。<br>&emsp;&emsp;但当涉及到文件系统时，项目程序开始有了不确定的输入，例如插入的SD卡、U盘有多个文件。例如我想实现一个文件(名)浏览功能：</p>
+<ol>
+<li>需要读取所有文件名到内存，然后显示到LCD。</li>
+<li>用上述不用内存管理的方法，是定义一个数组来存储所有文件名。<ul>
+<li>需要知道其中最大文件名的长度。设为255字节。</li>
+<li>需要知道文件个数。 100？1000？10000 ？</li>
+</ul>
+</li>
+<li>如果没有内存管理：<ul>
+<li>则要定义一个：<code>u8 filenametbl[10000][255];</code>的数组！！</li>
+<li>要2550K字节内存!(MCU表示压力山大…)</li>
+</ul>
+</li>
+</ol>
 
       
     </div>
@@ -705,7 +720,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">59</span>
+                  <span class="site-state-item-count">60</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -727,7 +742,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">62</span>
+                  <span class="site-state-item-count">63</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -811,7 +826,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一、内存分配"><span class="nav-text">一、内存分配</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二、Stm32的内存管理"><span class="nav-text">二、Stm32的内存管理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三、分散文件加载"><span class="nav-text">三、分散文件加载</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-什么是分散加载"><span class="nav-text">3.1 什么是分散加载</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-分散加载常见应用场景"><span class="nav-text">3.2 分散加载常见应用场景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-分散加载的基本结构定义以及分散加载的目的"><span class="nav-text">3.3 分散加载的基本结构定义以及分散加载的目的</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#四、嵌入式的内存分配"><span class="nav-text">四、嵌入式的内存分配</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一、内存分配"><span class="nav-text">一、内存分配</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二、Stm32的内存管理"><span class="nav-text">二、Stm32的内存管理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三、分散文件加载"><span class="nav-text">三、分散文件加载</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-什么是分散加载"><span class="nav-text">3.1 什么是分散加载</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-分散加载常见应用场景"><span class="nav-text">3.2 分散加载常见应用场景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-分散加载的基本结构定义以及分散加载的目的"><span class="nav-text">3.3 分散加载的基本结构定义以及分散加载的目的</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#四、嵌入式的内存分配"><span class="nav-text">四、嵌入式的内存分配</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#五、内存管理的好处"><span class="nav-text">五、内存管理的好处</span></a></li></ol></div>
             
 
           </div>

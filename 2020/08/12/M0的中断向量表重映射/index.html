@@ -103,7 +103,7 @@
 <meta property="og:image" content="http://shatang.github.io/2020/08/12/M0的中断向量表重映射/2.png">
 <meta property="og:image" content="http://shatang.github.io/2020/08/12/M0的中断向量表重映射/2.png">
 <meta property="og:image" content="http://shatang.github.io/2020/08/12/M0的中断向量表重映射/4.png">
-<meta property="og:updated_time" content="2020-08-22T01:25:57.689Z">
+<meta property="og:updated_time" content="2020-09-22T01:17:57.598Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="M0的中断向量表重映射">
 <meta name="twitter:description" content="&amp;emsp;&amp;emsp;Stm32F030的Bootloader制作与其他ST芯片一致；但是Stm32F030的APP程序就有特殊变动：因为M0是不能设置重量向量表偏移量；本篇就讲M0的APP程序的中断向量表重映射，和还有一些会用到的冷知识，如编译工具链等。">
@@ -374,8 +374,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2020-08-22T09:25:57+08:00">
-                2020-08-22
+              <time title="更新于" itemprop="dateModified" datetime="2020-09-22T09:17:57+08:00">
+                2020-09-22
               </time>
             
           </span>
@@ -571,8 +571,7 @@
 <img src="/2020/08/12/M0的中断向量表重映射/4.png" title="IROM&IRAM">
 
 <p>&emsp;&emsp;IRAM存放着重映射中断向量表。1个地址存储1个byte(Falsh 和 Ram 都一样)，中断向量都是uint32_t；所以 48 * (32/8) = 0xC0 。</p>
-<h1 id="六、友情连接"><a href="#六、友情连接" class="headerlink" title="六、友情连接"></a>六、友情连接</h1><p>&emsp;&emsp;关于Stm32F0的IAP，ST官方有套参考代码；<a href="https://pan.baidu.com/s/1-jREbLowNT3TbI_50aAgBg" target="_blank" rel="noopener">ST官方的IAP + Ymodem代码</a>；提取码为：aan9</p>
-<p>&emsp;&emsp;本篇文章部分内容来自于这位博主：<a href="https://blog.csdn.net/flydream0/article/details/52808191" target="_blank" rel="noopener">flydream0</a>，有些更细致的内容可以了解他写的链接文章。</p>
+<h1 id="六、友情连接"><a href="#六、友情连接" class="headerlink" title="六、友情连接"></a>六、友情连接</h1><p>&emsp;&emsp;关于Stm32F0的IAP，ST官方有套参考代码；<a href="https://pan.baidu.com/s/1-jREbLowNT3TbI_50aAgBg" target="_blank" rel="noopener">ST官方的IAP + Ymodem代码</a>；提取码为：aan9<br>&emsp;&emsp;本篇文章部分内容来自于这位博主：<a href="https://blog.csdn.net/flydream0/article/details/52808191" target="_blank" rel="noopener">flydream0</a>，有些更细致的内容可以了解他写的链接文章。</p>
 
       
     </div>
@@ -715,7 +714,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">59</span>
+                  <span class="site-state-item-count">60</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -737,7 +736,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">62</span>
+                  <span class="site-state-item-count">63</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
