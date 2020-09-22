@@ -1,0 +1,1327 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-flash.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="道简顿悟，法深渐修" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="&amp;emsp;&amp;emsp;该篇内容的代码例程来自正点原子，讲解分析来自于这位博主郭志凯。因为本身涉及到的知识不多，因此该篇内容99.99%都是从博主那里转过来的。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="正点原子例程_内存管理(转)">
+<meta property="og:url" content="http://shatang.github.io/2020/09/20/正点原子例程-内存管理-转/index.html">
+<meta property="og:site_name" content="道简顿悟，法深渐修">
+<meta property="og:description" content="&amp;emsp;&amp;emsp;该篇内容的代码例程来自正点原子，讲解分析来自于这位博主郭志凯。因为本身涉及到的知识不多，因此该篇内容99.99%都是从博主那里转过来的。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://shatang.github.io/2020/09/20/正点原子例程-内存管理-转/1.png">
+<meta property="og:image" content="http://shatang.github.io/2020/09/20/正点原子例程-内存管理-转/2.png">
+<meta property="og:image" content="http://shatang.github.io/2020/09/20/正点原子例程-内存管理-转/3.png">
+<meta property="og:image" content="http://shatang.github.io/2020/09/20/正点原子例程-内存管理-转/4.png">
+<meta property="og:image" content="http://shatang.github.io/2020/09/20/正点原子例程-内存管理-转/5.png">
+<meta property="og:image" content="http://shatang.github.io/2020/09/20/正点原子例程-内存管理-转/6.png">
+<meta property="og:image" content="http://shatang.github.io/2020/09/20/正点原子例程-内存管理-转/7.png">
+<meta property="og:image" content="http://shatang.github.io/2020/09/20/正点原子例程-内存管理-转/8.png">
+<meta property="og:image" content="http://shatang.github.io/2020/09/20/正点原子例程-内存管理-转/9.png">
+<meta property="og:image" content="http://shatang.github.io/2020/09/20/正点原子例程-内存管理-转/10.png">
+<meta property="og:image" content="http://shatang.github.io/2020/09/20/正点原子例程-内存管理-转/11.png">
+<meta property="og:image" content="http://shatang.github.io/2020/09/20/正点原子例程-内存管理-转/12.png">
+<meta property="og:image" content="http://shatang.github.io/2020/09/20/正点原子例程-内存管理-转/13.png">
+<meta property="og:image" content="http://shatang.github.io/2020/09/20/正点原子例程-内存管理-转/14.png">
+<meta property="og:image" content="http://shatang.github.io/2020/09/20/正点原子例程-内存管理-转/15.png">
+<meta property="og:updated_time" content="2020-09-22T01:06:35.564Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="正点原子例程_内存管理(转)">
+<meta name="twitter:description" content="&amp;emsp;&amp;emsp;该篇内容的代码例程来自正点原子，讲解分析来自于这位博主郭志凯。因为本身涉及到的知识不多，因此该篇内容99.99%都是从博主那里转过来的。">
+<meta name="twitter:image" content="http://shatang.github.io/2020/09/20/正点原子例程-内存管理-转/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+<script>
+    (function(){
+        if(''){
+            if (prompt('请输入文章密码') !== ''){
+                alert('密码错误！');
+                history.back();
+            }
+        }
+    })();
+</script>
+
+
+
+  <link rel="canonical" href="http://shatang.github.io/2020/09/20/正点原子例程-内存管理-转/">
+
+
+
+
+
+  <title>正点原子例程_内存管理(转) | 道简顿悟，法深渐修</title>
+  
+
+
+
+
+
+
+
+
+  
+  
+</head>
+
+
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">道简顿悟，法深渐修</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">It's not hard to give up, but it must be cool to stick to it.</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home                          //首页"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive          //归档"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th           //分类"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags                     //标签"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user                   //关于"></i> <br>
+            
+            关于我
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://shatang.github.io/2020/09/20/正点原子例程-内存管理-转/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Shatang">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/header.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="道简顿悟，法深渐修">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">正点原子例程_内存管理(转)</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-09-20T18:22:41+08:00">
+                2020-09-20
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2020-09-22T09:06:35+08:00">
+                2020-09-22
+              </time>
+            
+          </span>
+
+          
+		
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>次阅读
+            </span>
+          
+		  
+
+          
+            <div class="post-wordcount">
+              
+                
+                  <span class="post-meta-divider">|</span>
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  2.4k
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>&emsp;&emsp;该篇内容的代码例程来自正点原子，讲解分析来自于这位博主<a href="https://www.cnblogs.com/guozhikai/p/6031904.html" target="_blank" rel="noopener">郭志凯</a>。因为本身涉及到的知识不多，因此该篇内容99.99%都是从博主那里转过来的。</p>
+<a id="more"></a>
+<h1 id="一、Malloc-h"><a href="#一、Malloc-h" class="headerlink" title="一、Malloc.h"></a>一、Malloc.h</h1><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> __MALLOC_H</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> __MALLOC_H</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"stm32f10x.h"</span></span></span><br><span class="line"><span class="comment">//////////////////////////////////////////////////////////////////////////////////     </span></span><br><span class="line"><span class="comment">//本程序只供学习使用，未经作者许可，不得用于其它任何用途</span></span><br><span class="line"><span class="comment">//ALIENTEK战舰STM32开发板V3</span></span><br><span class="line"><span class="comment">//内存管理 驱动代码       </span></span><br><span class="line"><span class="comment">//正点原子@ALIENTEK</span></span><br><span class="line"><span class="comment">//技术论坛:www.openedv.com</span></span><br><span class="line"><span class="comment">//修改日期:2015/1/20</span></span><br><span class="line"><span class="comment">//版本：V1.0</span></span><br><span class="line"><span class="comment">//版权所有，盗版必究。</span></span><br><span class="line"><span class="comment">//Copyright(C) 广州市星翼电子科技有限公司 2009-2019</span></span><br><span class="line"><span class="comment">//All rights reserved                                      </span></span><br><span class="line"><span class="comment">//////////////////////////////////////////////////////////////////////////////////</span></span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> NULL</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> NULL 0</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line">  </span><br><span class="line"><span class="comment">//定义两个内存池</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SRAMIN     0        <span class="comment">//内部内存池</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SRAMEX     1        <span class="comment">//外部内存池 </span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SRAMBANK     2    <span class="comment">//定义支持的SRAM块数.    </span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//mem1内存参数设定.mem1完全处于内部SRAM里面.</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MEM1_BLOCK_SIZE            32                             	<span class="comment">//内存块大小为32字节</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MEM1_MAX_SIZE            35*1024                    		<span class="comment">//最大管理内存 40K</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MEM1_ALLOC_TABLE_SIZE    MEM1_MAX_SIZE/MEM1_BLOCK_SIZE    	<span class="comment">//内存表大小</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">//mem2内存参数设定.mem2的内存池处于外部SRAM里面</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MEM2_BLOCK_SIZE            32                              	<span class="comment">//内存块大小为32字节</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MEM2_MAX_SIZE            800 *1024                          <span class="comment">//最大管理内存960K</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MEM2_ALLOC_TABLE_SIZE    MEM2_MAX_SIZE/MEM2_BLOCK_SIZE     	<span class="comment">//内存表大小 </span></span></span><br><span class="line">         </span><br><span class="line"> </span><br><span class="line"><span class="comment">//内存管理控制器</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> _<span class="title">m_mallco_dev</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="keyword">void</span> (*init)(u8);                    <span class="comment">//初始化</span></span><br><span class="line">    u8 (*perused)(u8);                      <span class="comment">//内存使用率</span></span><br><span class="line">    u8     *membase[SRAMBANK];                <span class="comment">//内存池 管理SRAMBANK个区域的内存</span></span><br><span class="line">    u16 *memmap[SRAMBANK];                 <span class="comment">//内存管理状态表</span></span><br><span class="line">    u8  memrdy[SRAMBANK];                 <span class="comment">//内存管理是否就绪</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">extern</span> <span class="class"><span class="keyword">struct</span> _<span class="title">m_mallco_dev</span> <span class="title">mallco_dev</span>;</span>     <span class="comment">//在mallco.c里面定义</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">mymemset</span><span class="params">(<span class="keyword">void</span> *s,u8 c,u32 count)</span></span>;    <span class="comment">//设置内存</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">mymemcpy</span><span class="params">(<span class="keyword">void</span> *des,<span class="keyword">void</span> *src,u32 n)</span></span>;<span class="comment">//复制内存     </span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">my_mem_init</span><span class="params">(u8 memx)</span></span>;                <span class="comment">//内存管理初始化函数(外/内部调用)</span></span><br><span class="line"><span class="function">u32 <span class="title">my_mem_malloc</span><span class="params">(u8 memx,u32 size)</span></span>;    <span class="comment">//内存分配(内部调用)</span></span><br><span class="line"><span class="function">u8 <span class="title">my_mem_free</span><span class="params">(u8 memx,u32 offset)</span></span>;        <span class="comment">//内存释放(内部调用)</span></span><br><span class="line"><span class="function">u8 <span class="title">my_mem_perused</span><span class="params">(u8 memx)</span></span>;                <span class="comment">//获得内存使用率(外/内部调用) </span></span><br><span class="line"><span class="comment">////////////////////////////////////////////////////////////////////////////////</span></span><br><span class="line"><span class="comment">//用户调用函数</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">myfree</span><span class="params">(u8 memx,<span class="keyword">void</span> *ptr)</span></span>;              <span class="comment">//内存释放(外部调用)</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> *<span class="title">mymalloc</span><span class="params">(u8 memx,u32 size)</span></span>;            <span class="comment">//内存分配(外部调用)</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> *<span class="title">myrealloc</span><span class="params">(u8 memx,<span class="keyword">void</span> *ptr,u32 size)</span></span>;<span class="comment">//重新分配内存(外部调用)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br></pre></td></tr></table></figure>
+
+<h1 id="二、Malloc-c"><a href="#二、Malloc-c" class="headerlink" title="二、Malloc.c"></a>二、Malloc.c</h1><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"malloc.h"</span>        </span></span><br><span class="line"><span class="comment">//////////////////////////////////////////////////////////////////////////////////     </span></span><br><span class="line"><span class="comment">//本程序只供学习使用，未经作者许可，不得用于其它任何用途</span></span><br><span class="line"><span class="comment">//ALIENTEK战舰STM32开发板V3</span></span><br><span class="line"><span class="comment">//内存管理 驱动代码       </span></span><br><span class="line"><span class="comment">//正点原子@ALIENTEK</span></span><br><span class="line"><span class="comment">//技术论坛:www.openedv.com</span></span><br><span class="line"><span class="comment">//修改日期:2015/1/20</span></span><br><span class="line"><span class="comment">//版本：V1.0</span></span><br><span class="line"><span class="comment">//版权所有，盗版必究。</span></span><br><span class="line"><span class="comment">//Copyright(C) 广州市星翼电子科技有限公司 2009-2019</span></span><br><span class="line"><span class="comment">//All rights reserved                                      </span></span><br><span class="line"><span class="comment">//////////////////////////////////////////////////////////////////////////////////</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//内存池(32字节对齐)</span></span><br><span class="line">__align(<span class="number">32</span>) u8 mem1base[MEM1_MAX_SIZE];                                                    <span class="comment">//内部SRAM内存池</span></span><br><span class="line">__align(<span class="number">32</span>) u8 mem2base[MEM2_MAX_SIZE] __attribute__((at(<span class="number">0X68000000</span>)));                    <span class="comment">//外部SRAM内存池</span></span><br><span class="line"><span class="comment">//内存管理表</span></span><br><span class="line">u16 mem1mapbase[MEM1_ALLOC_TABLE_SIZE];                                                    <span class="comment">//内部SRAM内存池MAP</span></span><br><span class="line">u16 mem2mapbase[MEM2_ALLOC_TABLE_SIZE] __attribute__((at(<span class="number">0X68000000</span>+MEM2_MAX_SIZE)));    <span class="comment">//外部SRAM内存池MAP</span></span><br><span class="line"><span class="comment">//内存管理参数       </span></span><br><span class="line"><span class="keyword">const</span> u32 memtblsize[SRAMBANK]=&#123;MEM1_ALLOC_TABLE_SIZE,MEM2_ALLOC_TABLE_SIZE&#125;;            <span class="comment">//内存表大小</span></span><br><span class="line"><span class="keyword">const</span> u32 memblksize[SRAMBANK]=&#123;MEM1_BLOCK_SIZE,MEM2_BLOCK_SIZE&#125;;                        <span class="comment">//内存分块大小</span></span><br><span class="line"><span class="keyword">const</span> u32 memsize[SRAMBANK]=&#123;MEM1_MAX_SIZE,MEM2_MAX_SIZE&#125;;                                <span class="comment">//内存总大小</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//内存管理控制器</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> _<span class="title">m_mallco_dev</span> <span class="title">mallco_dev</span>=</span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    my_mem_init,                <span class="comment">//内存初始化</span></span><br><span class="line">    my_mem_perused,                <span class="comment">//内存使用率</span></span><br><span class="line">    mem1base,mem2base,            <span class="comment">//内存池</span></span><br><span class="line">    mem1mapbase,mem2mapbase,    <span class="comment">//内存管理状态表</span></span><br><span class="line">    <span class="number">0</span>,<span class="number">0</span>,                           <span class="comment">//内存管理未就绪</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//复制内存</span></span><br><span class="line"><span class="comment">//*des:目的地址</span></span><br><span class="line"><span class="comment">//*src:源地址</span></span><br><span class="line"><span class="comment">//n:需要复制的内存长度(字节为单位)</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">mymemcpy</span><span class="params">(<span class="keyword">void</span> *des,<span class="keyword">void</span> *src,u32 n)</span>  </span></span><br><span class="line"><span class="function"></span>&#123;  </span><br><span class="line">    u8 *xdes=des;</span><br><span class="line">    u8 *xsrc=src; </span><br><span class="line">    <span class="keyword">while</span>(n--)*xdes++=*xsrc++;  </span><br><span class="line">&#125;  </span><br><span class="line"><span class="comment">//设置内存</span></span><br><span class="line"><span class="comment">//*s:内存首地址</span></span><br><span class="line"><span class="comment">//c :要设置的值</span></span><br><span class="line"><span class="comment">//count:需要设置的内存大小(字节为单位)</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">mymemset</span><span class="params">(<span class="keyword">void</span> *s,u8 c,u32 count)</span>  </span></span><br><span class="line"><span class="function"></span>&#123;  </span><br><span class="line">    u8 *xs = s;  </span><br><span class="line">    <span class="keyword">while</span>(count--)*xs++=c;  </span><br><span class="line">&#125;       </span><br><span class="line"><span class="comment">//内存管理初始化  </span></span><br><span class="line"><span class="comment">//memx:所属内存块</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">my_mem_init</span><span class="params">(u8 memx)</span>  </span></span><br><span class="line"><span class="function"></span>&#123;  </span><br><span class="line">    mymemset(mallco_dev.memmap[memx], <span class="number">0</span>,memtblsize[memx]*<span class="number">2</span>);<span class="comment">//内存状态表数据清零  </span></span><br><span class="line">    mymemset(mallco_dev.membase[memx], <span class="number">0</span>,memsize[memx]);    <span class="comment">//内存池所有数据清零  </span></span><br><span class="line">    mallco_dev.memrdy[memx]=<span class="number">1</span>;                                <span class="comment">//内存管理初始化OK  </span></span><br><span class="line">&#125;  </span><br><span class="line"><span class="comment">//获取内存使用率</span></span><br><span class="line"><span class="comment">//memx:所属内存块</span></span><br><span class="line"><span class="comment">//返回值:使用率(0~100)</span></span><br><span class="line"><span class="function">u8 <span class="title">my_mem_perused</span><span class="params">(u8 memx)</span>  </span></span><br><span class="line"><span class="function"></span>&#123;  </span><br><span class="line">    u32 used=<span class="number">0</span>;  </span><br><span class="line">    u32 i;  </span><br><span class="line">    <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;memtblsize[memx];i++)  </span><br><span class="line">    &#123;  </span><br><span class="line">        <span class="keyword">if</span>(mallco_dev.memmap[memx][i])used++; </span><br><span class="line">    &#125; </span><br><span class="line">    <span class="keyword">return</span> (used*<span class="number">100</span>)/(memtblsize[memx]);  </span><br><span class="line">&#125;  </span><br><span class="line"><span class="comment">//内存分配(内部调用)</span></span><br><span class="line"><span class="comment">//memx:所属内存块</span></span><br><span class="line"><span class="comment">//size:要分配的内存大小(字节)</span></span><br><span class="line"><span class="comment">//返回值:0XFFFFFFFF,代表错误;其他,内存偏移地址 </span></span><br><span class="line"><span class="function">u32 <span class="title">my_mem_malloc</span><span class="params">(u8 memx,u32 size)</span>  </span></span><br><span class="line"><span class="function"></span>&#123;  </span><br><span class="line">    <span class="keyword">signed</span> <span class="keyword">long</span> offset=<span class="number">0</span>;  </span><br><span class="line">    u32 nmemb;    <span class="comment">//需要的内存块数  </span></span><br><span class="line">    u32 cmemb=<span class="number">0</span>;<span class="comment">//连续空内存块数</span></span><br><span class="line">    u32 i;  </span><br><span class="line">    <span class="keyword">if</span>(!mallco_dev.memrdy[memx])mallco_dev.init(memx);<span class="comment">//未初始化,先执行初始化 </span></span><br><span class="line">    <span class="keyword">if</span>(size==<span class="number">0</span>)<span class="keyword">return</span> <span class="number">0XFFFFFFFF</span>;<span class="comment">//不需要分配</span></span><br><span class="line">    nmemb=size/memblksize[memx];      <span class="comment">//获取需要分配的连续内存块数</span></span><br><span class="line">    <span class="keyword">if</span>(size%memblksize[memx])nmemb++;  </span><br><span class="line">    <span class="keyword">for</span>(offset=memtblsize[memx]<span class="number">-1</span>;offset&gt;=<span class="number">0</span>;offset--)<span class="comment">//搜索整个内存控制区  </span></span><br><span class="line">    &#123;     </span><br><span class="line">        <span class="keyword">if</span>(!mallco_dev.memmap[memx][offset])cmemb++;<span class="comment">//连续空内存块数增加</span></span><br><span class="line">        <span class="keyword">else</span> cmemb=<span class="number">0</span>;                                <span class="comment">//连续内存块清零</span></span><br><span class="line">        <span class="keyword">if</span>(cmemb==nmemb)                            <span class="comment">//找到了连续nmemb个空内存块</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;nmemb;i++)                      <span class="comment">//标注内存块非空 </span></span><br><span class="line">            &#123;  </span><br><span class="line">                mallco_dev.memmap[memx][offset+i]=nmemb;  </span><br><span class="line">            &#125;  </span><br><span class="line">            <span class="keyword">return</span> (offset*memblksize[memx]);<span class="comment">//返回偏移地址  </span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;  </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0XFFFFFFFF</span>;<span class="comment">//未找到符合分配条件的内存块  </span></span><br><span class="line">&#125;  </span><br><span class="line"><span class="comment">//释放内存(内部调用) </span></span><br><span class="line"><span class="comment">//memx:所属内存块</span></span><br><span class="line"><span class="comment">//offset:内存地址偏移</span></span><br><span class="line"><span class="comment">//返回值:0,释放成功;1,释放失败;  </span></span><br><span class="line"><span class="function">u8 <span class="title">my_mem_free</span><span class="params">(u8 memx,u32 offset)</span>  </span></span><br><span class="line"><span class="function"></span>&#123;  </span><br><span class="line">    <span class="keyword">int</span> i;  </span><br><span class="line">    <span class="keyword">if</span>(!mallco_dev.memrdy[memx])<span class="comment">//未初始化,先执行初始化</span></span><br><span class="line">    &#123;</span><br><span class="line">        mallco_dev.init(memx);    </span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;<span class="comment">//未初始化  </span></span><br><span class="line">    &#125;  </span><br><span class="line">    <span class="keyword">if</span>(offset&lt;memsize[memx])<span class="comment">//偏移在内存池内. </span></span><br><span class="line">    &#123;  </span><br><span class="line">        <span class="keyword">int</span> index=offset/memblksize[memx];           <span class="comment">//偏移所在内存块号码  </span></span><br><span class="line">        <span class="keyword">int</span> nmemb=mallco_dev.memmap[memx][index];    <span class="comment">//内存块数量</span></span><br><span class="line">        <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;nmemb;i++)                         <span class="comment">//内存块清零</span></span><br><span class="line">        &#123;  </span><br><span class="line">            mallco_dev.memmap[memx][index+i]=<span class="number">0</span>;  </span><br><span class="line">        &#125;  </span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;  </span><br><span class="line">    &#125;<span class="keyword">else</span> <span class="keyword">return</span> <span class="number">2</span>;<span class="comment">//偏移超区了.  </span></span><br><span class="line">&#125;  </span><br><span class="line"><span class="comment">//释放内存(外部调用) </span></span><br><span class="line"><span class="comment">//memx:所属内存块</span></span><br><span class="line"><span class="comment">//ptr:内存首地址 </span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">myfree</span><span class="params">(u8 memx,<span class="keyword">void</span> *ptr)</span>  </span></span><br><span class="line"><span class="function"></span>&#123;  </span><br><span class="line">    u32 offset;   </span><br><span class="line">    <span class="keyword">if</span>(ptr==<span class="literal">NULL</span>)<span class="keyword">return</span>;<span class="comment">//地址为0.  </span></span><br><span class="line">     offset=(u32)ptr-(u32)mallco_dev.membase[memx];     </span><br><span class="line">    my_mem_free(memx,offset);    <span class="comment">//释放内存      </span></span><br><span class="line">&#125;  </span><br><span class="line"><span class="comment">//分配内存(外部调用)</span></span><br><span class="line"><span class="comment">//memx:所属内存块</span></span><br><span class="line"><span class="comment">//size:内存大小(字节)</span></span><br><span class="line"><span class="comment">//返回值:分配到的内存首地址.</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> *<span class="title">mymalloc</span><span class="params">(u8 memx,u32 size)</span>  </span></span><br><span class="line"><span class="function"></span>&#123;  </span><br><span class="line">    u32 offset;   </span><br><span class="line">    offset=my_mem_malloc(memx,size);                     </span><br><span class="line">    <span class="keyword">if</span>(offset==<span class="number">0XFFFFFFFF</span>)<span class="keyword">return</span> <span class="literal">NULL</span>;  </span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">return</span> (<span class="keyword">void</span>*)((u32)mallco_dev.membase[memx]+offset);  </span><br><span class="line">&#125;  </span><br><span class="line"><span class="comment">//重新分配内存(外部调用)</span></span><br><span class="line"><span class="comment">//memx:所属内存块</span></span><br><span class="line"><span class="comment">//*ptr:旧内存首地址</span></span><br><span class="line"><span class="comment">//size:要分配的内存大小(字节)</span></span><br><span class="line"><span class="comment">//返回值:新分配到的内存首地址.</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> *<span class="title">myrealloc</span><span class="params">(u8 memx,<span class="keyword">void</span> *ptr,u32 size)</span>  </span></span><br><span class="line"><span class="function"></span>&#123;  </span><br><span class="line">    u32 offset;    </span><br><span class="line">    offset=my_mem_malloc(memx,size);       </span><br><span class="line">    <span class="keyword">if</span>(offset==<span class="number">0XFFFFFFFF</span>)<span class="keyword">return</span> <span class="literal">NULL</span>;     </span><br><span class="line">    <span class="keyword">else</span>  </span><br><span class="line">    &#123;                                         </span><br><span class="line">        mymemcpy((<span class="keyword">void</span>*)((u32)mallco_dev.membase[memx]+offset),ptr,size);    <span class="comment">//拷贝旧内存内容到新内存   </span></span><br><span class="line">        myfree(memx,ptr);                                                        <span class="comment">//释放旧内存</span></span><br><span class="line">        <span class="keyword">return</span> (<span class="keyword">void</span>*)((u32)mallco_dev.membase[memx]+offset);                  <span class="comment">//返回新内存首地址</span></span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="三、源码、思想讲解"><a href="#三、源码、思想讲解" class="headerlink" title="三、源码、思想讲解"></a>三、源码、思想讲解</h1><img src="/2020/09/20/正点原子例程-内存管理-转/1.png" title="战舰板和迷你板的内存管理有一点差别，迷你板只管理内部没有外部，思想完全一样">
+
+<p><strong><font color="red">1. 思想：将内存池分为块，首先定义每个块的字节数，和内存池的总字节数，用总字节数除以每个块的字节数得到块数</font></strong></p>
+<img src="/2020/09/20/正点原子例程-内存管理-转/2.png">
+<p><strong><font color="red">2. 内存池，实际上就是一个数组</font></strong></p>
+<img src="/2020/09/20/正点原子例程-内存管理-转/3.png">
+<p><strong><font color="red">3. 内存管理块，实际也是一个数组，总元素个数为内存块数，每个元素对应一个内存块，该元素非零时表示该内存块没有被占用</font></strong></p>
+<img src="/2020/09/20/正点原子例程-内存管理-转/4.png">
+<p><strong><font color="red">4. 将第一步中的信息用数组保存起来，方便后面的函数调用</font></strong></p>
+<img src="/2020/09/20/正点原子例程-内存管理-转/5.png">
+<p><strong><font color="red">5. 将内存抽象为一个结构体，传入的参数分别是，初始化函数，占用率函数，两个内存池（数组）的基地址，两个内存管理状态表（两个u16数组），两个内存池的就绪布尔值</font></strong></p>
+<img src="/2020/09/20/正点原子例程-内存管理-转/6.png">
+<p><strong><font color="red">6. 初始化函数，实际上就是将指定内存池（数组）内面的内容全部用0填充，将内存状态表（u16数组）全部用0填充，然后将该内存池的就绪布尔变量置1</font></strong></p>
+<img src="/2020/09/20/正点原子例程-内存管理-转/7.png" title="由于mymemset函数里面具体实现方法为uint8_t数组，而内存状态表为uint16_t数组，所以传入的数据处理长度为 状态表长度*2">
+<p><strong><font color="red">7. 计算内存使用率(注意：得到的是块使用的比率，而不是字节使用的比率)</font></strong></p>
+<img src="/2020/09/20/正点原子例程-内存管理-转/8.png">
+<p><strong><font color="red">8. 复制，就是按字节依次赋值内容</font></strong></p>
+<img src="/2020/09/20/正点原子例程-内存管理-转/9.png">
+<p><strong><font color="red">9. 从起始位置将连续count个字节的区域用c填充</font></strong></p>
+<img src="/2020/09/20/正点原子例程-内存管理-转/10.png">
+<p><strong><font color="red">10. 分配内存（内部调用），成功：返回相对于数组首地址的偏移地址。</font></strong><br>-&gt; 判断指定的内存池是否已经初始化<br>-&gt; 若传入参数为0，表示不需要分配，直接返回<br>-&gt; 通过所需字节数对每个块的字节数分别取整，取余得到所需的连续块数<br>-&gt; 从最后一个块往前面寻找所需的连续块，例如所需的块为3，当找到连续2块而，下一块已经被使用时，则将已经找的的连续块数清零，再在前面找连续的3块<br>-&gt; 返回的偏移地址为所需连续块的起始块相对于内存池的偏移地址<br>-&gt; 将即将用到的内存块对应的内存管理表中的元素置为所需的连续块数</p>
+<img src="/2020/09/20/正点原子例程-内存管理-转/11.png">
+<p><strong><font color="red">11. 分配内存，首先判断偏移地址是否正确，然后返回连续块的首地址</font></strong></p>
+<img src="/2020/09/20/正点原子例程-内存管理-转/12.png">
+<p><strong><font color="red">12. 扩大分配内存，首先分配一个指定的内存，再将旧内存里面的内容拷贝到新内存（这里感觉战舰的源码有问题，旧的内存里面原来没有size个元素，却拷贝size个元素到新的空间），最后释放旧的内存空间，返回新的内存（块）首地址</font></strong></p>
+<img src="/2020/09/20/正点原子例程-内存管理-转/13.png">
+<p><strong><font color="red">13. 清除连续的内存块，成功：返回0</font></strong><br>-&gt; 首先通过偏移地址除以每个块的字节数，得到起始块的序号<br>-&gt; 读取起始块对应的内存控制表元素，得到从起始块开始共要清除多少个连续的块<br>-&gt; 所谓的清除，实际上只是将对应的内存控制表的元素清零，内存中的值未清零。<br>-&gt; 为某个对象分配元素时，是分配的连续块，清除时，也是清除这几个连续块，不同对象占用不同的连续块，清除时，不会影响其他对象。</p>
+<img src="/2020/09/20/正点原子例程-内存管理-转/14.png">
+<p> <strong><font color="red">14. 内存释放函数，首先得出偏移地址，然后，调用上一步的函数释放内存</font></strong></p>
+<img src="/2020/09/20/正点原子例程-内存管理-转/15.png">
+      
+    </div>
+    
+    
+    
+
+	<div>
+	  
+		<div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+	  
+	</div>
+
+    
+	
+
+	
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/09/06/Linux思维导图-微观/" rel="next" title="Linux思维导图_微观">
+                <i class="fa fa-chevron-left"></i> Linux思维导图_微观
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC80NjcwNy8yMzIxNw=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/header.jpg" alt="Shatang">
+            
+              <p class="site-author-name" itemprop="name">Shatang</p>
+              <p class="site-description motion-element" itemprop="description">身体和灵魂总要有一个在路上</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">59</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">62</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/ShaTang" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.bilibili.com/video/av42311652" title="火影.青春.梦想" target="_blank">火影.青春.梦想</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.bilibili.com/video/av45828728" title="FATE.士郎" target="_blank">FATE.士郎</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://tieba.baidu.com/p/6185344159?see_lz=1&pn=1" title="Hide on bush" target="_blank">Hide on bush</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.zhihu.com/question/272137224/answer/821655151" title="声微饭否" target="_blank">声微饭否</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.bilibili.com/video/av43067703" title="生老病死" target="_blank">生老病死</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.bilibili.com/video/av82424567" title="眉山剑客" target="_blank">眉山剑客</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一、Malloc-h"><span class="nav-text">一、Malloc.h</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二、Malloc-c"><span class="nav-text">二、Malloc.c</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三、源码、思想讲解"><span class="nav-text">三、源码、思想讲解</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Shatang</span>
+
+   
+</div>
+
+
+
+
+
+
+
+
+
+
+
+<span id="timeDate" title="网站运行时间">载入天数...</span><span id="times" title="网站运行时间">载入时分秒...</span>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i> 有
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人看过我的博客啦
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i> 本站总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/three.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/canvas_lines.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":180,"height":360},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
+
+<!--浏览器搞笑标题-->
+<script type="text/javascript" src="/js/src/FunnyTitle.js"></script>
+<!-- 页面点击颜文字表情 -->
+<script type="text/javascript" src="/js/src/emoji.js"></script>
+<!--此处为建站时间 -->
+<script>
+  var now = new Date(); 
+  function createtime() { 
+      var grt= new Date("09/13/2019 12:00:00");
+      now.setTime(now.getTime()+250); 
+      days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+      hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+      if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+      mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+      seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+      snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+      document.getElementById("timeDate").innerHTML ="(ㆆᴗㆆ)本站建立了"+dnum+"&thinsp;天"; 
+      document.getElementById("times").innerHTML = hnum + "&thinsp;时" + mnum + "&thinsp;分" + snum + "&thinsp;秒"; 
+  } 
+setInterval("createtime()",250);
+</script>
+<!-- 代码块复制功能 -->
+<script type="text/javascript" src="/js/src/clipboard.min.js"></script>  
+<script type="text/javascript" src="/js/src/clipboard-use.js"></script>
+
+
+
+<!--  
+数字雨 
+<canvas id="canvas" width="1440" height="900" ></canvas>
+<script type="text/javascript" src="/js/src/DigitalRain.js"></script>
+-->

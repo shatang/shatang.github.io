@@ -94,7 +94,7 @@
 <meta name="description" content="身体和灵魂总要有一个在路上">
 <meta property="og:type" content="website">
 <meta property="og:title" content="道简顿悟，法深渐修">
-<meta property="og:url" content="http://shatang.github.io/tags/STM32/index.html">
+<meta property="og:url" content="http://shatang.github.io/tags/Stm32/index.html">
 <meta property="og:site_name" content="道简顿悟，法深渐修">
 <meta property="og:description" content="身体和灵魂总要有一个在路上">
 <meta property="og:locale" content="zh-Hans">
@@ -141,13 +141,13 @@
 
 
 
-  <link rel="canonical" href="http://shatang.github.io/tags/STM32/">
+  <link rel="canonical" href="http://shatang.github.io/tags/Stm32/">
 
 
 
 
 
-  <title>标签: STM32 | 道简顿悟，法深渐修</title>
+  <title>标签: Stm32 | 道简顿悟，法深渐修</title>
   
 
 
@@ -313,7 +313,7 @@
 
     <div id="posts" class="posts-collapse">
       <div class="collection-title">
-        <h1>STM32<small>标签</small>
+        <h1>Stm32<small>标签</small>
         </h1>
       </div>
 
@@ -325,17 +325,17 @@
 
       <h2 class="post-title">
         
-            <a class="post-title-link" href="/2020/01/14/IO口驱动/" itemprop="url">
+            <a class="post-title-link" href="/2020/08/22/嵌入式-Stm32-程序跑飞/" itemprop="url">
               
-                <span itemprop="name">IO口配置</span>
+                <span itemprop="name">嵌入式(Stm32)程序跑飞</span>
               
             </a>
         
       </h2>
 
       <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2020-01-14T23:21:11+08:00" content="2020-01-14">
-          01-14
+        <time class="post-time" itemprop="dateCreated" datetime="2020-08-22T10:44:33+08:00" content="2020-08-22">
+          08-22
         </time>
       </div>
 
@@ -351,17 +351,43 @@
 
       <h2 class="post-title">
         
-            <a class="post-title-link" href="/2020/01/09/STM32开发/" itemprop="url">
+            <a class="post-title-link" href="/2020/08/22/Stm32的内存管理-Code-RO-data-RW-data-ZI-data/" itemprop="url">
               
-                <span itemprop="name">STM32开发</span>
+                <span itemprop="name">Stm32的内存管理(Code,RO-data,RW-data,ZI-data)</span>
               
             </a>
         
       </h2>
 
       <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2020-01-09T23:37:55+08:00" content="2020-01-09">
-          01-09
+        <time class="post-time" itemprop="dateCreated" datetime="2020-08-22T09:35:33+08:00" content="2020-08-22">
+          08-22
+        </time>
+      </div>
+
+    </header>
+  </article>
+
+
+      
+        
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <h2 class="post-title">
+        
+            <a class="post-title-link" href="/2020/08/12/M0的中断向量表重映射/" itemprop="url">
+              
+                <span itemprop="name">M0的中断向量表重映射</span>
+              
+            </a>
+        
+      </h2>
+
+      <div class="post-meta">
+        <time class="post-time" itemprop="dateCreated" datetime="2020-08-12T22:37:58+08:00" content="2020-08-12">
+          08-12
         </time>
       </div>
 
@@ -423,7 +449,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">58</span>
+                  <span class="site-state-item-count">59</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1092,24 +1118,6 @@
       if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
       mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
       seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
-      snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
-      document.getElementById("timeDate").innerHTML ="(ㆆᴗㆆ)本站建立了"+dnum+"&thinsp;天"; 
-      document.getElementById("times").innerHTML = hnum + "&thinsp;时" + mnum + "&thinsp;分" + snum + "&thinsp;秒"; 
-  } 
-setInterval("createtime()",250);
-</script>
-<!-- 代码块复制功能 -->
-<script type="text/javascript" src="/js/src/clipboard.min.js"></script>  
-<script type="text/javascript" src="/js/src/clipboard-use.js"></script>
-
-
-
-<!--  
-数字雨 
-<canvas id="canvas" width="1440" height="900" ></canvas>
-<script type="text/javascript" src="/js/src/DigitalRain.js"></script>
--->
-- grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
       snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
       document.getElementById("timeDate").innerHTML ="(ㆆᴗㆆ)本站建立了"+dnum+"&thinsp;天"; 
       document.getElementById("times").innerHTML = hnum + "&thinsp;时" + mnum + "&thinsp;分" + snum + "&thinsp;秒"; 
