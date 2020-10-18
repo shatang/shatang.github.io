@@ -84,7 +84,7 @@
 
 
 
-  <link rel="alternate" href="/atom.xml" title="道简顿悟，法深渐修" type="application/atom+xml">
+  <link rel="alternate" href="/atom.xml" title="靡不有初，鲜克有终" type="application/atom+xml">
 
 
 
@@ -96,7 +96,7 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="FatFs文件系统">
 <meta property="og:url" content="http://shatang.github.io/2020/09/22/FatFs文件系统/index.html">
-<meta property="og:site_name" content="道简顿悟，法深渐修">
+<meta property="og:site_name" content="靡不有初，鲜克有终">
 <meta property="og:description" content="&amp;emsp;&amp;emsp;大部分知识点来源于正点原子的ppt资料，我只是将其汇总并加一些个人理解。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://shatang.github.io/2020/09/22/FatFs文件系统/1.png">
@@ -106,7 +106,7 @@
 <meta property="og:image" content="http://shatang.github.io/2020/09/22/FatFs文件系统/5.png">
 <meta property="og:image" content="http://shatang.github.io/2020/09/22/FatFs文件系统/6.png">
 <meta property="og:image" content="http://shatang.github.io/2020/09/22/FatFs文件系统/7.png">
-<meta property="og:updated_time" content="2020-09-22T01:46:00.779Z">
+<meta property="og:updated_time" content="2020-09-22T01:48:07.386Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="FatFs文件系统">
 <meta name="twitter:description" content="&amp;emsp;&amp;emsp;大部分知识点来源于正点原子的ppt资料，我只是将其汇总并加一些个人理解。">
@@ -157,7 +157,7 @@
 
 
 
-  <title>FatFs文件系统 | 道简顿悟，法深渐修</title>
+  <title>FatFs文件系统 | 靡不有初，鲜克有终</title>
   
 
 
@@ -191,7 +191,7 @@
     <div class="custom-logo-site-title">
       <a href="/" class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">道简顿悟，法深渐修</span>
+        <span class="site-title">靡不有初，鲜克有终</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
@@ -341,7 +341,7 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="道简顿悟，法深渐修">
+      <meta itemprop="name" content="靡不有初，鲜克有终">
     </span>
 
     
@@ -377,7 +377,7 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2020-09-22T09:46:00+08:00">
+              <time title="更新于" itemprop="dateModified" datetime="2020-09-22T09:48:07+08:00">
                 2020-09-22
               </time>
             
@@ -772,12 +772,12 @@
 <h3 id="3-3-2-STM32-HS端口改为FS步骤"><a href="#3-3-2-STM32-HS端口改为FS步骤" class="headerlink" title="3.3.2 STM32 HS端口改为FS步骤"></a>3.3.2 STM32 HS端口改为FS步骤</h3><p>stm32 HS端口改为FS步骤：</p>
 <ol>
 <li><p>在<code>usb_conf.h</code>文件中</p>
-<ol>
+<ul>
 <li>使能<code>#define USE_USB_OTG_HS</code> 宏</li>
 <li>使能<code>#define USE_EMBEDDED_PHY</code> 宏</li>
 <li>禁止<code>#define USE_ULPI_PHY</code> 宏</li>
 <li>禁止<code>#define VBUS_SENSING_ENABLED</code> 宏</li>
-</ol>
+</ul>
 </li>
 <li><p>在<code>usbd_user.c</code>文件中，将原来的中断函数由</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">OTG_FS_IRQHandler</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    USBD_OTG_ISR_Handler(&amp;USB_OTG_dev);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//改为下面的</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">OTG_HS_IRQHandler</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    USBD_OTG_ISR_Handler(&amp;USB_OTG_dev);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
