@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[这段时间的经历21.03.16]]></title>
+    <url>%2F2021%2F03%2F16%2F%E8%BF%99%E6%AE%B5%E6%97%B6%E9%97%B4%E7%9A%84%E7%BB%8F%E5%8E%8621-03-16%2F</url>
+    <content type="text"><![CDATA[&emsp;&emsp;大概算了一下，距离上次的博客都快半年了。那我是太久偷懒没学习了？当然也不是= =。 &emsp;&emsp;就不说hexo博客本身排版、卡顿的问题了，时不时还因为node的高版本导致hexo博客上传异常= =，那个时候中期用有道云markdown同时双更新，确实是很累人的，而且有道云搞起来也很麻烦，连贴个图都要会员= =，虽然用其他方式实现了但是变得很繁琐了。后面的更新懒了，直接只更新有道云，但是它对知识整理确实是emmm的差（毕竟都在用，不能太嫌弃）。 &emsp;&emsp;直到有一天，我用了一个阿里系的软件：语雀，来整理笔记。确实是大大方便了笔记整理，这里也是推荐一下。我立马把笔记从有道云里重新整理迁移至语雀。然后markdown编辑器也换成了VNote，变得方便了许多。 &emsp;&emsp;不过最最重要的，还是偶然打开github，发现别人给我的一些库star，而且留言have fun；还有其他人fork了我的github.io。然后想起了自己搭博客留给自己的话It's not hard to give up, but it must be cool to stick to it.，又有了点动力（说不定等下又没了，哈哈）。 &emsp;&emsp;我本来就不求过程有多好，哪怕是很烂，一下子断更半年，那又怎样？有头有尾就行了，看不到尾，那就慢慢坚持下去就行了，又有谁知道自己终点的？ 特此记录，2021.03.16]]></content>
+      <categories>
+        <category>生活</category>
+      </categories>
+      <tags>
+        <tag>生活</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[FatFs文件系统]]></title>
     <url>%2F2020%2F09%2F22%2FFatFs%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%2F</url>
     <content type="text"><![CDATA[&emsp;&emsp;大部分知识点来源于正点原子的ppt资料，我只是将其汇总并加一些个人理解。 一、文件系统1.1 文件系统是什么？&emsp;&emsp;负责管理和存储文件信息的软件机构称为文件管理系统，简称文件系统。即在磁盘上组织文件的方法。 1.2 常用的文件系统有哪些？ FAT / FATFS NTFS: 基于安全性的文件系统，是Windows NT所采用的独特的文件系统结构 CDFS：CDFS是大部分的光盘的文件系统 exFAT 1.3 FATFS文件系统的特点&emsp;&emsp;FATFS是一个完全免费开源的FAT 文件系统模块，专门为小型的嵌入式系统而设计。完全用标准C 语言编写，所以具有良好的硬件平台独立性。可以移植到8051、PIC、AVR、SH、Z80、H8、ARM 等系列单片机上而只需做简单的修改。它支持FAT12、FAT16 和FAT32，支持多个存储媒介；有独立的缓冲区，可以对多个文件进行读／写，并特别对8 位单片机和16 位单片机做了优化。 Ps： FATFS是可裁剪的文件系统(专门为小型嵌入式设计)。 Windows兼容的FAT文件系统（支持FAT12/FAT16/FAT32） 与平台无关，移植简单。全C语言编写。 代码量少、效率高。 多种配置选项 支持多卷（物理驱动器或分区，最多10个卷） 多个ANSI/OEM代码页包括DBCS 支持长文件名、ANSI/OEM或Unicode 支持RTOS 支持多种扇区大小 只读、最小化的API和I/O缓冲区等 二、FATFS系统结构2.1 FATFS模块的层次结构图 底层接口，包括存储媒介读／写接口（disk I/O）和供给文件创建修改时间的实时时钟，需要我们根据平台和存储介质编写移植代码。 中间层FATFS模块，实现了FAT 文件读／写协议。FATFS模块提供的是ff.c和ff.h。除非有必要，使用者一般不用修改，使用时将头文件直接包含进去即可。 最顶层是应用层，使用者无需理会FATFS的内部结构和复杂的FAT 协议，只需要调用FATFS模块提供给用户的一系列应用接口函数，如f_open，f_read，f_write 和f_close等，就可以像在PC 上读／写文件那样简单。 2.2 FATFS文件系统包结构 文件名 功能 说明 ffconf.h FATFS模块配置文件 需要根据需求来配置参数。 ff.h 文件系统实现头文件，定义有文件系统所需的数据结构 不需要修改 ff.c 文件系统实现源码 不需要修改 diskio.h 底层驱动头文件，就一些状态宏的定义和底层驱动函数的申明 不需要修改 diskio.c 储存介质底层驱动文件 与平台相关的代码,需要用户根据存储介质来编写函数。 interger.h 仅实现数据类型重定义,增加系统的可移植性 与编译器有关。 option文件夹 可选的外部功能（比如支持中文等） 汉字实验把字库放到SPI FLASH需要修改 &emsp;&emsp;FATFS模块在移植的时候，我们一般只需要修改2个文件，即ffconf.h和diskio.c。FATFS模块的所有配置项都是存放在ffconf.h里面，我们可以通过配置里面的一些选项，来满足自己的需求。diskio.c是硬件层，负责与底层硬件接口适配。 diskio.c和diskio.h是硬件层。 ff.c和ff.h是FatFs的文件系统层和文件系统的API层。 Ps： 大部分的可移植的小系统或者应用，都是采用类似这种将与底层打交道的源码开发给用户编写，然后提供顶层配置文件供配置。 2.3 FATFS关键配置文件: ffconf.h _FS_TINY。这个选项在R0.07版本中开始出现，之前的版本都是以独立的C文件出现（FATFS和Tiny FATFS），有了这个选项之后，两者整合在一起了，使用起来更方便。我们使用FATFS，所以把这个选项定义为0即可。 _FS_READONLY。这个用来配置是不是只读，本章我们需要读写都用，所以这里设置为0即可。 _USE_STRFUNC。这个用来设置是否支持字符串类操作，比如f_putc，f_puts等，本章我们需要用到，故设置这里为1。 _USE_MKFS。这个用来定时是否使能格式化，本章需要用到，所以设置这里为1。 _USE_FASTSEEK。这个用来使能快速定位，我们设置为1，使能快速定位。 _USE_LABEL。这个用来设置是否支持磁盘盘符（磁盘名字）读取与设置。我们设置为1，使能，就可以通过相关函数来读取和设置磁盘的名字了。 _CODE_PAGE。这个用于设置语言类型，包括很多选项（见FATFS官网说明），我们这里设置为936，即简体中文（GBK码，需要c936.c文件支持，该文件在option文件夹）。 _USE_LFN。该选项用于设置是否支持长文件名（还需要_CODE_PAGE支持），取值范围为0~3。0，表示不支持长文件名，1~3是支持长文件名，但是存储地方不一样，我们选择使用3，通过ff_memalloc函数来动态分配长文件名的存储区域。 _VOLUMES。用于设置FATFS支持的逻辑设备数目，我们设置为3的话，即支持3个设备（磁盘）。 _MAX_SS。扇区缓冲的最大值，一般设置为512。 2.4 FatFs提供的函数API 函数API 实现功能 f_mount 注册/注销一个工作区域（Work Area） f_open 打开/创建一个文件 f_close 关闭一个文件 f_read 读文件 f_write 写文件 f_lseek 移动文件读/写指针 f_truncate 截断文件 f_sync 冲洗缓冲数据 Flush Cached Data f_forward 直接转移文件数据到一个数据流 f_stat 获取文件状态 f_opendir 打开一个目录 f_closedir 关闭一个已经打开的目录 f_readdir 读取目录条目 f_mkdir 创建一个目录 f_unlink 删除一个文件或目录 f_chmod 改变属性（Attribute） f_utime 改变时间戳（Timestamp） f_rename 重命名/移动一个文件或文件夹 f_chdir 改变当前目录 f_chdrive 改变当前驱动器 f_getcwd 获取当前工作目录 f_getfree 获取空闲簇 Get Free Clusters f_getlabel Get volume label f_setlabel Set volume label f_mkfs 在驱动器上创建一个文件系统 f_fdisk Divide a physical drive f_gets 读一个字符串 f_putc 写一个字符 f_puts 写一个字符串 f_printf 写一个格式化的字符串 f_tell 获取当前读/写指针 f_eof 测试文件结束 f_size 获取文件大小 f_error 测试文件上的错误 2.5 底层磁盘I/O模块&emsp;&emsp;因为FatFs模块完全与磁盘I/O层分开，因此需要下面的函数来实现底层物理磁盘的读写与获取当前时间。底层磁盘I/O模块并不是FatFs的一部分，并且必须由用户提供。 函数名 函数功能 disk_initialize Initialize disk drive 初始化磁盘驱动器 disk_status Get disk status 获取磁盘状态 disk_read Read sector(s) 读扇区 disk_write Write sector(s) 写扇区 disk_ioctl Control device dependent features 设备相关的控制特性 get_fattime Get current time 获取当前时间 &emsp;&emsp;若想看具体详细参数，如下所示： 三、FATFS系统移植3.1 FatFs移植步骤思路 数据类型：在integer.h 里面去定义好数据的类型。这里需要了解你用的编译器的数据类型，并根据编译器定义好数据类型。 配置：通过ffconf.h配置FATFS的相关功能，以满足你的需要。 函数编写：打开diskio.c，进行底层驱动编写，一般需要编写6 个接口函数：即上面底层磁盘I/O模块 3.2 实例&emsp;&emsp;基于Stm32F407的SD卡升级&emsp;&emsp;基于Stm32F407的U盘Host，USB_FS升级&emsp;&emsp;基于Stm32F407的U盘Host，USB_HS复用为USB_FS升级 &emsp;&emsp;常见：如果你使用了FatFs文件系统做嵌入式Bootloader的U盘升级APP，如果插入的U盘是NTFS文件系统，则会导致无法识别文件进行升级！ 3.3 U盘驱动的知识3.3.1 USB中cdc、dfu、hid、msc的区别 cdc : communication device class CDC是通信设备级方案，是USB 转其他的接口的一类设备，比如USB转RS232，USB转Ethernet等 dfu : Device Firmware Upgrade DFU主要使用USB接口，实现固件的上传与下载 hid : humman interface device HID人机接口级方案，多为不需要驱动的键盘鼠标等 msc: mass storage class MSC大容量存储方案，多为移动存储设备 3.3.2 STM32 HS端口改为FS步骤stm32 HS端口改为FS步骤： 在usb_conf.h文件中 使能#define USE_USB_OTG_HS 宏 使能#define USE_EMBEDDED_PHY 宏 禁止#define USE_ULPI_PHY 宏 禁止#define VBUS_SENSING_ENABLED 宏 在usbd_user.c文件中，将原来的中断函数由 1234567891011void OTG_FS_IRQHandler(void)&#123; USBD_OTG_ISR_Handler(&amp;USB_OTG_dev);&#125;//改为下面的void OTG_HS_IRQHandler(void)&#123; USBD_OTG_ISR_Handler(&amp;USB_OTG_dev);&#125; 在usb_bsp.c中GPIO初始化其中语句 1234567891011121314//先将管脚基本配置弄好，例如原本USB_FS的PA11和PA12，现改成USB_HS的PB14和PB15//再执行下面的操作RCC_AHB2PeriphClockCmd(RCC_AHB2Periph_OTG_FS, ENABLE);GPIO_PinAFConfig(GPIOA, GPIO_PinSource11, GPIO_AF_OTG_FS);GPIO_PinAFConfig(GPIOA, GPIO_PinSource12, GPIO_AF_OTG_FS);//改为下面的RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_OTG_HS, ENABLE);RCC_AHB1PeriphClockLPModeCmd(RCC_AHB1Periph_OTG_HS_ULPI, DISABLE);/* USB OTG HS ULPI clock Disabled */GPIO_PinAFConfig(GPIOB, GPIO_PinSource14, GPIO_AF_OTG_HS_FS);GPIO_PinAFConfig(GPIOB, GPIO_PinSource15, GPIO_AF_OTG_HS_FS); 在usb_bsp.c中使能中断USB_OTG_BSP_EnableInterrupt函数 123456789void USB_OTG_BSP_EnableInterrupt(USB_OTG_CORE_HANDLE * pdev)&#123; NVIC_InitTypeDef NVIC_InitStructure; NVIC_InitStructure.NVIC_IRQChannel = OTG_HS_IRQn; //OTG_FS_IRQn; NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0; NVIC_InitStructure.NVIC_IRQChannelSubPriority = 3; NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE; NVIC_Init(&amp;NVIC_InitStructure);&#125; 在调用USB初始化时，记得切换为HS的ID 12//初始化USB主机USBH_Init(&amp;USB_OTG_Core,USB_OTG_HS_CORE_ID,&amp;USB_Host,&amp;USBH_MSC_cb,&amp;USR_Callbacks); 如此就可以正常将USB HS修改为FS使用了。]]></content>
@@ -248,8 +259,8 @@
         <category>驱动编写</category>
       </categories>
       <tags>
-        <tag>嵌入式总线</tag>
         <tag>IIC</tag>
+        <tag>嵌入式总线</tag>
       </tags>
   </entry>
   <entry>
@@ -260,8 +271,8 @@
         <category>驱动编写</category>
       </categories>
       <tags>
-        <tag>SPI</tag>
         <tag>嵌入式总线</tag>
+        <tag>SPI</tag>
       </tags>
   </entry>
   <entry>
@@ -286,9 +297,9 @@
       </categories>
       <tags>
         <tag>TCP/IP</tag>
+        <tag>SSH</tag>
         <tag>TCP</tag>
         <tag>UDP</tag>
-        <tag>SSH</tag>
       </tags>
   </entry>
   <entry>
@@ -576,9 +587,9 @@
       </categories>
       <tags>
         <tag>TCP/IP</tag>
+        <tag>SSH</tag>
         <tag>TCP</tag>
         <tag>UDP</tag>
-        <tag>SSH</tag>
       </tags>
   </entry>
   <entry>

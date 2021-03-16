@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://shatang.github.io/"/>
-  <updated>2020-09-22T01:48:07.386Z</updated>
+  <updated>2021-03-16T23:17:05.367Z</updated>
   <id>http://shatang.github.io/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>这段时间的经历21.03.16</title>
+    <link href="http://shatang.github.io/2021/03/16/%E8%BF%99%E6%AE%B5%E6%97%B6%E9%97%B4%E7%9A%84%E7%BB%8F%E5%8E%8621-03-16/"/>
+    <id>http://shatang.github.io/2021/03/16/这段时间的经历21-03-16/</id>
+    <published>2021-03-16T14:44:09.000Z</published>
+    <updated>2021-03-16T23:17:05.367Z</updated>
+    
+    <content type="html"><![CDATA[<p>&emsp;&emsp;大概算了一下，距离上次的博客都快半年了。那我是太久偷懒没学习了？当然也不是= =。</p><p>&emsp;&emsp;就不说hexo博客本身排版、卡顿的问题了，时不时还因为node的高版本导致hexo博客上传异常= =，那个时候中期用有道云markdown同时双更新，确实是很累人的，而且有道云搞起来也很麻烦，连贴个图都要会员= =，虽然用其他方式实现了但是变得很繁琐了。后面的更新懒了，直接只更新有道云，但是它对知识整理确实是emmm的差（毕竟都在用，不能太嫌弃）。</p><p>&emsp;&emsp;直到有一天，我用了一个阿里系的软件：语雀，来整理笔记。确实是大大方便了笔记整理，这里也是推荐一下。我立马把笔记从有道云里重新整理迁移至语雀。然后markdown编辑器也换成了VNote，变得方便了许多。</p><p>&emsp;&emsp;不过最最重要的，还是偶然打开github，发现别人给我的一些库star，而且留言<code>have fun</code>；还有其他人fork了我的<code>github.io</code>。然后想起了自己搭博客留给自己的话<code>It's not hard to give up, but it must be cool to stick to it.</code>，又有了点动力（说不定等下又没了，哈哈）。</p><p>&emsp;&emsp;我本来就不求过程有多好，哪怕是很烂，一下子断更半年，那又怎样？有头有尾就行了，看不到尾，那就慢慢坚持下去就行了，又有谁知道自己终点的？</p><p>特此记录，2021.03.16</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;&amp;emsp;&amp;emsp;大概算了一下，距离上次的博客都快半年了。那我是太久偷懒没学习了？当然也不是= =。&lt;/p&gt;
+&lt;p&gt;&amp;emsp;&amp;emsp;就不说hexo博客本身排版、卡顿的问题了，时不时还因为node的高版本导致hexo博客上传异常= =，那个时候中期用有道云mar
+      
+    
+    </summary>
+    
+    
+      <category term="生活" scheme="http://shatang.github.io/categories/%E7%94%9F%E6%B4%BB/"/>
+    
+    
+      <category term="生活" scheme="http://shatang.github.io/tags/%E7%94%9F%E6%B4%BB/"/>
+    
+  </entry>
   
   <entry>
     <title>FatFs文件系统</title>
@@ -496,29 +523,6 @@
       <category term="MicroLIB" scheme="http://shatang.github.io/tags/MicroLIB/"/>
     
       <category term="代码优化" scheme="http://shatang.github.io/tags/%E4%BB%A3%E7%A0%81%E4%BC%98%E5%8C%96/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>状态机</title>
-    <link href="http://shatang.github.io/2020/05/30/%E7%8A%B6%E6%80%81%E6%9C%BA/"/>
-    <id>http://shatang.github.io/2020/05/30/状态机/</id>
-    <published>2020-05-30T03:25:04.000Z</published>
-    <updated>2020-05-30T03:28:18.282Z</updated>
-    
-    <content type="html"><![CDATA[<p>&emsp;&emsp;这篇介绍 搞嵌入式萌新 听别人吹牛的计算机概念——状态机</p><a id="more"></a><h1 id="一、什么是状态机？"><a href="#一、什么是状态机？" class="headerlink" title="一、什么是状态机？"></a>一、什么是状态机？</h1><p>&emsp;&emsp;可能有些编写嵌入式程序的人，听过别人吹他已经用状态机方法写好了代码。听起来逼格贼高，但是实际上，即使你没了解过状态机，但我们在编写嵌入式程序，尤其是驱动编写，都会有意无意以(类似)状态机思想来编写程序，只不过写得时候不知道这个叫状态机。</p><h1 id="二、状态机"><a href="#二、状态机" class="headerlink" title="二、状态机"></a>二、状态机</h1><p>&emsp;&emsp;状态机，也就是 State Machine ，不是指一台实际机器，而是指一个数学模型，一种思想。重复一下：状态机是<strong>有限状态自动机</strong>的简称，是现实事物运行规则抽象而成的一个数学模型。</p><h2 id="2-1-状态机的四大概念"><a href="#2-1-状态机的四大概念" class="headerlink" title="2.1 状态机的四大概念"></a>2.1 状态机的四大概念</h2><ul><li>State ，状态<ul><li>一个状态机至少要包含两个状态。例如bool类型，有 true 和 false 两个状态。</li></ul></li><li>Event ，事件<ul><li>事件就是执行某个操作的触发条件或者口令。不同状态对应产生各自事件。</li></ul></li><li>Action ，动作<ul><li>事件发生以后要执行动作。例如事件是“按开门按钮”，动作是“开门”。</li></ul></li><li>Transition ，变换<ul><li>通过多种动作满足一定条件，开始切换状态</li></ul></li></ul><p>&emsp;&emsp;主要概念还是状态，后三者往往在代码实现的时候糅合在一起比较模糊。</p><h2 id="2-2-举例应用"><a href="#2-2-举例应用" class="headerlink" title="2.2 举例应用"></a>2.2 举例应用</h2><p>&emsp;&emsp;状态机，是(快速)写(驱动)程序的好帮手。</p><p>街上的自动售货机中明显能看到状态机逻辑；我们做一下简化，假设这是一台只卖2元一瓶的汽水的售货机，只接受五毛和一块的硬币。</p><ul><li>初始状态是”未付款“，中间状态有”已付款5毛“，”已付款1块“，”已付款1.5块“，”已足额付款“，四个状态。</li><li>状态切换的触发条件是”投一块硬币“和”投5毛硬币“两种。</li><li>到达“已足额付款”状态，还要进行余额清零和弹出汽水操作。然后重新进入初始化状态</li></ul><p>所以如果画出一张完整的状态转换图，也会是比较复杂的一张图了。而实际中的售货机对应的状态机就会更加复杂了。</p><h2 id="2-3-实际代码实现"><a href="#2-3-实际代码实现" class="headerlink" title="2.3 实际代码实现"></a>2.3 实际代码实现</h2><p>&emsp;&emsp;实际从C的代码层面，更容易看到状态机的影子。最经典的就是 <code>switch</code> 和 <code>enum</code> 的搭配了。</p><p><code>switch</code> 罗列出状态机的所有可能状态。<code>enum</code> 产生对应的各种状态。代码如下：</p><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="keyword">enum</span></span><br><span class="line">&#123;</span><br><span class="line">    DISCONNECT,</span><br><span class="line">    CONNECT,</span><br><span class="line">    RECONNECT,</span><br><span class="line">&#125;_enumGPRSState;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Func</span><span class="params">(_enumGPRSState GPRSState)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">switch</span>(GPRSState)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">case</span> DISCONNECT:<span class="keyword">break</span>;  <span class="comment">//执行对应的事件、动作</span></span><br><span class="line">        <span class="keyword">case</span> CONNECT:<span class="keyword">break</span>;     <span class="comment">//执行对应的事件、动作</span></span><br><span class="line">        <span class="keyword">case</span> RECONNECT:<span class="keyword">break</span>;   <span class="comment">//执行对应的事件、动作</span></span><br><span class="line">        <span class="keyword">default</span>:<span class="keyword">break</span>;<span class="comment">//特殊处理</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>这样就是很常见、很普通的状态机写法，很适用于快速开发底层驱动。当然，这是一个很简单的例子。还有更复杂的状态机，甚至多状态机相互影响切换其他状态机的状态。状态机也只是一种思想而已。</p><p>&emsp;&emsp;可以去看FreeModbus的通讯库。它就是一个很经典的状态机写法，但是涉及到多状态机。它的状态机有：(轮询)事件，串口发送中断，串口接收中断，其中还有个定时器能够变换 串口接收中断 状态机。</p><h2 id="2-4-FreeModbus库讲解-RTU模式为例"><a href="#2-4-FreeModbus库讲解-RTU模式为例" class="headerlink" title="2.4 FreeModbus库讲解(RTU模式为例)"></a>2.4 FreeModbus库讲解(RTU模式为例)</h2><ol><li>Modbus通讯驱动初始化后，(使能函数)将 串口接收中断 置为 初始化状态</li><li>串口接收中断 在初始化状态下，打开定时器</li><li>等待定时器溢出后，触发定时器中断，关闭定时器，定时器中断处理 串口接收中断状态机，发现是 初始化状态 。此时再将 串口接收中断 置为 空闲状态，同时将 将<code>eMBPoll</code>的 事件状态机 置为 初始化。</li><li><strong>以上就是初始化完成，接下来就是数据收发的流程了</strong></li><li>串口接收中断触发，空闲状态下打开定时器，且获取一个接收字节。此时 Modbus串口接收中断状态机 置为 接收状态。</li><li>每次串口接收中断触发，刷新定时器时间，防止定时器溢出。接收状态下，接收字节如果不溢出，则继续接收(溢出报错)。</li><li>当串口接收中断延迟一段时间(或者不再接收到数据)，该时间让定时器溢出。此时定时器中断，并将 Modbus串口接收中断 置为 空闲状态</li><li>由于定时器溢出，视为接收一帧完整的数据帧。将 Poll的 事件状态机 置为 接收完成。</li><li>eMBPoll的 事件状态机 为<code>Frame received</code>接收完成，开始核对数据。数据长度&gt;4(ID+功能码+校验) &amp;&amp; CRC校验成功</li><li>核对成功后，(用指针方式获取数据PDU，数据长度= 总长度-地址域(ID 1字节)-CRC(检验 2字节)。核对失败，则报 <code>MB_EIO</code>的错误。</li><li>经过核对，校验成功后，如果ID正确 或 为0。则将eMBPoll的 事件状态机 置为<code>Execute function</code> 执行数据函数(事件)。开始对数据进行处理。</li><li>这里对功能码的选择处理，是采用一个结构体数组，每个结构体成员内含 1个功能码+功能码对应要执行的(回调)函数。然后for循环，匹配出对应的功能码，并进行处理；如果功能码为0则直接跳出。</li><li>如果ID号不是广播地址0，则从机会进行响应。之前进行对应功能码处理函数 得出结果，如果报错，则后续的响应 <code>功能码|0x80 + 错误代码</code>。</li><li>举例，返回 01 83 02 C0 F1。即 读错误(0x03&amp;0x80)，非法数据地址(0x02)，后面两个为CRC校验。</li><li>在处理完后会返回一个enum状态值。如果状态 不为<code>MB_ENOERR</code>，即内部使用的错误代码，根据内部使用的<code>enum</code>错误代码，<code>switch</code>生成 对外的错误代码</li><li>返回的CRC会在发送前先把CRC校验完成。</li><li>发送前，检查能不能数据接收，能接收则报硬件错误<code>MB_EIO</code>，因为协议规定只能单向收发</li><li>发送一个字节数据，然后开启发送中断，一直发送，直到完成</li><li>发送完成后，将 eMBPoll的 事件状态机 置为 发送完成</li><li>事件状态机 为 发送完成状态，该状态触发 将 发送中断状态机 置为 发送空闲</li></ol><p>&emsp;&emsp;以上就是FreeModbus库实现<code>Modbus RTU</code>通讯的方式。其他模式就大同小异，里面很多具体的实现，采用了指针的方式，尤其是函数指针，在初始化函数内可见一斑。写的很好，这份源码还是很推荐看的。</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&amp;emsp;&amp;emsp;这篇介绍 搞嵌入式萌新 听别人吹牛的计算机概念——状态机&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="计算机基础概念 &amp; 算法" scheme="http://shatang.github.io/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5-%E7%AE%97%E6%B3%95/"/>
-    
-    
-      <category term="计算机概念" scheme="http://shatang.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%A6%82%E5%BF%B5/"/>
     
   </entry>
   
