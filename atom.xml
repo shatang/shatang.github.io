@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://shatang.github.io/"/>
-  <updated>2021-03-16T23:17:05.367Z</updated>
+  <updated>2024-05-01T06:03:11.529Z</updated>
   <id>http://shatang.github.io/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>谢幕</title>
+    <link href="http://shatang.github.io/2024/05/01/%E8%B0%A2%E5%B9%95/"/>
+    <id>http://shatang.github.io/2024/05/01/谢幕/</id>
+    <published>2024-05-01T05:49:31.000Z</published>
+    <updated>2024-05-01T06:03:11.529Z</updated>
+    
+    <content type="html"><![CDATA[<p>&emsp;&emsp;时间真的过得飞快啊，一下子恍惚三年多就过去了，而且还是疫情的三年。<br>&emsp;&emsp;期间经历很多事，就算是疫情，现在也觉得是有点遥远的事情了，博客也是长久没更新。其实我是花了不少时间在语雀上记录笔记、经历，用hexo博客终究是不太方便，就算这个帖子也花了我不少时间上传，要重新装node、hexo的环境。<br>&emsp;&emsp;不管是用什么平台，只要有坚持记录、归纳就行。至于平台则是选择尽量省心的，把多出来的精力记录更多。因此这帖应该是我hexo博客的最后一帖，该谢幕了。<br>&emsp;&emsp;虽说是谢幕，其实是新的开始。欢迎大家来到我的语雀：<a href="https://www.yuque.com/shatang-sgdju" target="_blank" rel="noopener">https://www.yuque.com/shatang-sgdju</a>。更新、整理了不少东西公开出来，还有一些还在重新梳理，不好意思公开。原本要是不公开还好，烂在里面、摆烂是无所谓；为了督促自己的状态，开始逐步重新整理公开。错别字啊，排版不适啊，描述得不够清楚要重新改一下啊，同时重温以前的知识点啊（淦），又突然发现以前理解的知识点有问题要改下啊，各种各样，真的有点烧脑，整理真的是一件痛苦的事。看着以前的博客想起以前养的猫，真的是有种时光恍惚感。<br>&emsp;&emsp;今天是个很好的日子，希望能够五一假期能多多整点东西，玩也能尽情玩；不管做啥事都能专注于当前的事，做个纯粹的人。</p><img src="/2024/05/01/谢幕/1.jpg"><p>&emsp;&emsp;还是那样：靡不有初，鲜克有终。不求过程有多好，哪怕踉踉跄跄，也要慢慢走下去啊。</p><p>特此记录，2024.05.01</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;&amp;emsp;&amp;emsp;时间真的过得飞快啊，一下子恍惚三年多就过去了，而且还是疫情的三年。&lt;br&gt;&amp;emsp;&amp;emsp;期间经历很多事，就算是疫情，现在也觉得是有点遥远的事情了，博客也是长久没更新。其实我是花了不少时间在语雀上记录笔记、经历，用hexo博客终究是不太方便，
+      
+    
+    </summary>
+    
+    
+      <category term="生活" scheme="http://shatang.github.io/categories/%E7%94%9F%E6%B4%BB/"/>
+    
+    
+      <category term="生活" scheme="http://shatang.github.io/tags/%E7%94%9F%E6%B4%BB/"/>
+    
+  </entry>
   
   <entry>
     <title>这段时间的经历21.03.16</title>
@@ -468,9 +494,9 @@
       <category term="C" scheme="http://shatang.github.io/categories/C/"/>
     
     
-      <category term="keil" scheme="http://shatang.github.io/tags/keil/"/>
-    
       <category term="加密" scheme="http://shatang.github.io/tags/%E5%8A%A0%E5%AF%86/"/>
+    
+      <category term="keil" scheme="http://shatang.github.io/tags/keil/"/>
     
   </entry>
   
@@ -494,35 +520,6 @@
     
     
       <category term="嵌入式总线" scheme="http://shatang.github.io/tags/%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%80%BB%E7%BA%BF/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>微库 &amp; 断言 &amp; (Keil)代码优化</title>
-    <link href="http://shatang.github.io/2020/05/30/%E5%BE%AE%E5%BA%93-%E6%96%AD%E8%A8%80-Keil-%E4%BB%A3%E7%A0%81%E4%BC%98%E5%8C%96/"/>
-    <id>http://shatang.github.io/2020/05/30/微库-断言-Keil-代码优化/</id>
-    <published>2020-05-30T03:31:09.000Z</published>
-    <updated>2020-09-05T10:57:56.573Z</updated>
-    
-    <content type="html"><![CDATA[<p>&emsp;&emsp;这篇介绍 在Keil平台开发嵌入式遇到的一些东西：MicroLIB、Assert、代码优化。</p><a id="more"></a><h1 id="一、MicroLIB"><a href="#一、MicroLIB" class="headerlink" title="一、MicroLIB"></a>一、MicroLIB</h1><p>&emsp;&emsp;大多人一般之所以使用 <code>Use MicroLIB</code>，是因为使能后能够直接调用<code>printf()</code>等函数。</p><h2 id="1-1-Use-MicroLIB-amp-printf"><a href="#1-1-Use-MicroLIB-amp-printf" class="headerlink" title="1.1 Use MicroLIB &amp; printf"></a>1.1 Use MicroLIB &amp; printf</h2><p>&emsp;&emsp;<code>printf()</code>之类的库函数，是一些很骚的东西；使用printf、 fopen等库函数库函数调用，会让软件进入半主机模式。但是<code>printf()</code>库函数本身 不需要半主机模式(关掉,当然也能用printf)。</p><p>使用C标准库(stdio.h)中的函数，例如<code>printf()</code>之类的函数，会进入半主机模式，<br>发生软件异常，会导致程序无法运行，以下是解决方法 :</p><ul><li>方法 1.使用微库，因为使用微库的话 ,不会使用半主机模式。MDK 勾选 <code>Use MicroLIB</code>这样以后就可以使用 <code>printf</code> ，<code>sprintf</code> 函数了</li><li>方法 2.仍然使用标准库，在主程序添加下面代码 :<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//此段代码可以在正点原子例程Uart处找到</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> import(__use_no_semihosting)  <span class="comment">//确保没有从 C 库链接使用半主机的函数</span></span></span><br><span class="line">_sys_exit(<span class="keyword">int</span>  x) <span class="comment">//定义 _sys_exit() 以避免使用半主机模式</span></span><br><span class="line">&#123;</span><br><span class="line">x = x;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> __<span class="title">FILE</span>  // 标准库需要的支持函数</span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line"><span class="keyword">int</span> handle;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">FILE __stdout;</span><br></pre></td></tr></table></figure></li></ul><p>&emsp;&emsp;选上<code>Use MicroLIB</code>，例如你用<code>printf()</code>函数的时候，就会从串口1输出字符串，直接默认定向到串口1。</p><hr><ul><li>法1可实现串口1数据输出，但要定向到串口2，串口3，microLIB就不合用了；</li><li>法2虽然能够映射其他串口，但是如果同时涉及到多串口也是有问题。</li></ul><p>&emsp;&emsp;总而言之，实际上 法1 &amp; 法2 都不推荐用于实际项目，顶多就用于快速搭建Demo 或 做测试用。</p><h2 id="1-2-半主机-amp-printf"><a href="#1-2-半主机-amp-printf" class="headerlink" title="1.2 半主机 &amp; printf"></a>1.2 半主机 &amp; printf</h2><p>&emsp;&emsp;半主机模式是这么一种机制：它使得在ARM目标上跑的代码，如果主机电脑运行了调试器，那么该代码可以使用该主机电脑的输入输出设备。这点非常重要，因为开发初期，可能开发者根本不知道该ARM器件上有什么输入输出设备，而半主机机制使得你不用知道ARM器件的外设，利用主机电脑的外设就可以实现输入输出调试。</p><p>&emsp;&emsp;所以，如果不用主机电脑的外设就可以实现输入输出调试，而是要利用目标ARM器件的输入输出设备，首先要关掉半主机机制。然后再将输入输出重定向到ARM器件上，如printf和scanf，你需要重写fputc和fgetc函数(原有的输入输出，标准库函数的默认输出设备是显示器)。</p><h2 id="1-3-MicroLIB的代码优化"><a href="#1-3-MicroLIB的代码优化" class="headerlink" title="1.3 MicroLIB的代码优化"></a>1.3 MicroLIB的代码优化</h2><p>&emsp;&emsp;之所以在代码优化提及到MicroLIB，是因为微库本身就是一个精简库，进而有精简代码的效果，因此它可以用来压缩代码量。</p><p>MicroLIB 与 缺省C库 之间的主要差异是：</p><ol><li>microlib 不符合 ISO C 库标准。 不支持某些 ISO 特性，并且其他特性具有的功能也较少。 </li><li>microlib 不符合 IEEE 754 二进制浮点算法标准。 </li><li>microlib 进行了高度优化以使代码变得很小。</li></ol><p>&emsp;&emsp;还有更多细节上的差异就不罗列出来了，直接网上一查一大把。但是，也正是这些零零碎碎的差异，可能就导致你做项目时疯狂翻车，所以一般不建议使用 MicroLIB (还有其他原因等等，尤其是项目刚开发时真不建议使用)。</p><hr><p>以下是我对该库的总结：</p><ul><li>MicroLIB库 虽然能够进行代码大小优化。<ul><li>但是实际测试的效果真的是杯水车薪，可以忽略不计；还不如自己去优化代码 or 提高优化等级。如果是其他方式都用了后，只能通过MicroLIB库优化代码，建议直接换硬件(真的是优化没多少的)。</li><li>由于microlib中进行了优化，以尽量减少代码大小，一些功能将会比ARM编译工具提供了标准C库函数更慢执行；例如，memcpy()。效率换空间，在项目大部分是 空间换效率，这当然是不建议的。</li></ul></li><li>MicroLIB库 不支持浮点数运算。<ul><li>ST除了F4xx系列，其他是没有FPU单元，都是采用软件模拟运算。</li><li>故在F4xx系列，选 Use MicroLIB，开了FPU就会死机(或其他情况)</li></ul></li><li>MicroLIB库 不支持半主机模式，进而支持<code>printf()</code>函数。但是实际用起来不太好用(只能固定映射串口1)</li></ul><p><strong><font color="red">Ps：</font></strong> 一般来讲，最好不要加。它和标准库有很多繁琐区别；如果是会迁移平台、项目代码时，用它对代码的维护性不好。</p><p>&emsp;&emsp;例如，当旧的项目工程要换新的硬件平台，迁移的时候发现Bug，但是检查应用层代码和底层驱动代码正常。建议查看一下旧项目工程是否采用了微库，而新项目工程没采用微库；然后查看旧代码是不是调用了<code>printf</code>等之类的C库函数。如果调用，先调用Use MicroLIB 或者 想办法关闭半主机模式(+重定向)，分析一下问题的来源。</p><h1 id="二、assert"><a href="#二、assert" class="headerlink" title="二、assert"></a>二、assert</h1><p>&emsp;&emsp;assert() 不仅仅是个(字面意义上)报错函数！<strong>对于在开发过程中的程序员来说，加断言是个好习惯，可以帮助调试。</strong></p><p>程序在假设条件下，能够正常良好的运作，那assert()其实就相当于一个 if 语句：</p><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(假设成立)</span><br><span class="line">&#123;</span><br><span class="line">     程序正常运行；</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">&#123;</span><br><span class="line">      报错&amp;&amp;终止程序！（避免由程序运行引起更大的错误）  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>&emsp;&emsp;可能有人说，断言的功能可以用if语句对异常情况进行处理来代替。以下列举 断言 的好处：</p><ul><li>实现效果最后不会增加代码量<ul><li>if是实的，真正的增加代码量，降低执行效率；</li><li>断言是虚的，在Debug的时候可以帮助调试，在Release的时候并不存在。</li></ul></li><li>断言，实际上也是一种文档。断言设定了，函数的入口条件。增加了代码的可读性。</li><li>断言用于在开发阶段监测BUG，进行调试。<ul><li>断言其存在的意义在于检测代码在开发过程中是否出现了问题。</li><li>而”if… “,更准确的说是错误处理，是在你的release版本中也实实在在应该有的，处理程序运行过程中产生的错误并进行处理，以提高程序的健壮性。</li></ul></li></ul><p>&emsp;&emsp;如果是看过Stm32的库函数实现方式的话，肯定会看到<code>assert_param(expr) ((void)0)</code>。这也是断言，不过是ST官方自己写的断言函数；而且有个宏定义用来是否失活该断言函数。当你打开一份Stm32的例程，进去库函数就会发现这些<code>assert_param(expr) ((void)0)</code>是失活的。</p><hr><p><strong><font color="red">Ps：</font>MicroLIB 库并不支持assert()函数，两者同时用产生报错。</strong></p><p>&emsp;&emsp;microlib是一个比ARM标准C库小的独立库。为了节省大小，arm microlib c库不支持或实现几乎所有与操作系统交互的函数，例如abort（）、exit（）或assert（）。</p><hr><p>&emsp;&emsp;如何在Release版本去掉assert？</p><p>方法一：常见任何平台处理</p><p>&emsp;&emsp;在调试结束后，可以通过在包含<code>#include <assert.h></assert.h></code>的语句之前插入 <code>#define NDEBUG</code> 来禁用assert调用，示例代码如下：</p><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> NDEBUG</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;assert.h&gt;</span></span></span><br></pre></td></tr></table></figure><p>方法二：在Keil平台上</p><p>&emsp;&emsp;在工程参数设置一栏，在“Preprocessor Symbols”的“Define”栏输入“NDEBUG”。等同于在代码中添加宏定义“#define NDEBUG”。实际为上面方法。</p><p>方法三：在Keil平台上</p><p>&emsp;&emsp;提高代码优化等级至2。在代码优化Level 0时，断言是占用空间可执行的；当代码优化提升为Level 2。这个时候就能够去掉assert()函数处理</p><h1 id="三、Keil的代码优化等级"><a href="#三、Keil的代码优化等级" class="headerlink" title="三、Keil的代码优化等级"></a>三、Keil的代码优化等级</h1><h2 id="3-1-代码优化等级"><a href="#3-1-代码优化等级" class="headerlink" title="3.1 代码优化等级"></a>3.1 代码优化等级</h2><p>&emsp;&emsp;C/C++的优化等级会对程序产生 <strong>不定性的影响</strong>，至于选择哪种优化等级必须从 现有的程序分析才行！</p><ul><li>Level 0 (-O0)：关闭大部分优化，除了一些简单的转换，生成的代码具有最佳的调试视图。</li><li>Level 1 (-O1)：应用受限优化。<br>比如：删除未使用的内联函数和静态函数，删除冗余代码和重新排序指令等。生成的代码经过合理优化，具有良好的调试视图。</li><li>Level 2 (-O2): 高度优化，目标代码到源代码的映射并不一定对应，因此，不利于调试。</li><li>Level 3 (-O3)：最大级别优化。级别3与时间优化相结合可能生成比级别2更多的代码。</li></ul><hr><p>&emsp;&emsp;经实际测试，<code>Level 2</code>升<code>Level 3</code>并不能节省很多的空间；相反，<code>Level 3</code>更高几率造成程序运行问题。从 <code>Level 0</code>升<code>Level 2</code>，相当于20%时间获取80%成果；从 <code>Level 2</code>升<code>Level 3</code>，相当于80%时间获取20%成果。如果对程序没有太过严苛的要求，建议程序整体在<code>Level 2</code>即可。</p><h2 id="3-2-优化随之带来的Bug"><a href="#3-2-优化随之带来的Bug" class="headerlink" title="3.2 优化随之带来的Bug"></a>3.2 优化随之带来的Bug</h2><p>代码优化产生的Bug情况：</p><ol><li>有更新的变量被优化而没有重新读取值，导致错误</li><li>优化后，代码段被跳过(不执行)</li><li>Keil软件自带的软件Bug</li><li>小心一些驱动，尤其是涉及到文件管理，因为该底层驱动极有可能里面用了C库函数实现了某些功能；而C库函数有些一旦提高优化等级就会出问题(例如，SD卡文件系统)。</li></ol><blockquote><p>例子1</p></blockquote><p>&emsp;&emsp;楼主编写一个stm32F10x系列的SPI库函数驱动。程序未优化前(LEVEL 0)，MISO能正常接收信息，优化后(Level 2)，MISO接收的信息都是错误的。</p><p>&emsp;&emsp;IAP平台之前也出现这个问题，现在貌似被修复了；但是Keil平台看起来还有。</p><blockquote><p>例子2</p></blockquote><p>&emsp;&emsp;近日在移植LPC1788的lwip驱动和SD卡（带文件系统）驱动时，遇到单独移植每个驱动都正常，移植到一起就一直出现HardFault_Handler错误。单步调试后发现编译器优化导致部分代码被跳过的情况。</p><p>&emsp;&emsp;仔细检查后发现官网例程中的LWIP驱动使用的是最高级（LEVEL3）优化等级，而SD卡驱动使用LEVEL0等级的优化。移植后统一修改为LEVEL3导致初始化SD卡f_open文件失败。</p><p>网上查找资料后，处理此类问题有下面几种方法：</p><ol><li>单步调试，找到被优化的代码段，看是否有更新的变量被优化而没有重新读取值，导致错误。若有，加入valotile关键字。</li><li>通过options of file”…”将被优化文件的优化等级调成特定等级。</li></ol><h2 id="3-3-小总结"><a href="#3-3-小总结" class="headerlink" title="3.3 小总结"></a>3.3 小总结</h2><ul><li><strong>不建议小白直接上<code>Level 2</code>及<code>Level 3</code>搭建新工程！</strong></li><li>代码优化等级方面，我建议新建项目时，最好采用<code>Level 0</code> 搭建工程。等到项目比较完善的时候，再提升优化等级至<code>Level 2</code>，再根据优化等级出现的问题，进行逐步调试。</li><li>建议项目整体基本优化等级为<code>Level 2</code>，不需要升为<code>Level 3</code>。</li><li>有些底层驱动确实是不好提高代码优化等级(尤其涉及到文件系统)。</li></ul><hr><p>&emsp;&emsp;努力提高优化等级并不是厉害！在能力有限的情况下，费时费力；尤其是硬件Flash资源明显不够用时，虽然通过最高优化等级能应用，但是会对后面的升级更新、bug检查造成很大的麻烦：</p><ul><li>仿真无法查看，优化等级太高</li><li>一旦降低优化等级，硬件编译报错，Flash存储不够</li><li>唯一的途径，就是把程序其他代码删除，留下所需的代码进行仿真调试局部(无法调试整体)</li><li>建议还是更换有更大Flash的MCU，或者自己优化一下程序代码</li></ul><p><strong><font color="red">Ps：</font></strong> 最极端的代码压缩方法，即采用较高的Level2或Level3进行代码优化，然后再选用MicroLIB对代码量再进行压缩一下(最后一步再勾选微库，方便找出微库造成的问题)。</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&amp;emsp;&amp;emsp;这篇介绍 在Keil平台开发嵌入式遇到的一些东西：MicroLIB、Assert、代码优化。&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="C" scheme="http://shatang.github.io/categories/C/"/>
-    
-    
-      <category term="keil" scheme="http://shatang.github.io/tags/keil/"/>
-    
-      <category term="Assert" scheme="http://shatang.github.io/tags/Assert/"/>
-    
-      <category term="MicroLIB" scheme="http://shatang.github.io/tags/MicroLIB/"/>
-    
-      <category term="代码优化" scheme="http://shatang.github.io/tags/%E4%BB%A3%E7%A0%81%E4%BC%98%E5%8C%96/"/>
     
   </entry>
   

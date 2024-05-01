@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[谢幕]]></title>
+    <url>%2F2024%2F05%2F01%2F%E8%B0%A2%E5%B9%95%2F</url>
+    <content type="text"><![CDATA[&emsp;&emsp;时间真的过得飞快啊，一下子恍惚三年多就过去了，而且还是疫情的三年。&emsp;&emsp;期间经历很多事，就算是疫情，现在也觉得是有点遥远的事情了，博客也是长久没更新。其实我是花了不少时间在语雀上记录笔记、经历，用hexo博客终究是不太方便，就算这个帖子也花了我不少时间上传，要重新装node、hexo的环境。&emsp;&emsp;不管是用什么平台，只要有坚持记录、归纳就行。至于平台则是选择尽量省心的，把多出来的精力记录更多。因此这帖应该是我hexo博客的最后一帖，该谢幕了。&emsp;&emsp;虽说是谢幕，其实是新的开始。欢迎大家来到我的语雀：https://www.yuque.com/shatang-sgdju。更新、整理了不少东西公开出来，还有一些还在重新梳理，不好意思公开。原本要是不公开还好，烂在里面、摆烂是无所谓；为了督促自己的状态，开始逐步重新整理公开。错别字啊，排版不适啊，描述得不够清楚要重新改一下啊，同时重温以前的知识点啊（淦），又突然发现以前理解的知识点有问题要改下啊，各种各样，真的有点烧脑，整理真的是一件痛苦的事。看着以前的博客想起以前养的猫，真的是有种时光恍惚感。&emsp;&emsp;今天是个很好的日子，希望能够五一假期能多多整点东西，玩也能尽情玩；不管做啥事都能专注于当前的事，做个纯粹的人。 &emsp;&emsp;还是那样：靡不有初，鲜克有终。不求过程有多好，哪怕踉踉跄跄，也要慢慢走下去啊。 特此记录，2024.05.01]]></content>
+      <categories>
+        <category>生活</category>
+      </categories>
+      <tags>
+        <tag>生活</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[这段时间的经历21.03.16]]></title>
     <url>%2F2021%2F03%2F16%2F%E8%BF%99%E6%AE%B5%E6%97%B6%E9%97%B4%E7%9A%84%E7%BB%8F%E5%8E%8621-03-16%2F</url>
     <content type="text"><![CDATA[&emsp;&emsp;大概算了一下，距离上次的博客都快半年了。那我是太久偷懒没学习了？当然也不是= =。 &emsp;&emsp;就不说hexo博客本身排版、卡顿的问题了，时不时还因为node的高版本导致hexo博客上传异常= =，那个时候中期用有道云markdown同时双更新，确实是很累人的，而且有道云搞起来也很麻烦，连贴个图都要会员= =，虽然用其他方式实现了但是变得很繁琐了。后面的更新懒了，直接只更新有道云，但是它对知识整理确实是emmm的差（毕竟都在用，不能太嫌弃）。 &emsp;&emsp;直到有一天，我用了一个阿里系的软件：语雀，来整理笔记。确实是大大方便了笔记整理，这里也是推荐一下。我立马把笔记从有道云里重新整理迁移至语雀。然后markdown编辑器也换成了VNote，变得方便了许多。 &emsp;&emsp;不过最最重要的，还是偶然打开github，发现别人给我的一些库star，而且留言have fun；还有其他人fork了我的github.io。然后想起了自己搭博客留给自己的话It's not hard to give up, but it must be cool to stick to it.，又有了点动力（说不定等下又没了，哈哈）。 &emsp;&emsp;我本来就不求过程有多好，哪怕是很烂，一下子断更半年，那又怎样？有头有尾就行了，看不到尾，那就慢慢坚持下去就行了，又有谁知道自己终点的？ 特此记录，2021.03.16]]></content>
@@ -211,8 +222,8 @@
         <category>C</category>
       </categories>
       <tags>
-        <tag>keil</tag>
         <tag>加密</tag>
+        <tag>keil</tag>
       </tags>
   </entry>
   <entry>
@@ -297,9 +308,9 @@
       </categories>
       <tags>
         <tag>TCP/IP</tag>
-        <tag>SSH</tag>
         <tag>TCP</tag>
         <tag>UDP</tag>
+        <tag>SSH</tag>
       </tags>
   </entry>
   <entry>
@@ -587,9 +598,9 @@
       </categories>
       <tags>
         <tag>TCP/IP</tag>
-        <tag>SSH</tag>
         <tag>TCP</tag>
         <tag>UDP</tag>
+        <tag>SSH</tag>
       </tags>
   </entry>
   <entry>
@@ -633,8 +644,8 @@
         <category>C</category>
       </categories>
       <tags>
-        <tag>工具</tag>
         <tag>keil</tag>
+        <tag>工具</tag>
       </tags>
   </entry>
   <entry>
@@ -697,8 +708,8 @@
         <category>C</category>
       </categories>
       <tags>
-        <tag>工具</tag>
         <tag>keil</tag>
+        <tag>工具</tag>
       </tags>
   </entry>
   <entry>
@@ -709,8 +720,8 @@
         <category>C</category>
       </categories>
       <tags>
-        <tag>工具</tag>
         <tag>keil</tag>
+        <tag>工具</tag>
       </tags>
   </entry>
   <entry>
